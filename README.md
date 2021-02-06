@@ -6,6 +6,7 @@ Projekat ce se implementirati pomocu:
 2. Sqlite
 3. Angular 10
 
+#### preskociti korake 5 i 6 ako je sve kreirano
 * Startovanje backend projekta
 1. py -m venv env
 2. env\Scripts\activate.bat
