@@ -25,7 +25,11 @@ SECRET_KEY = '4b(uk$ev!l(&ygl(1j*)znlzz^+73)z5agn69nn(m=nqokg9wq'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+CORS_ORIGIN_ALLOW_ALL = True
+CORS_ORIGIN_WHITELIST = (
+    'http://localhost:4200',
+    'http://127.0.0.1:4200',
+)
 
 
 # Application definition
@@ -41,11 +45,13 @@ INSTALLED_APPS = [
     'project',
     'repository',
     'home',
+    'corsheaders',
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',

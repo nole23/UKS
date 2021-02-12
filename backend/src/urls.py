@@ -16,8 +16,10 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from home import views
+from users import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('index', views.index, name='index')
+    path('index', views.index, name='index'),
+    path('api/sing-in', views.registration, name='registration')
 ]

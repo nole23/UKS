@@ -1,0 +1,32 @@
+img {
+    width:100%!important;
+    height: calc(100% - 60px)
+}
+
+.content {
+    position: absolute;
+    bottom: 0;
+    /* background: black; */
+    /* background: rgba(0, 0, 0, 0.5); */
+    color: #f1f1f1;
+    width: 41%;
+    padding: 56px;
+    right: 1px;
+    height: 73%;
+}
+
+.content h1 {
+    font-size: 50px;
+    text-align: center;
+}
+
+.content p {
+    font-size: 20px;
+    text-align: justify;
+}
+
+.login {
+    padding: 15px;
+    background: rgba(0, 0, 0, 0.5);
+    text-align: center;
+}
