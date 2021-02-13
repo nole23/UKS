@@ -18,7 +18,7 @@ class User(models.Model):
     email = models.CharField(max_length=30)
     username = models.CharField(max_length=30)
     password = models.CharField(max_length=30)
-    role = models.ForeignKey(Role, on_delete=models.CASCADE)
+    role = models.ForeignKey(Role, on_delete=models.CASCADE, null=True)
 
 class Issue(models.Model):
     issue_name = models.CharField(max_length=30)

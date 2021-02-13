@@ -30,7 +30,11 @@ export class RegistraionComponent implements OnInit {
     
     this.isRegistration = true;
     this.isSpiner = true;
-    this.authService.registraton(this.login)
+
+    const changeForms = this._changeForms();
+    console.log(changeForms)
+    if (changeForms['status']) {
+      this.authService.registraton(this.login)
       .subscribe(res => {
         this.isRegistration = false;
         this.isSpiner = false;
@@ -45,5 +49,44 @@ export class RegistraionComponent implements OnInit {
           }
         }
       })
+    } else {
+      // TO DO ovde ide sve ostalo
+      this.isRegistration = false;
+      this.isMessage = true;
+      if (!changeForms['password']) {
+        this.textMessage = 'sifra nije dobro'
+      } else if (!changeForms['firstName'] && !changeForms['lastName'] && !changeForms['email'] && !changeForms['password']) {
+        this.textMessage = 'niste uneli ni jedan podataka'
+      }
+      
+    }
+  }
+
+  _changeForms() {
+    let item = {
+      status: true,
+      firstName: this.login.firstName !== undefined,
+      lastName: this.login.lastName !== undefined,
+      email: this.login.email !== undefined,
+      password: this.login.password !== undefined,
+      againPassword: this.login.aggainPassword !== undefined
+    }
+
+    if
+    (
+      this.login.firstName === undefined,
+      this.login.lastName === undefined,
+      this.login.password === undefined,
+      this.login.password === undefined,
+      this.login.aggainPassword === undefined
+    ) {
+      item.status = false;
+    } else {
+      if (this.login.password.toString() !== this.login.aggainPassword.toString()) {
+        item.status = false;
+        item.againPassword = false;
+      }
+    }
+    return item;
   }
 }
