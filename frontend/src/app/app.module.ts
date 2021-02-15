@@ -10,6 +10,8 @@ import { HeadersComponent } from './components/headers/headers.component';
 import { RegistraionComponent } from './components/not-auth/registraion/registraion.component';
 import { IndexComponent } from './components/index/index.component';
 import { ErrorComponent } from './components/error/error.component';
+import { LoginComponent } from './components/not-auth/login/login.component';
+import { HomeComponent } from './components/auth/home/home.component';
 
 @NgModule({
   declarations: [
@@ -17,7 +19,9 @@ import { ErrorComponent } from './components/error/error.component';
     RegistraionComponent,
     HeadersComponent,
     IndexComponent,
-    ErrorComponent
+    ErrorComponent,
+    LoginComponent,
+    HomeComponent
   ],
   imports: [
     BrowserModule,

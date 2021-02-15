@@ -5,6 +5,13 @@ from django.views.decorators.csrf import csrf_exempt
 import json
 from users.models import User
 from users.models import Role
+from datetime import datetime, timedelta
+import jwt
+
+JWT_SECRET = 'secret'
+JWT_ALGORITHM = 'HS256'
+JWT_EXP_DELTA_SECONDS = 3600
+
 
 # Create your views here.
 
@@ -29,5 +36,35 @@ def registration(request):
         p.save()
 
         x = '{ "status":"SUCCESS"}'
+        y = json.loads(x)
+        return JsonResponse(y)
+
+@csrf_exempt
+def login(request):
+    if request.method == "POST":
+        body_unicode = request.body.decode('utf-8')
+        body = json.loads(body_unicode)
+
+        email = body['email']
+        password = body['password']
+        x = ''
+
+        user = User.objects.get(email=email)
+        if user.password != password:
+            print(2)
+            x = '{ "status":false }'
+            y = json.loads(x)
+            return JsonResponse(y)
+
+        payload = {
+            'user_id': user.id,
+            'exp': datetime.utcnow() + timedelta(seconds=JWT_EXP_DELTA_SECONDS)
+        }
+        jwt_token = jwt.encode(payload, JWT_SECRET, JWT_ALGORITHM)
+        firstName = user.first_name
+        lastName = user.last_name
+        email = user.email
+        role = user.role.role_name
+        x ='{ "status":true, "user":{"firstName":"' + user.first_name + '", "lastName":"' + user.last_name + '", "role":"' + user.role.role_name + '"}, "jwt":"' + jwt_token + '"}'   
         y = json.loads(x)
         return JsonResponse(y)

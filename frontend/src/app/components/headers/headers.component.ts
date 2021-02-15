@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-headers',
@@ -7,9 +9,29 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HeadersComponent implements OnInit {
 
-  constructor() { }
-
-  ngOnInit(): void {
+  isStatus: Boolean;
+  constructor(private authService: AuthService, private router: Router) {
+    this.authService.login$.subscribe(res => {
+      this.ngOnInit();
+    });
   }
 
+  ngOnInit(): void {
+    if (localStorage.getItem('jwt')) {
+      this.isStatus = true;
+    } else {
+      this.isStatus = false;
+    }
+  }
+
+  _isLogin() {
+    return this.isStatus
+  }
+
+  ngLogOut() {
+    console.log('ovde')
+    this.authService.logOut();
+    this.ngOnInit();    
+    this.router.navigate(['/']);
+  }
 }
