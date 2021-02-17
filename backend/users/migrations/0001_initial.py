@@ -16,7 +16,11 @@ class Migration(migrations.Migration):
             name='Project',
             fields=[
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('project_name', models.CharField(max_length=30)),
+                ('name', models.CharField(max_length=30)),
+                ('description', models.CharField(max_length=150)),
+                ('date_create', models.DateTimeField(null=True, blank=True)),
+                ('date_close', models.DateTimeField(null=True, blank=True)),
+                ('type_project', models.BooleanField(default=True)),
             ],
         ),
         migrations.CreateModel(
@@ -35,25 +39,33 @@ class Migration(migrations.Migration):
                 ('email', models.CharField(max_length=30)),
                 ('username', models.CharField(max_length=30)),
                 ('password', models.CharField(max_length=30)),
-                ('role', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='users.role')),
-            ],
-        ),
-        migrations.CreateModel(
-            name='Project_User_Role',
-            fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('project', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='users.project')),
-                ('role_on_project', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='users.role')),
-                ('user', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='users.user')),
             ],
         ),
         migrations.CreateModel(
             name='Issue',
             fields=[
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('issue_name', models.CharField(max_length=30)),
+                ('name', models.CharField(max_length=30)),
                 ('project', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='users.project')),
                 ('user', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='users.user')),
             ],
+        ),
+        migrations.CreateModel(
+            name='Issue_Comment',
+            fields=[
+                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('comment', models.CharField(max_length=150)),
+                ('issue', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='users.issue')),
+                ('user', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='users.user')),
+            ],
+        ),
+        migrations.CreateModel(
+            name='List_Project_User',
+            fields=[
+                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('project', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='users.project')),
+                ('user', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='users.user')),
+                ('role', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='users.role')),
+            ]
         ),
     ]

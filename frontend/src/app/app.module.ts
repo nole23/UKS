@@ -12,6 +12,9 @@ import { IndexComponent } from './components/index/index.component';
 import { ErrorComponent } from './components/error/error.component';
 import { LoginComponent } from './components/not-auth/login/login.component';
 import { HomeComponent } from './components/auth/home/home.component';
+import { GenerigTableComponent } from './components/auth/generig-table/generig-table.component';
+import { AddRepositoryComponent } from './components/auth/add-repository/add-repository.component';
+import { NewComponent } from './components/auth/new/new.component';
 
 @NgModule({
   declarations: [
@@ -21,7 +24,10 @@ import { HomeComponent } from './components/auth/home/home.component';
     IndexComponent,
     ErrorComponent,
     LoginComponent,
-    HomeComponent
+    HomeComponent,
+    GenerigTableComponent,
+    AddRepositoryComponent,
+    NewComponent
   ],
   imports: [
     BrowserModule,
