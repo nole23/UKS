@@ -17,4 +17,11 @@ export class RepositoryService {
         return res;
       }))
   }
+
+  getAllRepository() {
+    return this.http.get(environment.apiUrl + 'get-all-repository')
+      .pipe(map(res => {
+        return res;
+      }))
+  }
 }

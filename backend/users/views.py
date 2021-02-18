@@ -2,6 +2,7 @@ from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from datetime import datetime, timedelta
 from datetime import datetime
+from django.core import serializers
 import jwt
 import json
 from users.models import User, Role, List_Project_User, Project
@@ -73,10 +74,8 @@ def repository(request):
         body = json.loads(body_unicode)
 
         u = 'nole@gmail.com'
-
         user = User.objects.get(email=u)
 
-        print(body['type_project'])
         project = Project(name=body['name'], description=body['description'], date_create=datetime.now(), type_project=body['type_project'])
         project.save()
 
@@ -87,5 +86,27 @@ def repository(request):
         list_project_user.save()
 
         x = '{ "status":"SUCCESS", "project": {"id":"' + str(project.id) + '", "name":"' + project.name + '", "description":"' + project.description + '", "type_project":"' + str(project.type_project) + '"} }'
+        y = json.loads(x)
+        return JsonResponse(y)
+
+@csrf_exempt
+def getAllrepository(request):
+    if request.method == "GET":
+        u = 'nole@gmail.com'
+        user = User.objects.get(email=u)
+
+        project = List_Project_User.objects.filter(user=user.id)
+
+        pp = '['
+        end = len(project)
+        count = 0
+        for each in project:
+            pp += '{ "id":"' + str(each.project.id) + '", "name":"' + each.project.name + '" }'
+            count = count + 1
+            if count < end:
+                pp += ','
+        pp += ']'
+
+        x = '{ "status":"SUCCESS", "data":' + pp + '}'
         y = json.loads(x)
         return JsonResponse(y)
