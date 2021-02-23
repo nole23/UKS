@@ -31,19 +31,19 @@
         <nav class="navbar navbar-expand-sm">
             
             <ul class="navbar-nav">
-                <li class="hover-red">
+                <li class="hover-red" [ngClass]="viewId === 'c' ? 'hover-red-hover' : ''">
                     <a class="nav-link link" [routerLink]="['/repo/' + list_project.id + '/c']"> <img src="../../../../assets/picture/code.png" alt=""> <span> Kod</span></a>
                 </li>
-                <li class="hover-red">
+                <li class="hover-red" [ngClass]="viewId === 'i' ? 'hover-red-hover' : ''">
                     <a class="nav-link link" [routerLink]="['/repo/' + list_project.id + '/i']"> <img src="../../../../assets/picture/issue.png" alt=""> <span> Issues </span></a>
                 </li>
-                <li class="hover-red">
+                <li class="hover-red" [ngClass]="viewId === 'a' ? 'hover-red-hover' : ''">
                     <a class="nav-link link" [routerLink]="['/repo/' + list_project.id + '/a']"> <img src="../../../../assets/picture/play.png" alt=""> <span> Sve akcije </span></a>
                 </li>
-                <li class="hover-red">
+                <li class="hover-red" [ngClass]="viewId === 's' ? 'hover-red-hover' : ''">
                     <a class="nav-link link" [routerLink]="['/repo/' + list_project.id + '/s']"> <img src="../../../../assets/picture/dash.png" alt=""> <span> Statistika </span></a>
                 </li>
-                <li class="hover-red">
+                <li class="hover-red" [ngClass]="viewId === 'setting' ? 'hover-red-hover' : ''">
                     <a class="nav-link link" [routerLink]="['/repo/' + list_project.id + '/setting']"> <img src="../../../../assets/picture/settings.png" alt=""> <span> Podesavanja </span></a>
                 </li>
             </ul>

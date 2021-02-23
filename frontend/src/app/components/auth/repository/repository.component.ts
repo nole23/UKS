@@ -11,6 +11,7 @@ import { List_Project_User, Project } from 'src/app/models/repository';
 export class RepositoryComponent implements OnInit {
 
   list_project: Project
+  viewId: String;
   constructor(private activatedRoute: ActivatedRoute, private repositoryService: RepositoryService) {
     this.list_project = null;
   }
@@ -45,7 +46,7 @@ export class RepositoryComponent implements OnInit {
     // console.log(this.list_project)
     this.activatedRoute.params.subscribe(res => {
       this._getRepositpry(res['id']);
-      console.log(res['type'])
+      this.viewId = res['type'];
     })
   }
 

@@ -28,6 +28,10 @@
     border-bottom: 2px solid #007bff;
 }
 
+.hover-red-hover {
+    border-bottom: 2px solid #009908;
+}
+
 a {
     height: 45px;
 }
@@ -54,4 +58,8 @@ a span {
 
 .nav-link:hover {
     color: #007bff!important;
+}
+
+.navbar-nav {
+    height: 50px;
 }

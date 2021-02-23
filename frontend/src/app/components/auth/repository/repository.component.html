@@ -1,8 +1,25 @@
 <div class="container">
     <div *ngIf="list_project !== null">
-        <app-repository-menu [list_project]="list_project"></app-repository-menu>
+        <app-repository-menu [list_project]="list_project" [viewId]="viewId"></app-repository-menu>
     </div>
     
+    <div *ngIf="viewId === 'c'">
+        <app-repository-code></app-repository-code>
+    </div>
 
+    <div *ngIf="viewId === 'i'">
+        <app-repository-issues></app-repository-issues>
+    </div>
 
+    <div *ngIf="viewId === 'a'">
+        <app-repository-action></app-repository-action>
+    </div>
+
+    <div *ngIf="viewId === 's'">
+        <app-repository-statistic></app-repository-statistic>
+    </div>
+
+    <div *ngIf="viewId === 'setting'">
+        <app-repository-setting></app-repository-setting>
+    </div>
 </div>

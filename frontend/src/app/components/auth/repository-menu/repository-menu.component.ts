@@ -8,6 +8,7 @@ import { List_Project_User, Project } from 'src/app/models/repository';
 })
 export class RepositoryMenuComponent implements OnInit {
   @Input('list_project') list_project: Project;
+  @Input('viewId') viewId: String;
 
   listUser: any;
   constructor() { }
