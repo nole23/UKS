@@ -5,7 +5,7 @@ from datetime import datetime
 from django.core import serializers
 import jwt
 import json
-from users.models import User, Role, List_Project_User, Project
+from users.models import User, Role, List_Project_User, Project, Issue, Issue_Comment
 
 JWT_SECRET = 'secret'
 JWT_ALGORITHM = 'HS256'
@@ -108,5 +108,73 @@ def getAllrepository(request):
         pp += ']'
 
         x = '{ "status":"SUCCESS", "data":' + pp + '}'
+        y = json.loads(x)
+        return JsonResponse(y)
+
+@csrf_exempt
+def getRepositoryById(request, id):
+    if request.method == "GET":
+        list_project = List_Project_User.objects.filter(project_id=id)
+
+
+        user = list_project[0].user
+        project = list_project[0].project
+        issues = Issue.objects.filter(project=project.id)
+        role = list_project[0].role
+
+        end_issue = len(issues)
+        count_issye = 0
+        dataIssue = '['
+        for each in issues:
+            issue_comment = Issue_Comment.objects.filter(issue=each.id)
+
+            end_comment = len(issue_comment)
+            count_comment = 0
+            dataComment = '['
+            for ieach in issue_comment:
+                dataComment += '{"id":"' + str(ieach.id) + '", "comment":"' + str(ieach.comment) + '", "user":{"id":"' + str(ieach.user.id) + '", "firstName":"' + ieach.user.first_name + '", "lastName":"' + ieach.user.last_name + '", "username": "' + ieach.user.username + '"}}'
+                count_comment = count_comment + 1
+                if count_comment < end_comment:
+                    dataComment += ','
+            dataComment += ']'
+
+            dataIssue += '{"id":"' + str(each.id) + '", "name":"' + each.name + '", "description":"' + each.description + '", "status":"' + str(each.status) + '", "user":{"id":"' + str(each.user.id) + '", "firstName":"' + each.user.first_name + '", "lastName":"' + each.user.last_name + '", "username": "' + each.user.username + '"}, "issue_comment": ' + dataComment + '}'
+            count_issye = count_issye + 1
+            if count_issye < end_issue:
+                dataIssue += ','            
+        dataIssue += ']'
+
+        lp = '['
+        for each in list_project:
+            lp += '{"user": {"id":"' + str(each.user.id) + '", "firstName":"' + str(each.user.first_name) + '", "lastName":"' + str(each.user.last_name) + '", "username":"' + str(each.user.username) + '"},'
+            lp += '"role": {"name":"' + str(each.role.role_name) + '"}}'
+        lp += ']'
+
+        data = '{ "project": {"id":"' + str(project.id) + '", "name":"' + str(project.name) + '", "description":"' + str(project.description) + '", "date_create":"' + str(project.date_create) + '",'
+        data += '"date_close":"' + str(project.date_close) + '", "type_project":"' + str(project.type_project) + '", "issue": ' + dataIssue + ', '
+        data += '"user":{"id":"' + str(user.id) + '","first_name":"' + str(user.first_name) + '", "last_name":"' + str(user.last_name) + '", "role":"' + str(role.role_name) + '"}, "list_project_user":' + lp + '' 
+        data += '}}'
+
+        x = '{ "status":"SUCCESS", "data":' + data + '}'
+
+        y = json.loads(x)
+        return JsonResponse(y)
+
+@csrf_exempt
+def addIssue(request):
+    if request.method == "POST":
+        body_unicode = request.body.decode('utf-8')
+        body = json.loads(body_unicode)
+
+        project = Project.objects.get(id=body['id'])
+        user = User.objects.get(id=1)
+
+        issue = Issue(name=body['name'], description=body['description'], project=project, user=user)
+        issue.save()
+
+        data = '{"id":"' + str(issue.id) + '", "name":"' + issue.name + '", "description":"' + str(issue.description) + '", "user":{"id":"' + str(issue.user.id) + '", "first_name":"' + str(issue.user.first_name) + '", "last_name":"' + str(issue.user.last_name) + '", "username":"' + str(issue.user.username) + '"}}'
+        
+        x = '{ "status":"SUCCESS", "issue": ' + data + ' }'
+
         y = json.loads(x)
         return JsonResponse(y)

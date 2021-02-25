@@ -1,0 +1,22 @@
+<div class="container mt-3">
+    <div class="d-flex justify-content-center  mb-3">
+        <div class="col-sm-9 p-2 reg-bord" *ngIf="!isRegistration">
+            <form>
+                <div class="form-group">
+                    <label for="username"class="w-100">Naziv issua</label>
+                    <input type="text" class="form-control" name="name"id="name" [(ngModel)]="newIssue.name" placeholder="Naziv issua">
+
+                    <label for="password"class="w-100">Opis</label>
+                    <input type="text" class="form-control" name="description" id="description" [(ngModel)]="newIssue.description" placeholder="Unesite opis">
+
+                </div>
+                
+                <button type="submit" class="btn btn-primary margin-top float-right" (click)="ngAddIssue()">Dodati issue</button>
+            </form>
+        </div>
+
+        <div class="col-sm-5 p-2 reg-bord" *ngIf="isRegistration">
+            <h3>Cuvanje...</h3>
+        </div>
+    </div>
+</div>

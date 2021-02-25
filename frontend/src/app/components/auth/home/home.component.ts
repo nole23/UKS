@@ -45,7 +45,8 @@ export class HomeComponent implements OnInit {
   _setData(data: any) {
     return {
       id: data.id,
-      name: data.name
+      name: data.name,
+      link: '/repo/' + data.id + '/c'
     }
   }
 

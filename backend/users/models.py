@@ -30,6 +30,8 @@ class List_Project_User(models.Model):
 
 class Issue(models.Model):
     name = models.CharField(max_length=30)
+    description = models.CharField(max_length=150)
+    status = models.BooleanField(default=True)
     project = models.ForeignKey(Project, on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
 

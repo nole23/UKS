@@ -14,7 +14,6 @@ export class GenerigTableComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    console.log(this.settings)
     this._setOptions();
   }
 
@@ -58,7 +57,8 @@ export class GenerigTableComponent implements OnInit {
         class: data[i].class === undefined ? null : data[i].class,
         style: data[i].style === undefined ? null : data[i].style,
         id: data[i].id === undefined ? null : data[i].id,
-        name: data[i].name === undefined ? null : data[i].name
+        name: data[i].name === undefined ? null : data[i].name,
+        link: data[i].link === undefined ? null : data[i].link
       })
     }
     return res;

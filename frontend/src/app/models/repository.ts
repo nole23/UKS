@@ -13,6 +13,7 @@ export class Project {
     date_create: String;
     type_project: Boolean;
     list_user: any;
+    issue: any;
 
     constructor(item: any) {
         if (item !== null) {
@@ -22,11 +23,44 @@ export class Project {
             this.date_create = item.date_create;
             this.type_project = item.type_project
             this.list_user = [];
-            if (item.list_project_user !== null) {
-                item.list_project_user.forEach(element => {
-                    let i = new List_Project_User(element);
-                    this.list_user.push(i);
-                });
+            if (item.list_project_user !== undefined) {
+                if (item.list_project_user !== null) {
+                    item.list_project_user.forEach(element => {
+                        let i = new List_Project_User(element);
+                        this.list_user.push(i);
+                    });
+                }
+            }
+            this.issue = [];
+            if (item.issue !== undefined) {
+                if (item.issue.length > 0) {
+                    item.issue.forEach(element => {
+                        let i = new Issue(element);
+                        this.issue.push(i);
+                    });
+                }
+            }
+        }
+    }
+}
+
+export class Issue {
+    id: any;
+    name: String;
+    description: String;
+    user: User;
+    comments: any;
+    status: Boolean;
+
+    constructor(item: any) {
+        this.id = item.id;
+        this.name = item.name;
+        this.description = item.description;
+        this.user = new User(item.user);
+        this.comments = item.comments;
+        if (item.status !== undefined) {
+            if (item.status !== null) {
+                this.status = item.status === 'True' ? true : false;
             }
         }
     }

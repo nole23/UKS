@@ -1,1 +1,32 @@
-<p>repository-issues works!</p>
+<div class="w-100 mt-3 pt-2 pb-2 pl-1 pr-1" *ngIf="!isAdd">
+    <div class="float-left w-70">
+        <!-- left -->
+    </div>
+
+    <div class="float-right w-30 h-100">
+        <!-- Right -->
+        <div class="w-100 h-100 float-left h-20p">
+            <div class="border w-70 h-100 float-left mr-3" style="height: 25px!important; border-radius: 5px;">
+                <div class="float-left w-50 h-100 pl-2" style="border-right: 1px solid #dee2e6!important; margin-top: 1px;">
+                    <i class="fa fa-bullhorn" aria-hidden="true"></i> Issues <span class="number">{{active}}</span>
+                </div>
+                <div class="float-left w-50 h-100 pl-2" style="margin-top: 1px;"> 
+                    <i class="fa fa-power-off" aria-hidden="true"></i> Gotovi issues <span class="number">{{finish}}</span>
+                </div>
+            </div>
+            
+
+            <div class="float-left w-25">
+                <button class="btn btn-success" style="font-size: 12px; padding-left: 2px; padding-right: 2px; padding-top: 2px; padding-bottom: 2px;" (click)="isAdd = true">Dodati issue</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="float-left w-100 mt-2" *ngIf="settings !== null">
+        <app-generig-table [settings]="settings"></app-generig-table>
+    </div>
+</div>
+
+<div class="w-100 mt-3 pt-2 pb-2 pl-1 pr-1" *ngIf="isAdd && id !== null">
+    <app-add-issue [id]="id" (emit)="onEmitPublic($event)"></app-add-issue>
+</div>

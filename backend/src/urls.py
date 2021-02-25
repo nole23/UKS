@@ -23,5 +23,7 @@ urlpatterns = [
     path('api/sing-in', views.registration, name='registration'),
     path('api/sing-up', views.login, name='login'),
     path('api/repository', views.repository),
-    path('api/get-all-repository', views.getAllrepository)
+    path('api/get-all-repository', views.getAllrepository),
+    path('api/get-repositpry/<int:id>', views.getRepositoryById),
+    path('api/add-issue', views.addIssue)
 ]

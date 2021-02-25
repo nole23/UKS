@@ -24,4 +24,28 @@ export class RepositoryService {
         return res;
       }))
   }
+
+  getAllIssuesByRepository(id: any) {
+    // return this.http.get(environment.apiUrl + 'get-all-issues/' + id)
+    //   .pipe(map(res => {
+    //     return res;
+    //   }))
+  }
+
+  getRepositoryById(id: any) {
+    return this.http.get(environment.apiUrl + 'get-repositpry/' + id)
+      .pipe(map(res => {
+        if (res['status'] === 'SUCCESS') {
+          return res['data']
+        }
+        return {};
+      }))
+  }
+
+  saveIssue(item: any) {
+     return this.http.post(environment.apiUrl + 'add-issue', item)
+      .pipe(map(res => {
+        return res;
+      }))
+  }
 }
