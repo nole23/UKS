@@ -27,7 +27,7 @@ export class NewComponent implements OnInit {
       .subscribe(res => {
         this.isSave = false;
         if (res['status'] === 'SUCCESS') {
-          this.router.navigate(['/repo/' + res['project']['id']])
+          this.router.navigate(['/repo/' + res['project']['id'] + '/c']) 
         } else {
           console.log('Nesto ne valjda ovo srediti')
         }
