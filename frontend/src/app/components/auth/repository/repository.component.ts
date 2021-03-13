@@ -22,9 +22,9 @@ export class RepositoryComponent implements OnInit {
       this.repoId = res['id'];
       this.viewId = res['type'];
       
-      if (this.viewId === 'i') {
+      //if (this.viewId === 'i') {
         this._getRepositpry(res['id']);
-      } 
+     // } 
     })
   }
 

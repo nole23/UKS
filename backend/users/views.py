@@ -73,7 +73,7 @@ def repository(request):
         body_unicode = request.body.decode('utf-8')
         body = json.loads(body_unicode)
 
-        u = 'nole@gmail.com'
+        u = 'a@gmail.com'
         user = User.objects.get(email=u)
 
         project = Project(name=body['name'], description=body['description'], date_create=datetime.now(), type_project=body['type_project'])
@@ -92,7 +92,7 @@ def repository(request):
 @csrf_exempt
 def getAllrepository(request):
     if request.method == "GET":
-        u = 'nole@gmail.com'
+        u = 'a@gmail.com'
         user = User.objects.get(email=u)
 
         project = List_Project_User.objects.filter(user=user.id)
@@ -115,7 +115,6 @@ def getAllrepository(request):
 def getRepositoryById(request, id):
     if request.method == "GET":
         list_project = List_Project_User.objects.filter(project_id=id)
-
 
         user = list_project[0].user
         project = list_project[0].project
@@ -172,7 +171,7 @@ def addIssue(request):
         issue = Issue(name=body['name'], description=body['description'], project=project, user=user)
         issue.save()
 
-        data = '{"id":"' + str(issue.id) + '", "name":"' + issue.name + '", "description":"' + str(issue.description) + '", "user":{"id":"' + str(issue.user.id) + '", "first_name":"' + str(issue.user.first_name) + '", "last_name":"' + str(issue.user.last_name) + '", "username":"' + str(issue.user.username) + '"}}'
+        data = '{"id":"' + str(issue.id) + '", "name":"' + issue.name + '", "description":"' + str(issue.description) + '", "user":{"id":"' + str(issue.user.id) + '", "firstName":"' + str(issue.user.first_name) + '", "lastName":"' + str(issue.user.last_name) + '", "username":"' + str(issue.user.username) + '"}}'
         
         x = '{ "status":"SUCCESS", "issue": ' + data + ' }'
 

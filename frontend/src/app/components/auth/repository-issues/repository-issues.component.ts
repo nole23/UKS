@@ -1,5 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { RepositoryService } from 'src/app/services/repository.service';
+import { Issue } from 'src/app/models/repository';
 
 @Component({
   selector: 'app-repository-issues',
@@ -52,7 +53,6 @@ export class RepositoryIssuesComponent implements OnInit {
   _generateTable() {
     this.settings['tbody']['class'] = 'border-radius-collapse';
     this.settings['tbody']['tr'] = this._setTr(this.issue)
-    
   }
 
   _setTr(item: any) {
@@ -64,7 +64,6 @@ export class RepositoryIssuesComponent implements OnInit {
         }
       )
     });
-    
     return data;
   }
 
@@ -74,11 +73,13 @@ export class RepositoryIssuesComponent implements OnInit {
       link: null,
       name: '<div class="w-100 h-50 font-16 bold"> <a class="cursor color-green" href="/issue/' + item.id + '"> ' + item.name + ' </a></div><div class="w-100 h-50 font-12">' + item.description + ' <span class="font-8">' + item.user.firstName + ' ' + item.user.lastName + '</span></div>'
     }]
-
     return data;
   }
 
   onEmitPublic(event: any) {
     this.isAdd = false;
+    let issue = new Issue(event);
+    let td = this._setTd(issue)
+    this.settings['tbody']['tr'].push({td:td})
   }
 }

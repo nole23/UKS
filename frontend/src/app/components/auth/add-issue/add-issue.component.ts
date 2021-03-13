@@ -29,8 +29,8 @@ export class AddIssueComponent implements OnInit {
     this.isRegistration = true;
     this.repositoryService.saveIssue(this.newIssue)
       .subscribe(res => {
-        this.emit.emit(res['issue'])
         this.isRegistration = false;
+        this.emit.emit(res['issue'])
       })
   }
 }
