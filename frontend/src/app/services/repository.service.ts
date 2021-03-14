@@ -48,4 +48,18 @@ export class RepositoryService {
         return res;
       }))
   }
+
+  getIssueById(id: any) {
+    return this.http.get(environment.apiUrl + 'issue/' + id)
+      .pipe(map(res => {
+        return res
+      }))
+  }
+
+  saveComment(item: any) {
+    return this.http.post(environment.apiUrl + 'add-issue-comment', item)
+     .pipe(map(res => {
+       return res;
+     }))
+ }
 }

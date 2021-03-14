@@ -13,6 +13,7 @@ export class RepositoryComponent implements OnInit {
   list_project: Project
   viewId: String;
   repoId: any;
+  issueId: any;
   constructor(private activatedRoute: ActivatedRoute, private repositoryService: RepositoryService) {
     this.list_project = null;
   }
@@ -22,6 +23,10 @@ export class RepositoryComponent implements OnInit {
       this.repoId = res['id'];
       this.viewId = res['type'];
       
+      if (this.viewId === 'issue'){
+        this.issueId = res['idIssue']
+      }
+
       //if (this.viewId === 'i') {
         this._getRepositpry(res['id']);
      // } 

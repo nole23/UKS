@@ -9,6 +9,7 @@ import { Issue } from 'src/app/models/repository';
 })
 export class RepositoryIssuesComponent implements OnInit {
   @Input('list_project') list_project: any;
+  @Input('id') repoId: any;
 
   settings: any;
   id: any;
@@ -71,7 +72,7 @@ export class RepositoryIssuesComponent implements OnInit {
     let data = [{
       id: item.id,
       link: null,
-      name: '<div class="w-100 h-50 font-16 bold"> <a class="cursor color-green" href="/issue/' + item.id + '"> ' + item.name + ' </a></div><div class="w-100 h-50 font-12">' + item.description + ' <span class="font-8">' + item.user.firstName + ' ' + item.user.lastName + '</span></div>'
+      name: '<div class="w-100 h-50 font-16 bold"> <a class="cursor color-green" href="/repo/' + this.repoId + '/issue/' + item.id + '"> ' + item.name + ' </a></div><div class="w-100 h-50 font-12">' + item.description + ' <span class="font-8">' + item.user.firstName + ' ' + item.user.lastName + '</span></div>'
     }]
     return data;
   }

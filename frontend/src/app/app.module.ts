@@ -23,6 +23,7 @@ import { RepositoryActionComponent } from './components/auth/repository-action/r
 import { RepositoryStatisticComponent } from './components/auth/repository-statistic/repository-statistic.component';
 import { RepositorySettingComponent } from './components/auth/repository-setting/repository-setting.component';
 import { AddIssueComponent } from './components/auth/add-issue/add-issue.component';
+import { IssueComponent } from './components/auth/issue/issue.component';
 
 @NgModule({
   declarations: [
@@ -43,7 +44,8 @@ import { AddIssueComponent } from './components/auth/add-issue/add-issue.compone
     RepositoryActionComponent,
     RepositoryStatisticComponent,
     RepositorySettingComponent,
-    AddIssueComponent
+    AddIssueComponent,
+    IssueComponent
   ],
   imports: [
     BrowserModule,

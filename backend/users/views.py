@@ -11,6 +11,8 @@ JWT_SECRET = 'secret'
 JWT_ALGORITHM = 'HS256'
 JWT_EXP_DELTA_SECONDS = 3600
 
+u = 'a@gmail.com'
+
 def index(request):
     role1 = Role(role_name="O")
     role2 = Role(role_name="C")
@@ -73,7 +75,6 @@ def repository(request):
         body_unicode = request.body.decode('utf-8')
         body = json.loads(body_unicode)
 
-        u = 'a@gmail.com'
         user = User.objects.get(email=u)
 
         project = Project(name=body['name'], description=body['description'], date_create=datetime.now(), type_project=body['type_project'])
@@ -92,7 +93,7 @@ def repository(request):
 @csrf_exempt
 def getAllrepository(request):
     if request.method == "GET":
-        u = 'a@gmail.com'
+        user = User.objects.get(email=u)
         user = User.objects.get(email=u)
 
         project = List_Project_User.objects.filter(user=user.id)
@@ -177,3 +178,51 @@ def addIssue(request):
 
         y = json.loads(x)
         return JsonResponse(y)
+
+
+@csrf_exempt
+def getIssueById(request, id):
+    if request.method == "GET":
+        issue = Issue.objects.get(id=id)
+
+        issue_comment = Issue_Comment.objects.filter(issue=issue.id)
+
+        userData = '{"id":"' + str(issue.user.id) + '", "firstName":"' + str(issue.user.first_name) + '", "lastName":"' + str(issue.user.last_name) + '"}'
+
+        commentsData = '['
+        end = len(issue_comment)
+        count = 0
+        for each in issue_comment:
+            commentUser = '{"id":"' + str(each.user.id) + '", "firstName":"' + str(each.user.first_name) + '", "lastName":"' + str(each.user.last_name) + '"}'
+            commentsData += '{"id":"' + str(each.id) + '", "comment":"' + str(each.comment) + '", "user":' + commentUser + '}'
+            count = count +1
+            if count < end:
+                commentsData += ','
+        commentsData += ']'
+
+        issue_data = '{"id":"' + str(issue.id) + '", "name":"' + str(issue.name) + '", "description":"' + str(issue.description) + '", "status":"' + str(issue.status) + '", "user":' + userData + ', "issueComment":' + commentsData + '}'
+
+        x = '{ "status":"SUCCESS", "issue": ' + issue_data + '}'
+        y = json.loads(x)
+        return JsonResponse(y)
+
+
+@csrf_exempt
+def saveCommentByIssue(request):
+    if request.method == "POST":
+        body_unicode = request.body.decode('utf-8')
+        body = json.loads(body_unicode)
+
+        user = User.objects.get(email=u)
+        issue = Issue.objects.get(pk=body['id'])
+
+        issueComment = Issue_Comment(comment=body['comment'], issue=issue, user=user)
+        issueComment.save()
+
+        userData = '{"id":"' + str(user.id) + '", "firstName":"' + str(user.first_name) + '", "lastName":"' + str(user.last_name) + '"}'
+        data = '{"id":"' + str(issueComment.id) + '", "comment":"' + str(issueComment.comment) + '", "user":' + userData + '}'
+
+        x = '{ "status":"SUCCESS", "comment": '+ data + ' }'
+        y = json.loads(x)
+        return JsonResponse(y)
+

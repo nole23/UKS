@@ -16,7 +16,7 @@ const routes: Routes = [
   { path: 'home', component: HomeComponent },
   { path: 'new', component: NewComponent },
   { path: 'repo/:id/:type', component: RepositoryComponent },
-  { path: 'issue/:id', component: ErrorComponent },
+  { path: 'repo/:id/:type/:idIssue', component: RepositoryComponent },
   { path: 'user/:id', component: ErrorComponent }
 ];
 

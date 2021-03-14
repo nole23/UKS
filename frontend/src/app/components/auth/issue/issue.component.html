@@ -1,0 +1,51 @@
+<div class="container mt-3" *ngIf="issue !== null">
+    <div class="header float-left w-100 border-bottom mb-3">
+        <div class="float-left deleteHover">
+            <h2>{{issue.name}} <span class="lightColor">#{{issue.id}}</span><span class="ml-3 delete"><i class="fa fa-trash fa-1x" aria-hidden="true"></i></span></h2>
+        </div>
+        <div class="float-right">
+            <button class="btn btn-outline-secondary mr-3">Edit</button><button class="btn btn-success">New Issue</button>
+        </div>
+        <div class="float-left w-100">
+            <div class="float-left">
+                <p><span>{{issue.user.firstName}}</span> opened this issue <span>3.3.2021.</span></p>
+            </div>
+            <div class="float-right">
+                <button class="btn btn-outline-secondary w-40p" *ngIf="issue.status">Assign</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="body mb-3" style="clear:both; border-bottom:2px solid #ccc">
+        <div class="w-100 border mb-3" *ngFor="let item of issue.issueComment">
+            <div class="w-100 h-40 pt-1 pl-1 pb-1 pr-1 border-bottom">
+                <div class="float-left">
+                    <span>{{item.user.firstName}}</span> add <span>23.2.2021.</span>
+                </div>
+                <div class="float-right">
+                    <span style="border-radius: 5px; border: 1px solid #333;" >Owner</span>
+                </div>
+            </div>
+            <div class="w-100 hm-40 pt-4 pl-4 pb-4 pr-4">
+                <div>{{item.comment}}</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="body" style="clear:both; border:1px solid #ccc">
+        <div class="w-100 border-bottom pt-2 pl-2 pb-2 pr-2">
+            <div style="border: 1px solid #333; border-radius: 5px; width: 75px;">
+                Comment
+            </div>
+        </div>
+        <div class="w-100 h-150 pt-1 pl-1 pb-1 pr-1">
+            <textarea class="w-100 h-100" rows="7" [(ngModel)]="comment"></textarea>
+        </div>
+        <div class="w-100 float-left mt-2">
+            <div class="float-left w-50"></div>
+            <div class="float-right">
+                <button class="btn btn-outline-danger mr-3">Close Issue</button> <button class="btn btn-success" (click)="ngComment()">Comment</button>
+            </div>
+        </div>
+    </div>
+</div>
