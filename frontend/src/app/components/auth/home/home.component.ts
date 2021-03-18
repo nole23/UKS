@@ -29,6 +29,7 @@ export class HomeComponent implements OnInit {
     this.repositoryService.getAllRepository()
       .subscribe(res => {
         let data = res['data']
+        console.log(data)
 
         let resData = []
         data.forEach(element => {
@@ -43,14 +44,16 @@ export class HomeComponent implements OnInit {
   }
 
   _setData(data: any) {
+    let className = data.owner.isOwner === 'true' ? 'color-green' : 'color-orange'
     return {
       id: data.id,
-      name: data.name,
+      name: data.owner.username + '/' + data.name + '<br/><div class="font-12 ' + className + '">Owner is: ' + data.owner.name + '</div>',
       link: '/repo/' + data.id + '/c'
     }
   }
 
   _setSettings(item: any) {
+    console.log(item)
     this.data['tbody']['tr'] = item;
 
     this.settings = this.data;
