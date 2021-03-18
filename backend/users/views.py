@@ -102,10 +102,14 @@ def getAllrepository(request):
         end = len(project)
         count = 0
         for each in project:
-            pp += '{ "id":"' + str(each.project.id) + '", "name":"' + each.project.name + '" }'
+            test = "false"
+            if each.user.email == u and each.role.role_name == "O":
+                test = "true"
+            pp += '{ "id":"' + str(each.project.id) + '", "name":"' + each.project.name + '","owner":{"isOwner":"' + test + '","name":"'+each.user.first_name + ' ' + each.user.last_name + '", "username":"'+ each.user.username + '" } }'
             count = count + 1
             if count < end:
                 pp += ','
+
         pp += ']'
 
         x = '{ "status":"SUCCESS", "data":' + pp + '}'
