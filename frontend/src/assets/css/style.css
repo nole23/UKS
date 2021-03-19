@@ -70,6 +70,8 @@
 .color-green { color: #218838; }
 .color-blue { color: #85C1E9; }
 .color-orange { color: #DD7915; }
+.color-file { color: #79b8ff }
+.color-text { color: #333}
 
 .border-color {
     border: 1px solid #dee2e6!important;
@@ -78,4 +80,11 @@
 .Box-header--blue {
     background-color: var(--color-box-header-blue-bg);
     border-color: var(--color-box-header-blue-border);
+}
+
+.font-graph {
+    font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Helvetica,Arial,sans-serif,Apple Color Emoji,Segoe UI Emoji;
+    font-size: 14px;
+    line-height: 1.5;
+    color: var(--color-text-primary);
 }

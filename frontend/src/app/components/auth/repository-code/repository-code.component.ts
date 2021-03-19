@@ -15,38 +15,118 @@ export class RepositoryCodeComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.settings = {
+    let dataTR = [
+      {
+        td: [
+          {
+            class: '',
+            style: '',
+            link: null,
+            name: '<span class="float-center"><i class="fa fa-folder color-file" aria-hidden="true"></i> <a class="cursor-pointer" href="http://localhost:4200/repo/1/c?name=frontende" class="ml-2">frontende</a></span>'
+          },
+          {
+            class: '',
+            style: '',
+            link: null,
+            name: '<span class="float-center">Izmjenjena nova verzija projekta...</span>'
+          },
+          {
+            class: '',
+            style: '',
+            link: null,
+            name: '<span class="float-right color-text">17 hours ago</span>'
+          }
+        ]
+      },
+      {
+        td: [
+          {
+            class: '',
+            style: '',
+            link: null,
+            name: '<span class="float-center"><i class="fa fa-folder color-file" aria-hidden="true"></i> <a class="cursor-pointer" href="http://localhost:4200/repo/1/c?name=backend"class="ml-2">backend</a></span>'
+          },
+          {
+            class: '',
+            style: '',
+            link: null,
+            name: '<span class="float-center">Izmjenjena nova verzija projekta...</span>'
+          },
+          {
+            class: '',
+            style: '',
+            link: null,
+            name: '<span class="float-right color-text">17 hours ago</span>'
+          }
+        ]
+      },
+      {
+        td: [
+          {
+            class: '',
+            style: '',
+            link: null,
+            name: '<span class="float-center"><i class="fa fa-file-code-o" aria-hidden="true"></i> README.md</span>'
+          },
+          {
+            class: '',
+            style: '',
+            link: null,
+            name: '<span class="float-center">Izmjenjena nova verzija projekta...</span>'
+          },
+          {
+            class: '',
+            style: '',
+            link: null,
+            name: '<span class="float-right color-text">17 hours ago</span>'
+          }
+        ]
+      }
+    ]
+
+    this._createTableData(dataTR);
+
+  }
+  _createTableData(item: any) {
+    let settings = {
       class: 'table table-hover',
       thead: undefined,
       tbody: {
         class: '',
-        tr: [
-          {
-            class: '',
-            style: '',
-            td: [
-              {
-                class: '',
-                style: '',
-                link: '',
-                name: '<span class="float-center"> ime</span>'
-              },
-              {
-                class: '',
-                style: '',
-                link: '',
-                name: '<span class="float-center"> sredina</span>'
-              },
-              {
-                class: '',
-                style: '',
-                link: '',
-                name: '<span class="float-right"> tekst</span>'
-              }
-            ]
-          }
-        ]
+        tr: this._createTR(item),
       }
     }
+
+    console.log(settings)
+    this.settings = settings;
+  }
+
+  _createTR(item: any) {
+    let resData = []
+    
+    item.forEach((element: any) => {
+      resData.push({
+        class: 'font-graph',
+        style: '',
+        td: this._createTD(element.td)
+      });
+    });
+    
+    return resData;
+  }
+
+  _createTD(item: any) {
+    let resData = []
+
+    item.forEach((element: any) => {
+      resData.push({
+        class: element.class,
+        style: element.style,
+        link: element.link,
+        name: element.name
+      })
+    });
+    
+    return resData;
   }
 }
