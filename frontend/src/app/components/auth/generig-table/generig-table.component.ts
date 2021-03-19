@@ -63,6 +63,14 @@ export class GenerigTableComponent implements OnInit {
     }
     return res;
   }
+
+  ngSetClass(item: any) {
+    if (item > 7) {
+      return 'tdw-auto'
+    }
+    
+    return 'tdw-' + item;
+  }
 }
 /*
 [

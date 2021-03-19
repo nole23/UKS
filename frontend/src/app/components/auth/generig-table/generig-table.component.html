@@ -1,4 +1,4 @@
-<div class="container" *ngIf="options !== null">
+<div class="container" style="padding: 0;" *ngIf="options !== null">
     <h1 *ngIf="options.h1 !== null">{{options.h1}}</h1>
     <h2 *ngIf="options.h2 !== null">{{options.h2}}</h2>
     <h3 *ngIf="options.h3 !== null">{{options.h3}}</h3>
@@ -29,7 +29,7 @@
           [ngClass]="item.class" 
           [ngStyle]="item.style">
           <td class="w-5">{{i+1}}</td>
-            <td class="w-100" *ngFor="let i of item.td">
+            <td [ngClass]="ngSetClass(item.td.length)" *ngFor="let i of item.td">
               <div
                 *ngIf="i.link !== null"
                 [ngClass]="i.class" 

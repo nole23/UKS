@@ -18,7 +18,9 @@
 .w-90 { width: 90%!important; }
 .w-95 { width: 95%!important; }
 .w-100 { width: 100%!important; }
+.h-50 { height: 50px; }
 .border-radius-10 { border-radius: 10px; }
+.border-radius-5 { border-radius: 5px; }
 .border-radius-collapse {
     border-collapse: collapse;
     border-radius: 10px;
@@ -68,3 +70,12 @@
 .color-green { color: #218838; }
 .color-blue { color: #85C1E9; }
 .color-orange { color: #DD7915; }
+
+.border-color {
+    border: 1px solid #dee2e6!important;
+}
+
+.Box-header--blue {
+    background-color: var(--color-box-header-blue-bg);
+    border-color: var(--color-box-header-blue-border);
+}
