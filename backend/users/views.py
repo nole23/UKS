@@ -54,7 +54,6 @@ def login(request):
 
         user = User.objects.get(email=email)
         if user.password != password:
-            print(2)
             x = '{ "status":false }'
             y = json.loads(x)
             return JsonResponse(y)
@@ -83,7 +82,6 @@ def repository(request):
         role = Role.objects.get(id=1)
 
         list_project_user = List_Project_User(project=project, user=user, role=role)
-        print(list_project_user)
         list_project_user.save()
 
         x = '{ "status":"SUCCESS", "project": {"id":"' + str(project.id) + '", "name":"' + project.name + '", "description":"' + project.description + '", "type_project":"' + str(project.type_project) + '"} }'
@@ -148,10 +146,15 @@ def getRepositoryById(request, id):
                 dataIssue += ','            
         dataIssue += ']'
 
+        end_list_project = len(list_project)
+        count_list_project = 0
         lp = '['
         for each in list_project:
             lp += '{"user": {"id":"' + str(each.user.id) + '", "firstName":"' + str(each.user.first_name) + '", "lastName":"' + str(each.user.last_name) + '", "username":"' + str(each.user.username) + '"},'
             lp += '"role": {"name":"' + str(each.role.role_name) + '"}}'
+            count_list_project = count_list_project + 1
+            if count_list_project < end_list_project:
+                lp += ','
         lp += ']'
 
         data = '{ "project": {"id":"' + str(project.id) + '", "name":"' + str(project.name) + '", "description":"' + str(project.description) + '", "date_create":"' + str(project.date_create) + '",'
@@ -229,4 +232,35 @@ def saveCommentByIssue(request):
         x = '{ "status":"SUCCESS", "comment": '+ data + ' }'
         y = json.loads(x)
         return JsonResponse(y)
+
+@csrf_exempt
+def filters(request, status, params, id):
+    if request.method == "GET":
+        data = ""
+        if status == "status":
+            trueOrFalse = eval(params)
+            issues = Issue.objects.filter(project=id, status=trueOrFalse)
+
+            end_issue = len(issues)
+            count_issye = 0
+            dataIssue = '['
+            for each in issues:
+                dataIssue += '{"id":"' + str(each.id) + '", "name":"' + each.name + '", "description":"' + each.description + '", "status":"' + str(each.status) + '", "user":{"id":"' + str(each.user.id) + '", "firstName":"' + each.user.first_name + '", "lastName":"' + each.user.last_name + '", "username": "' + each.user.username + '"} }'
+                count_issye = count_issye + 1
+                if count_issye < end_issue:
+                    dataIssue += ','            
+            dataIssue += ']'
+
+            data = dataIssue
+
+        elif status == "author":
+            pass
+
+        x = '{ "status":"SUCCESS", "data":'+ data + ' }'
+        y = json.loads(x)
+        return JsonResponse(y)
+            
+
+
+
 

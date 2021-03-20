@@ -61,5 +61,12 @@ export class RepositoryService {
      .pipe(map(res => {
        return res;
      }))
- }
+  }
+
+  filter(status: any, params: any, id: any) {
+    return this.http.get(environment.apiUrl + 'filter/' + status + '/' + params + '/' + id)
+      .pipe(map(res => {
+        return res;
+      }))
+  }
 }

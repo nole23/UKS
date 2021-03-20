@@ -27,5 +27,6 @@ urlpatterns = [
     path('api/get-repositpry/<int:id>', views.getRepositoryById),
     path('api/add-issue', views.addIssue),
     path('api/issue/<int:id>', views.getIssueById),
-    path('api/add-issue-comment', views.saveCommentByIssue)
+    path('api/add-issue-comment', views.saveCommentByIssue),
+    path('api/filter/<str:status>/<str:params>/<int:id>', views.filters)
 ]
