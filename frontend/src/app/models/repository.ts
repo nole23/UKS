@@ -14,6 +14,7 @@ export class Project {
     type_project: Boolean;
     list_user: any;
     issue: any;
+    rootTree: RootTree;
 
     constructor(item: any) {
         if (item !== null) {
@@ -40,6 +41,10 @@ export class Project {
                     });
                 }
             }
+            if (item.rootTree !== undefined) {
+                this.rootTree = item.rootTree;
+            }
+
         }
     }
 }
@@ -84,6 +89,25 @@ export class List_Project_User {
         if (item !== null) {
             this.user = new User(item.user);
             this.role = new Role(item.role);
+        }
+    }
+}
+
+export class RootTree {
+    id: any;
+    name: String;
+    dateCreate: String;
+    children: any;
+
+    constructor(item: any) {
+        this.id = item.id;
+        this.name = item.name;
+        this.dateCreate = item.dateCreate;
+        this.children = [];
+        if (item.children !== undefined) {
+            item.children.forEach(element => {
+                this.children.push(new RootTree(element));
+            });
         }
     }
 }

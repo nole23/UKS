@@ -14,8 +14,10 @@ export class RepositoryComponent implements OnInit {
   viewId: String;
   repoId: any;
   issueId: any;
+  rootTree: any;
   constructor(private activatedRoute: ActivatedRoute, private repositoryService: RepositoryService) {
     this.list_project = null;
+    this.rootTree = null;
   }
 
   ngOnInit(): void {
@@ -36,8 +38,8 @@ export class RepositoryComponent implements OnInit {
   _getRepositpry(id: any) {
     this.repositoryService.getRepositoryById(id)
       .subscribe(res => {
-        
         this.list_project = new Project(res['project'])
+        this.rootTree = this.list_project.rootTree;
       })
   }
 

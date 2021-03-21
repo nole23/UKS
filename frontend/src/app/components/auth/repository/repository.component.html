@@ -3,8 +3,8 @@
         <app-repository-menu [list_project]="list_project" [viewId]="viewId"></app-repository-menu>
     </div>
     
-    <div class="body" *ngIf="viewId === 'c'">
-        <app-repository-code></app-repository-code>
+    <div class="body" *ngIf="viewId === 'c' && rootTree !== null">
+        <app-repository-code [list_project]="list_project" [rootTree]="rootTree"></app-repository-code>
     </div>
 
     <div class="body" *ngIf="viewId === 'i' && list_project !== null">

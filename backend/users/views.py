@@ -5,7 +5,7 @@ from datetime import datetime
 from django.core import serializers
 import jwt
 import json
-from users.models import User, Role, List_Project_User, Project, Issue, Issue_Comment
+from users.models import User, Role, List_Project_User, Project, Issue, Issue_Comment, Root_Tree_Project
 
 JWT_SECRET = 'secret'
 JWT_ALGORITHM = 'HS256'
@@ -76,7 +76,10 @@ def repository(request):
 
         user = User.objects.get(email=u)
 
-        project = Project(name=body['name'], description=body['description'], date_create=datetime.now(), type_project=body['type_project'])
+        root_tree = Root_Tree_Project(name=body['name'], date_create=datetime.now())
+        root_tree.save()
+
+        project = Project(name=body['name'], description=body['description'], date_create=datetime.now(), type_project=body['type_project'], root_tree_project=root_tree)
         project.save()
 
         role = Role.objects.get(id=1)
@@ -84,7 +87,7 @@ def repository(request):
         list_project_user = List_Project_User(project=project, user=user, role=role)
         list_project_user.save()
 
-        x = '{ "status":"SUCCESS", "project": {"id":"' + str(project.id) + '", "name":"' + project.name + '", "description":"' + project.description + '", "type_project":"' + str(project.type_project) + '"} }'
+        x = '{ "status":"SUCCESS", "project": {"id":"' + str(project.id) + '", "name":"' + project.name + '", "description":"' + project.description + '", "type_project":"' + str(project.type_project) + '", "rootTree":{"id":"' + str(root_tree.id) + '", "name":"' + str(root_tree.name) + '", "dateCreate":"' + str(root_tree.date_create) + '"}} }'
         y = json.loads(x)
         return JsonResponse(y)
 
@@ -123,6 +126,7 @@ def getRepositoryById(request, id):
         project = list_project[0].project
         issues = Issue.objects.filter(project=project.id)
         role = list_project[0].role
+        root_tree = project.root_tree_project
 
         end_issue = len(issues)
         count_issye = 0
@@ -159,6 +163,7 @@ def getRepositoryById(request, id):
 
         data = '{ "project": {"id":"' + str(project.id) + '", "name":"' + str(project.name) + '", "description":"' + str(project.description) + '", "date_create":"' + str(project.date_create) + '",'
         data += '"date_close":"' + str(project.date_close) + '", "type_project":"' + str(project.type_project) + '", "issue": ' + dataIssue + ', '
+        data += '"rootTree":{"id":"' + str(root_tree.id) + '", "name":"' + str(root_tree.name) + '", "dateCreate":"' + str(root_tree.date_create) + '"},'
         data += '"user":{"id":"' + str(user.id) + '","first_name":"' + str(user.first_name) + '", "last_name":"' + str(user.last_name) + '", "role":"' + str(role.role_name) + '"}, "list_project_user":' + lp + '' 
         data += '}}'
 
