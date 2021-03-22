@@ -28,5 +28,6 @@ urlpatterns = [
     path('api/add-issue', views.addIssue),
     path('api/issue/<int:id>', views.getIssueById),
     path('api/add-issue-comment', views.saveCommentByIssue),
-    path('api/filter/<str:status>/<str:params>/<int:id>', views.filters)
+    path('api/filter/<str:status>/<str:params>/<int:id>', views.filters),
+    path('api/delete-repository/<int:id>', views.deleteRepository)
 ]

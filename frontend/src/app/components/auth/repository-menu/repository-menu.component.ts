@@ -1,5 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { List_Project_User, Project } from 'src/app/models/repository';
+import { Project } from 'src/app/models/repository';
+import { RepositoryService } from 'src/app/services/repository.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-repository-menu',
@@ -11,9 +13,12 @@ export class RepositoryMenuComponent implements OnInit {
   @Input('viewId') viewId: String;
 
   listUser: any;
-  constructor() { }
+  constructor(private repositoryService: RepositoryService, private router: Router) {
+    this.listUser = null
+   }
 
   ngOnInit(): void {
+    this.listUser = this.list_project.list_user
   }
 
   ngOwn(list:any) {
@@ -26,8 +31,11 @@ export class RepositoryMenuComponent implements OnInit {
     return res;
   }
 
-  ngCloseProject(id: any) {
+  ngDeleteProject(id: any) {
     console.log(id)
-    console.log('ovo treba srediti')
+    this.repositoryService.deleteRepository(id)
+      .subscribe(res=>{
+        this.router.navigate(['/home'])
+      })
   }
 }

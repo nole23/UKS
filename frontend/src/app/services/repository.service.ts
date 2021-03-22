@@ -69,4 +69,11 @@ export class RepositoryService {
         return res;
       }))
   }
+
+  deleteRepository(id: any){
+    return this.http.delete(environment.apiUrl + 'delete-repository/' + id, { })
+      .pipe(map(res => {
+        return res;
+      }))
+  }
 }

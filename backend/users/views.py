@@ -264,8 +264,15 @@ def filters(request, status, params, id):
         x = '{ "status":"SUCCESS", "data":'+ data + ' }'
         y = json.loads(x)
         return JsonResponse(y)
-            
 
+   
+@csrf_exempt
+def deleteRepository(request, id):
+    if request.method == "DELETE":
+        repo = Project.objects.get(id=id).delete()
 
+        x = '{ "status":"SUCCESS" }'
+        y = json.loads(x)
+        return JsonResponse(y)
 
 
