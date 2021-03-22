@@ -1,0 +1,53 @@
+
+<div class="w-100 float-left border-bottom" >
+    <div class="float-left w-25 h-100 pt-4">
+        <img src="../../../../assets/picture/repo.png" alt="" width="30px" height="30px"> <a [routerLink]="['/home']" class="own"> {{ngOwn(list_project.list_user)}}</a> / <a [routerLink]="['/repo/' + list_project.id + '/c']" class="repo">{{list_project.name}}</a>
+    </div>
+
+    <div class="float-right w-30 h-100 pt-4" >
+        <nav class="navbar navbar-expand-sm">
+            
+            <ul class="navbar-nav">
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
+                        Saradnici
+                    </a>
+                    <div class="dropdown-menu" *ngFor="let item of list_project.list_user">
+                        <a class="dropdown-item" [routerLink]="['/user/' + item.user.id]">{{item.user.firstName + ' ' + item.user.lastName}}</a>
+                    </div>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" >{{list_project.date_create}}</a>
+                </li>
+                <li class="">
+                    <a class="nav-link cursor-pointer" (click)="ngCloseProject(list_project.id)">Zatvorite projekat</a>
+                </li>
+            </ul>
+
+        </nav>
+    </div>
+
+    <div class="w-100 h-100 float-left">
+        <nav class="navbar navbar-expand-sm">
+            
+            <ul class="navbar-nav">
+                <li class="hover-red" [ngClass]="viewId === 'c' ? 'hover-red-hover' : ''">
+                    <a class="nav-link link" [routerLink]="['/repo/' + list_project.id + '/c']"> <img src="../../../../assets/picture/code.png" alt=""> <span> Kod</span></a>
+                </li>
+                <li class="hover-red" [ngClass]="viewId === 'i' ? 'hover-red-hover' : ''">
+                    <a class="nav-link link" [routerLink]="['/repo/' + list_project.id + '/i']"> <img src="../../../../assets/picture/issue.png" alt=""> <span> Issues </span></a>
+                </li>
+                <li class="hover-red" [ngClass]="viewId === 'a' ? 'hover-red-hover' : ''">
+                    <a class="nav-link link" [routerLink]="['/repo/' + list_project.id + '/a']"> <img src="../../../../assets/picture/play.png" alt=""> <span> Sve akcije </span></a>
+                </li>
+                <li class="hover-red" [ngClass]="viewId === 's' ? 'hover-red-hover' : ''">
+                    <a class="nav-link link" [routerLink]="['/repo/' + list_project.id + '/s']"> <img src="../../../../assets/picture/dash.png" alt=""> <span> Statistika </span></a>
+                </li>
+                <li class="hover-red" [ngClass]="viewId === 'setting' ? 'hover-red-hover' : ''">
+                    <a class="nav-link link" [routerLink]="['/repo/' + list_project.id + '/setting']"> <img src="../../../../assets/picture/settings.png" alt=""> <span> Podesavanja </span></a>
+                </li>
+            </ul>
+        
+        </nav>
+    </div>
+</div>

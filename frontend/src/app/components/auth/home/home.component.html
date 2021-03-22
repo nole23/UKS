@@ -1,3 +1,5 @@
 <app-add-repository></app-add-repository>
 
-<app-generig-table></app-generig-table>
+<div *ngIf="settings !== null">
+    <app-generig-table [settings]="settings"></app-generig-table>
+</div>

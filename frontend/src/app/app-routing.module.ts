@@ -7,6 +7,7 @@ import { ErrorComponent } from './components/error/error.component';
 import { LoginComponent } from './components/not-auth/login/login.component';
 import { HomeComponent } from './components/auth/home/home.component';
 import { NewComponent } from './components/auth/new/new.component';
+import { RepositoryComponent } from './components/auth/repository/repository.component';
 
 const routes: Routes = [
   { path: '', component: IndexComponent },
@@ -14,7 +15,9 @@ const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'home', component: HomeComponent },
   { path: 'new', component: NewComponent },
-  { path: 'repo/:id', component: ErrorComponent }
+  { path: 'repo/:id/:type', component: RepositoryComponent },
+  { path: 'repo/:id/:type/:idIssue', component: RepositoryComponent },
+  { path: 'user/:id', component: ErrorComponent }
 ];
 
 @NgModule({

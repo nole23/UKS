@@ -18,3 +18,17 @@ export class UserRegistration {
         return firstPass === seccondPass;
     }
 }
+
+export class User {
+  id: any;
+  firstName: String;
+  lastName: String;
+  username: String;
+
+  constructor(item: any) {
+    this.id = item.id;
+    this.firstName = item.firstName;
+    this.lastName = item.lastName;
+    this.username = item.username;
+  }
+}

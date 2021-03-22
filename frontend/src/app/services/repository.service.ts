@@ -17,4 +17,56 @@ export class RepositoryService {
         return res;
       }))
   }
+
+  getAllRepository() {
+    return this.http.get(environment.apiUrl + 'get-all-repository')
+      .pipe(map(res => {
+        return res;
+      }))
+  }
+
+  getAllIssuesByRepository(id: any) {
+    // return this.http.get(environment.apiUrl + 'get-all-issues/' + id)
+    //   .pipe(map(res => {
+    //     return res;
+    //   }))
+  }
+
+  getRepositoryById(id: any) {
+    return this.http.get(environment.apiUrl + 'get-repositpry/' + id)
+      .pipe(map(res => {
+        if (res['status'] === 'SUCCESS') {
+          return res['data']
+        }
+        return {};
+      }))
+  }
+
+  saveIssue(item: any) {
+     return this.http.post(environment.apiUrl + 'add-issue', item)
+      .pipe(map(res => {
+        return res;
+      }))
+  }
+
+  getIssueById(id: any) {
+    return this.http.get(environment.apiUrl + 'issue/' + id)
+      .pipe(map(res => {
+        return res
+      }))
+  }
+
+  saveComment(item: any) {
+    return this.http.post(environment.apiUrl + 'add-issue-comment', item)
+     .pipe(map(res => {
+       return res;
+     }))
+  }
+
+  filter(status: any, params: any, id: any) {
+    return this.http.get(environment.apiUrl + 'filter/' + status + '/' + params + '/' + id)
+      .pipe(map(res => {
+        return res;
+      }))
+  }
 }

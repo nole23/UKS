@@ -1,1 +1,49 @@
-<p>generig-table works!</p>
+<div class="container" style="padding: 0;" *ngIf="options !== null">
+    <h1 *ngIf="options.h1 !== null">{{options.h1}}</h1>
+    <h2 *ngIf="options.h2 !== null">{{options.h2}}</h2>
+    <h3 *ngIf="options.h3 !== null">{{options.h3}}</h3>
+    <h4 *ngIf="options.h4 !== null">{{options.h4}}</h4>
+    <p *ngIf="options.p !== null">{{options.p}}</p>            
+    <table [ngClass]="options.table.class">
+      <thead 
+        *ngIf="options.table.thead !== null" 
+        [ngClass]="options.table.thead.class" 
+        [ngStyle]="options.table.thead.style">
+        <tr
+          [ngClass]="options.table.thead.tr.class" 
+          [ngStyle]="options.table.thead.tr.style">
+          <th 
+            *ngFor="let item of options.table.thead.tr.th"
+            [ngClass]="item.class" 
+            [ngStyle]="item.style">
+            {{item.name}}
+          </th>
+        </tr>
+      </thead>
+      <tbody
+        *ngIf="options.table.tbody !== null"
+        [ngClass]="options.table.tbody.class" 
+        [ngStyle]="options.table.tbody.style">
+        <tr
+          *ngFor="let item of options.table.tbody.tr; let i = index"
+          [ngClass]="item.class" 
+          [ngStyle]="item.style">
+          <td class="w-5">{{i+1}}</td>
+            <td [ngClass]="ngSetClass(item.td.length)" *ngFor="let i of item.td">
+              <div
+                *ngIf="i.link !== null"
+                [ngClass]="i.class" 
+                [ngStyle]="i.style"
+                [routerLink]="[i.link]"
+                [innerHTML]="i.name"></div>
+              
+              <div
+                *ngIf="i.link === null"
+                [ngClass]="i.class" 
+                [ngStyle]="i.style"
+                [innerHTML]="i.name"></div>
+            </td>
+        </tr>
+      </tbody>
+    </table>
+</div>

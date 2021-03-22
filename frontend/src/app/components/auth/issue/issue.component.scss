@@ -1,0 +1,36 @@
+.lightColor {
+    color: 	#808080;
+}
+
+.w-40p {
+    width:167px;
+}
+
+.delete {
+    display:none;
+}
+
+.deleteHover {
+    cursor: pointer;
+}
+
+.deleteHover:hover .delete {
+    display:inline;
+}
+
+.delete:hover {
+    color:red;
+}
+
+.h-40 {
+    height: 40px;
+}
+
+.hm-40 {
+    min-height: 40px;
+}
+
+.h-150 {
+    min-height: 150px;
+}
+

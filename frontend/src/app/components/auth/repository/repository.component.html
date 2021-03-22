@@ -1,0 +1,29 @@
+<div class="container vh-100">
+    <div class="header" *ngIf="list_project !== null">
+        <app-repository-menu [list_project]="list_project" [viewId]="viewId"></app-repository-menu>
+    </div>
+    
+    <div class="body" *ngIf="viewId === 'c' && rootTree !== null">
+        <app-repository-code [list_project]="list_project" [rootTree]="rootTree"></app-repository-code>
+    </div>
+
+    <div class="body" *ngIf="viewId === 'i' && list_project !== null">
+        <app-repository-issues [list_project]="list_project" [id]="repoId"></app-repository-issues>
+    </div>
+
+    <div class="body" *ngIf="viewId === 'a'">
+        <app-repository-action></app-repository-action>
+    </div>
+
+    <div class="body" *ngIf="viewId === 's'">
+        <app-repository-statistic></app-repository-statistic>
+    </div>
+
+    <div class="body" *ngIf="viewId === 'setting'">
+        <app-repository-setting></app-repository-setting>
+    </div>
+
+    <div class="body" *ngIf="viewId === 'issue'">
+        <app-issue [issueId]="issueId" [repoId]="repoId"></app-issue>
+    </div>
+</div>

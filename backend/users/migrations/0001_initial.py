@@ -2,6 +2,8 @@
 
 from django.db import migrations, models
 import django.db.models.deletion
+from binaryfield import BinaryField
+
 
 
 class Migration(migrations.Migration):
@@ -12,24 +14,6 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.CreateModel(
-            name='Project',
-            fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(max_length=30)),
-                ('description', models.CharField(max_length=150)),
-                ('date_create', models.DateTimeField(null=True, blank=True)),
-                ('date_close', models.DateTimeField(null=True, blank=True)),
-                ('type_project', models.BooleanField(default=True)),
-            ],
-        ),
-        migrations.CreateModel(
-            name='Role',
-            fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('role_name', models.CharField(choices=[('O', 'Owner'), ('C', 'Collaborator'), ('V', 'Visitor')], max_length=1)),
-            ],
-        ),
         migrations.CreateModel(
             name='User',
             fields=[
@@ -42,10 +26,57 @@ class Migration(migrations.Migration):
             ],
         ),
         migrations.CreateModel(
+            name='Root_Tree_Project',
+            fields=[
+                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('name', models.CharField(max_length=30)),
+                ('date_create', models.DateTimeField(null=True, blank=True)),
+            ]
+        ),
+        migrations.CreateModel(
+            name='Files',
+            fields=[
+                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('name', models.CharField(max_length=100)),
+                ('data', BinaryField()),
+                ('user', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='users.user')),
+            ]
+        ),
+        migrations.CreateModel(
+            name='Tree_List',
+            fields=[
+                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('id_root', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, null=True, to='users.root_tree_project')),
+                ('id_files', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='users.files')),
+                ('id_children', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, null=True, to='users.root_tree_project')),
+            ]
+        ),
+        migrations.CreateModel(
+            name='Project',
+            fields=[
+                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('name', models.CharField(max_length=30)),
+                ('description', models.CharField(max_length=150)),
+                ('date_create', models.DateTimeField(null=True, blank=True)),
+                ('date_close', models.DateTimeField(null=True, blank=True)),
+                ('type_project', models.BooleanField(default=True)),
+                ('root_tree_project', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='users.root_tree_project'))
+            ],
+        ),
+        migrations.CreateModel(
+            name='Role',
+            fields=[
+                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('role_name', models.CharField(choices=[('O', 'Owner'), ('C', 'Collaborator'), ('V', 'Visitor')], max_length=1)),
+            ],
+        ),
+        migrations.CreateModel(
             name='Issue',
             fields=[
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('name', models.CharField(max_length=30)),
+                ('description', models.CharField(max_length=150)),
+                ('status', models.BooleanField(default=True)),
                 ('project', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='users.project')),
                 ('user', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='users.user')),
             ],

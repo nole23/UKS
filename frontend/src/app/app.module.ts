@@ -15,6 +15,15 @@ import { HomeComponent } from './components/auth/home/home.component';
 import { GenerigTableComponent } from './components/auth/generig-table/generig-table.component';
 import { AddRepositoryComponent } from './components/auth/add-repository/add-repository.component';
 import { NewComponent } from './components/auth/new/new.component';
+import { RepositoryComponent } from './components/auth/repository/repository.component';
+import { RepositoryMenuComponent } from './components/auth/repository-menu/repository-menu.component';
+import { RepositoryCodeComponent } from './components/auth/repository-code/repository-code.component';
+import { RepositoryIssuesComponent } from './components/auth/repository-issues/repository-issues.component';
+import { RepositoryActionComponent } from './components/auth/repository-action/repository-action.component';
+import { RepositoryStatisticComponent } from './components/auth/repository-statistic/repository-statistic.component';
+import { RepositorySettingComponent } from './components/auth/repository-setting/repository-setting.component';
+import { AddIssueComponent } from './components/auth/add-issue/add-issue.component';
+import { IssueComponent } from './components/auth/issue/issue.component';
 
 @NgModule({
   declarations: [
@@ -27,7 +36,16 @@ import { NewComponent } from './components/auth/new/new.component';
     HomeComponent,
     GenerigTableComponent,
     AddRepositoryComponent,
-    NewComponent
+    NewComponent,
+    RepositoryComponent,
+    RepositoryMenuComponent,
+    RepositoryCodeComponent,
+    RepositoryIssuesComponent,
+    RepositoryActionComponent,
+    RepositoryStatisticComponent,
+    RepositorySettingComponent,
+    AddIssueComponent,
+    IssueComponent
   ],
   imports: [
     BrowserModule,
