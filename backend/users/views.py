@@ -119,6 +119,7 @@ def getAllrepository(request):
 
 @csrf_exempt
 def getRepositoryById(request, id):
+    print(request.headers['Authorization'])
     if request.method == "GET":
         list_project = List_Project_User.objects.filter(project_id=id)
 
