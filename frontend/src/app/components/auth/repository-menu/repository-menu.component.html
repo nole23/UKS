@@ -1,26 +1,30 @@
-
 <div class="w-100 float-left border-bottom">
     <div class="float-left w-25 h-100 pt-4 mt-3">
-        <span><i class="fa fa-cloud color-blue" aria-hidden="true"></i> <a [routerLink]="['/home']" class="own"> {{ngOwn(list_project.list_user)}}</a> / <a [routerLink]="['/repo/' + list_project.id + '/c']" class="repo">{{list_project.name}}</a> </span>
+        <span><i class="fa fa-cloud color-blue" aria-hidden="true"></i> <a [routerLink]="['/home']" class="own">
+                {{ngOwn(list_project.list_user)}}</a> / <a [routerLink]="['/repo/' + list_project.id + '/c']"
+                class="repo">{{list_project.name}}</a> </span>
     </div>
 
-    <div class="float-right w-33 h-100 pt-4" >
+    <div class="float-right w-33 h-100 pt-4">
         <nav class="navbar navbar-expand-sm">
-            
+
             <ul class="navbar-nav">
                 <li class="nav-item mt-1">
-                    <a class="nav-link" >{{list_project.date_create | date: 'dd.MM.yyyy.'}}</a>
+                    <a class="nav-link">{{list_project.date_create | date: 'dd.MM.yyyy.'}}</a>
                 </li>
                 <li class="nav-item dropdown mr-2">
-                    <a class="nav-link dropdown-toggle btn" href="#" id="navbardrop" data-toggle="dropdown">Contributors</a>
+                    <a class="nav-link dropdown-toggle btn" href="#" id="navbardrop"
+                        data-toggle="dropdown">Contributors</a>
                     <div class="dropdown-menu" *ngIf="listUser !== null">
                         <div *ngFor="let item of listUser">
-                            <a class="dropdown-item" [routerLink]="['/user/' + item.user.id]">{{item.user.firstName + ' ' + item.user.lastName}}</a>
+                            <a class="dropdown-item" [routerLink]="['/user/' + item.user.id]">{{item.user.firstName + '
+                                ' + item.user.lastName}}</a>
                         </div>
                     </div>
                 </li>
                 <li class="">
-                    <button type="button" class="btn btn-danger h-100 border-radius-10" data-toggle="modal" data-target="#myModal"> <i class="fa fa-trash-o" aria-hidden="true"></i> Delete project</button>
+                    <button type="button" class="btn btn-danger h-100 border-radius-10" data-toggle="modal"
+                        data-target="#myModal"> <i class="fa fa-trash-o" aria-hidden="true"></i> Delete project</button>
                 </li>
             </ul>
 
@@ -29,25 +33,35 @@
 
     <div class="w-100 h-100 float-left">
         <nav class="navbar navbar-expand-sm">
-            
+
             <ul class="navbar-nav">
                 <li class="hover-red" [ngClass]="viewId === 'c' ? 'hover-red-hover' : ''">
-                    <a class="nav-link link" [routerLink]="['/repo/' + list_project.id + '/c']"> <span> <i class="fa fa-code" aria-hidden="true"></i> Code </span></a>
+                    <a class="nav-link link" [routerLink]="['/repo/' + list_project.id + '/c']"
+                        (click)="reload(list_project.id, 'c')"> <span> <i class="fa fa-code" aria-hidden="true"></i>
+                            Code </span></a>
                 </li>
                 <li class="hover-red" [ngClass]="viewId === 'i' ? 'hover-red-hover' : ''">
-                    <a class="nav-link link" [routerLink]="['/repo/' + list_project.id + '/i']"> <span> <i class="fa fa-exclamation-circle" aria-hidden="true"></i> Issues </span></a>
+                    <a class="nav-link link" [routerLink]="['/repo/' + list_project.id + '/i']"
+                        (click)="reload(list_project.id, 'i')"> <span> <i class="fa fa-exclamation-circle"
+                                aria-hidden="true"></i> Issues </span></a>
                 </li>
                 <li class="hover-red" [ngClass]="viewId === 'a' ? 'hover-red-hover' : ''">
-                    <a class="nav-link link" [routerLink]="['/repo/' + list_project.id + '/a']"> <span> <i class="fa fa-play-circle-o" aria-hidden="true"></i> Actions </span></a>
+                    <a class="nav-link link" [routerLink]="['/repo/' + list_project.id + '/a']"
+                        (click)="reload(list_project.id, 'a')"> <span> <i class="fa fa-play-circle-o"
+                                aria-hidden="true"></i> Actions </span></a>
                 </li>
                 <li class="hover-red" [ngClass]="viewId === 's' ? 'hover-red-hover' : ''">
-                    <a class="nav-link link" [routerLink]="['/repo/' + list_project.id + '/s']"> <span> <i class="fa fa-line-chart" aria-hidden="true"></i> Statistics </span></a>
+                    <a class="nav-link link" [routerLink]="['/repo/' + list_project.id + '/s']"
+                        (click)="reload(list_project.id, 's')"> <span> <i class="fa fa-line-chart"
+                                aria-hidden="true"></i> Statistics </span></a>
                 </li>
                 <li class="hover-red" [ngClass]="viewId === 'setting' ? 'hover-red-hover' : ''">
-                    <a class="nav-link link" [routerLink]="['/repo/' + list_project.id + '/setting']"> <span> <i class="fa fa-cog" aria-hidden="true"></i> Project options </span></a>
+                    <a class="nav-link link" [routerLink]="['/repo/' + list_project.id + '/setting']"
+                        (click)="reload(list_project.id, 'settings')"> <span> <i class="fa fa-cog"
+                                aria-hidden="true"></i> Project options </span></a>
                 </li>
             </ul>
-        
+
         </nav>
     </div>
 </div>
@@ -55,21 +69,23 @@
 <!-- The Modal for delete project -->
 <div class="modal" id="myModal">
     <div class="modal-dialog">
-      <div class="modal-content">
-  
-        <!-- Modal Header -->
-        <div class="modal-header">
-          <h4 class="modal-title">Do you want to delete this project?</h4>
-          <button type="button" class="close" data-dismiss="modal">&times;</button>
-        </div>
-  
+        <div class="modal-content">
 
-  
-        <!-- Modal footer -->
-        <div class="modal-footer">
-          <button type="button" class="btn btn-danger" data-dismiss="modal" (click)="ngDeleteProject(list_project.id)">Yes</button> <button type="button" class="btn btn-light" data-dismiss="modal">No</button>
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title">Do you want to delete this project?</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+
+
+
+            <!-- Modal footer -->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal"
+                    (click)="ngDeleteProject(list_project.id)">Yes</button> <button type="button" class="btn btn-light"
+                    data-dismiss="modal">No</button>
+            </div>
+
         </div>
-  
-      </div>
     </div>
-  </div>
+</div>

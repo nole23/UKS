@@ -13,15 +13,17 @@ export class RepositoryMenuComponent implements OnInit {
   @Input('viewId') viewId: String;
 
   listUser: any;
+  count: number;
   constructor(private repositoryService: RepositoryService, private router: Router) {
     this.listUser = null
-   }
+    this.count = 2;
+  }
 
   ngOnInit(): void {
     this.listUser = this.list_project.list_user
   }
 
-  ngOwn(list:any) {
+  ngOwn(list: any) {
     let res = ''
     list.forEach(element => {
       if (element.role.name === 'O') {
@@ -34,8 +36,16 @@ export class RepositoryMenuComponent implements OnInit {
   ngDeleteProject(id: any) {
     console.log(id)
     this.repositoryService.deleteRepository(id)
-      .subscribe(res=>{
+      .subscribe(res => {
         this.router.navigate(['/home'])
       })
+  }
+
+  reload(id: any, tab: any) {
+    if (tab === this.viewId) {
+      let link = '/repo/' + id + '/' + tab
+      this.router.navigate(['/#'], { skipLocationChange: true })
+        .then(() => { this.router.navigate([link]); });
+    }
   }
 }

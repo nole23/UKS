@@ -5,13 +5,14 @@ from datetime import datetime
 from django.core import serializers
 import jwt
 import json
-from users.models import User, Role, List_Project_User, Project, Issue, Issue_Comment, Root_Tree_Project
+from users.models import User, Role, List_Project_User, Project, Issue, Issue_Comment, Root_Tree_Project, Files, Tree_List
 
 JWT_SECRET = 'secret'
 JWT_ALGORITHM = 'HS256'
 JWT_EXP_DELTA_SECONDS = 3600
 
 u = 'a@gmail.com'
+
 
 def index(request):
     role1 = Role(role_name="O")
@@ -26,6 +27,7 @@ def index(request):
     y = json.loads(x)
     return JsonResponse(y)
 
+
 @csrf_exempt
 def registration(request):
     if request.method == "POST":
@@ -34,13 +36,15 @@ def registration(request):
 
         username = body['email'].split('@')
         username = username[0]
-        
-        p = User(first_name=body['firstName'], last_name=body['lastName'], email=body['email'], username=username, password=body['password'])
+
+        p = User(first_name=body['firstName'], last_name=body['lastName'],
+                 email=body['email'], username=username, password=body['password'])
         p.save()
 
         x = '{ "status":"SUCCESS" }'
         y = json.loads(x)
         return JsonResponse(y)
+
 
 @csrf_exempt
 def login(request):
@@ -64,9 +68,11 @@ def login(request):
         }
         jwt_token = jwt.encode(payload, JWT_SECRET, JWT_ALGORITHM)
 
-        x ='{ "status":true, "user":{"firstName":"' + user.first_name + '", "lastName":"' + user.last_name + '"}, "jwt":"' + jwt_token + '"}'   
+        x = '{ "status":true, "user":{"firstName":"' + user.first_name + \
+            '", "lastName":"' + user.last_name + '"}, "jwt":"' + jwt_token + '"}'
         y = json.loads(x)
         return JsonResponse(y)
+
 
 @csrf_exempt
 def repository(request):
@@ -76,20 +82,25 @@ def repository(request):
 
         user = User.objects.get(email=u)
 
-        root_tree = Root_Tree_Project(name=body['name'], date_create=datetime.now())
+        root_tree = Root_Tree_Project(
+            name=body['name'], date_create=datetime.now())
         root_tree.save()
 
-        project = Project(name=body['name'], description=body['description'], date_create=datetime.now(), type_project=body['type_project'], root_tree_project=root_tree)
+        project = Project(name=body['name'], description=body['description'], date_create=datetime.now(
+        ), type_project=body['type_project'], root_tree_project=root_tree)
         project.save()
 
         role = Role.objects.get(id=1)
 
-        list_project_user = List_Project_User(project=project, user=user, role=role)
+        list_project_user = List_Project_User(
+            project=project, user=user, role=role)
         list_project_user.save()
 
-        x = '{ "status":"SUCCESS", "project": {"id":"' + str(project.id) + '", "name":"' + project.name + '", "description":"' + project.description + '", "type_project":"' + str(project.type_project) + '", "rootTree":{"id":"' + str(root_tree.id) + '", "name":"' + str(root_tree.name) + '", "dateCreate":"' + str(root_tree.date_create) + '"}} }'
+        x = '{ "status":"SUCCESS", "project": {"id":"' + str(project.id) + '", "name":"' + project.name + '", "description":"' + project.description + '", "type_project":"' + str(
+            project.type_project) + '", "rootTree":{"id":"' + str(root_tree.id) + '", "name":"' + str(root_tree.name) + '", "dateCreate":"' + str(root_tree.date_create) + '"}} }'
         y = json.loads(x)
         return JsonResponse(y)
+
 
 @csrf_exempt
 def getAllrepository(request):
@@ -106,7 +117,9 @@ def getAllrepository(request):
             test = "false"
             if each.user.email == u and each.role.role_name == "O":
                 test = "true"
-            pp += '{ "id":"' + str(each.project.id) + '", "name":"' + each.project.name + '","owner":{"isOwner":"' + test + '","name":"'+each.user.first_name + ' ' + each.user.last_name + '", "username":"'+ each.user.username + '" } }'
+            pp += '{ "id":"' + str(each.project.id) + '", "name":"' + each.project.name + '","owner":{"isOwner":"' + test + \
+                '","name":"'+each.user.first_name + ' ' + each.user.last_name + \
+                '", "username":"' + each.user.username + '" } }'
             count = count + 1
             if count < end:
                 pp += ','
@@ -116,6 +129,7 @@ def getAllrepository(request):
         x = '{ "status":"SUCCESS", "data":' + pp + '}'
         y = json.loads(x)
         return JsonResponse(y)
+
 
 @csrf_exempt
 def getRepositoryById(request, id):
@@ -139,39 +153,49 @@ def getRepositoryById(request, id):
             count_comment = 0
             dataComment = '['
             for ieach in issue_comment:
-                dataComment += '{"id":"' + str(ieach.id) + '", "comment":"' + str(ieach.comment) + '", "user":{"id":"' + str(ieach.user.id) + '", "firstName":"' + ieach.user.first_name + '", "lastName":"' + ieach.user.last_name + '", "username": "' + ieach.user.username + '"}}'
+                dataComment += '{"id":"' + str(ieach.id) + '", "comment":"' + str(ieach.comment) + '", "user":{"id":"' + str(
+                    ieach.user.id) + '", "firstName":"' + ieach.user.first_name + '", "lastName":"' + ieach.user.last_name + '", "username": "' + ieach.user.username + '"}}'
                 count_comment = count_comment + 1
                 if count_comment < end_comment:
                     dataComment += ','
             dataComment += ']'
 
-            dataIssue += '{"id":"' + str(each.id) + '", "name":"' + each.name + '", "description":"' + each.description + '", "status":"' + str(each.status) + '", "user":{"id":"' + str(each.user.id) + '", "firstName":"' + each.user.first_name + '", "lastName":"' + each.user.last_name + '", "username": "' + each.user.username + '"}, "issue_comment": ' + dataComment + '}'
+            dataIssue += '{"id":"' + str(each.id) + '", "name":"' + each.name + '", "description":"' + each.description + '", "status":"' + str(each.status) + '", "user":{"id":"' + str(
+                each.user.id) + '", "firstName":"' + each.user.first_name + '", "lastName":"' + each.user.last_name + '", "username": "' + each.user.username + '"}, "issue_comment": ' + dataComment + '}'
             count_issye = count_issye + 1
             if count_issye < end_issue:
-                dataIssue += ','            
+                dataIssue += ','
         dataIssue += ']'
 
         end_list_project = len(list_project)
         count_list_project = 0
         lp = '['
         for each in list_project:
-            lp += '{"user": {"id":"' + str(each.user.id) + '", "firstName":"' + str(each.user.first_name) + '", "lastName":"' + str(each.user.last_name) + '", "username":"' + str(each.user.username) + '"},'
+            lp += '{"user": {"id":"' + str(each.user.id) + '", "firstName":"' + str(each.user.first_name) + \
+                '", "lastName":"' + \
+                str(each.user.last_name) + '", "username":"' + \
+                str(each.user.username) + '"},'
             lp += '"role": {"name":"' + str(each.role.role_name) + '"}}'
             count_list_project = count_list_project + 1
             if count_list_project < end_list_project:
                 lp += ','
         lp += ']'
 
-        data = '{ "project": {"id":"' + str(project.id) + '", "name":"' + str(project.name) + '", "description":"' + str(project.description) + '", "date_create":"' + str(project.date_create) + '",'
-        data += '"date_close":"' + str(project.date_close) + '", "type_project":"' + str(project.type_project) + '", "issue": ' + dataIssue + ', '
-        data += '"rootTree":{"id":"' + str(root_tree.id) + '", "name":"' + str(root_tree.name) + '", "dateCreate":"' + str(root_tree.date_create) + '"},'
-        data += '"user":{"id":"' + str(user.id) + '","first_name":"' + str(user.first_name) + '", "last_name":"' + str(user.last_name) + '", "role":"' + str(role.role_name) + '"}, "list_project_user":' + lp + '' 
+        data = '{ "project": {"id":"' + str(project.id) + '", "name":"' + str(project.name) + '", "description":"' + str(
+            project.description) + '", "date_create":"' + str(project.date_create) + '",'
+        data += '"date_close":"' + str(project.date_close) + '", "type_project":"' + str(
+            project.type_project) + '", "issue": ' + dataIssue + ', '
+        data += '"rootTree":{"id":"' + str(root_tree.id) + '", "name":"' + str(
+            root_tree.name) + '", "dateCreate":"' + str(root_tree.date_create) + '"},'
+        data += '"user":{"id":"' + str(user.id) + '","first_name":"' + str(user.first_name) + '", "last_name":"' + str(
+            user.last_name) + '", "role":"' + str(role.role_name) + '"}, "list_project_user":' + lp + ''
         data += '}}'
 
         x = '{ "status":"SUCCESS", "data":' + data + '}'
 
         y = json.loads(x)
         return JsonResponse(y)
+
 
 @csrf_exempt
 def addIssue(request):
@@ -182,11 +206,14 @@ def addIssue(request):
         project = Project.objects.get(id=body['id'])
         user = User.objects.get(id=1)
 
-        issue = Issue(name=body['name'], description=body['description'], project=project, user=user)
+        issue = Issue(
+            name=body['name'], description=body['description'], project=project, user=user)
         issue.save()
 
-        data = '{"id":"' + str(issue.id) + '", "name":"' + issue.name + '", "description":"' + str(issue.description) + '", "user":{"id":"' + str(issue.user.id) + '", "firstName":"' + str(issue.user.first_name) + '", "lastName":"' + str(issue.user.last_name) + '", "username":"' + str(issue.user.username) + '"}}'
-        
+        data = '{"id":"' + str(issue.id) + '", "name":"' + issue.name + '", "description":"' + str(issue.description) + '", "user":{"id":"' + str(issue.user.id) + \
+            '", "firstName":"' + str(issue.user.first_name) + '", "lastName":"' + str(
+                issue.user.last_name) + '", "username":"' + str(issue.user.username) + '"}}'
+
         x = '{ "status":"SUCCESS", "issue": ' + data + ' }'
 
         y = json.loads(x)
@@ -200,20 +227,24 @@ def getIssueById(request, id):
 
         issue_comment = Issue_Comment.objects.filter(issue=issue.id)
 
-        userData = '{"id":"' + str(issue.user.id) + '", "firstName":"' + str(issue.user.first_name) + '", "lastName":"' + str(issue.user.last_name) + '"}'
+        userData = '{"id":"' + str(issue.user.id) + '", "firstName":"' + str(
+            issue.user.first_name) + '", "lastName":"' + str(issue.user.last_name) + '"}'
 
         commentsData = '['
         end = len(issue_comment)
         count = 0
         for each in issue_comment:
-            commentUser = '{"id":"' + str(each.user.id) + '", "firstName":"' + str(each.user.first_name) + '", "lastName":"' + str(each.user.last_name) + '"}'
-            commentsData += '{"id":"' + str(each.id) + '", "comment":"' + str(each.comment) + '", "user":' + commentUser + '}'
-            count = count +1
+            commentUser = '{"id":"' + str(each.user.id) + '", "firstName":"' + str(
+                each.user.first_name) + '", "lastName":"' + str(each.user.last_name) + '"}'
+            commentsData += '{"id":"' + str(each.id) + '", "comment":"' + str(
+                each.comment) + '", "user":' + commentUser + '}'
+            count = count + 1
             if count < end:
                 commentsData += ','
         commentsData += ']'
 
-        issue_data = '{"id":"' + str(issue.id) + '", "name":"' + str(issue.name) + '", "description":"' + str(issue.description) + '", "status":"' + str(issue.status) + '", "user":' + userData + ', "issueComment":' + commentsData + '}'
+        issue_data = '{"id":"' + str(issue.id) + '", "name":"' + str(issue.name) + '", "description":"' + str(
+            issue.description) + '", "status":"' + str(issue.status) + '", "user":' + userData + ', "issueComment":' + commentsData + '}'
 
         x = '{ "status":"SUCCESS", "issue": ' + issue_data + '}'
         y = json.loads(x)
@@ -229,15 +260,19 @@ def saveCommentByIssue(request):
         user = User.objects.get(email=u)
         issue = Issue.objects.get(pk=body['id'])
 
-        issueComment = Issue_Comment(comment=body['comment'], issue=issue, user=user)
+        issueComment = Issue_Comment(
+            comment=body['comment'], issue=issue, user=user)
         issueComment.save()
 
-        userData = '{"id":"' + str(user.id) + '", "firstName":"' + str(user.first_name) + '", "lastName":"' + str(user.last_name) + '"}'
-        data = '{"id":"' + str(issueComment.id) + '", "comment":"' + str(issueComment.comment) + '", "user":' + userData + '}'
+        userData = '{"id":"' + str(user.id) + '", "firstName":"' + str(
+            user.first_name) + '", "lastName":"' + str(user.last_name) + '"}'
+        data = '{"id":"' + str(issueComment.id) + '", "comment":"' + \
+            str(issueComment.comment) + '", "user":' + userData + '}'
 
-        x = '{ "status":"SUCCESS", "comment": '+ data + ' }'
+        x = '{ "status":"SUCCESS", "comment": ' + data + ' }'
         y = json.loads(x)
         return JsonResponse(y)
+
 
 @csrf_exempt
 def filters(request, status, params, id):
@@ -251,10 +286,11 @@ def filters(request, status, params, id):
             count_issye = 0
             dataIssue = '['
             for each in issues:
-                dataIssue += '{"id":"' + str(each.id) + '", "name":"' + each.name + '", "description":"' + each.description + '", "status":"' + str(each.status) + '", "user":{"id":"' + str(each.user.id) + '", "firstName":"' + each.user.first_name + '", "lastName":"' + each.user.last_name + '", "username": "' + each.user.username + '"} }'
+                dataIssue += '{"id":"' + str(each.id) + '", "name":"' + each.name + '", "description":"' + each.description + '", "status":"' + str(each.status) + '", "user":{"id":"' + str(
+                    each.user.id) + '", "firstName":"' + each.user.first_name + '", "lastName":"' + each.user.last_name + '", "username": "' + each.user.username + '"} }'
                 count_issye = count_issye + 1
                 if count_issye < end_issue:
-                    dataIssue += ','            
+                    dataIssue += ','
             dataIssue += ']'
 
             data = dataIssue
@@ -262,11 +298,11 @@ def filters(request, status, params, id):
         elif status == "author":
             pass
 
-        x = '{ "status":"SUCCESS", "data":'+ data + ' }'
+        x = '{ "status":"SUCCESS", "data":' + data + ' }'
         y = json.loads(x)
         return JsonResponse(y)
 
-   
+
 @csrf_exempt
 def deleteRepository(request, id):
     if request.method == "DELETE":
@@ -275,5 +311,3 @@ def deleteRepository(request, id):
         x = '{ "status":"SUCCESS" }'
         y = json.loads(x)
         return JsonResponse(y)
-
-

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import {  HttpClient } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { map } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 import { Repository } from 'src/app/models/repository';
@@ -43,7 +43,7 @@ export class RepositoryService {
   }
 
   saveIssue(item: any) {
-     return this.http.post(environment.apiUrl + 'add-issue', item)
+    return this.http.post(environment.apiUrl + 'add-issue', item)
       .pipe(map(res => {
         return res;
       }))
@@ -58,9 +58,9 @@ export class RepositoryService {
 
   saveComment(item: any) {
     return this.http.post(environment.apiUrl + 'add-issue-comment', item)
-     .pipe(map(res => {
-       return res;
-     }))
+      .pipe(map(res => {
+        return res;
+      }))
   }
 
   filter(status: any, params: any, id: any) {
@@ -70,8 +70,15 @@ export class RepositoryService {
       }))
   }
 
-  deleteRepository(id: any){
-    return this.http.delete(environment.apiUrl + 'delete-repository/' + id, { })
+  deleteRepository(id: any) {
+    return this.http.delete(environment.apiUrl + 'delete-repository/' + id, {})
+      .pipe(map(res => {
+        return res;
+      }))
+  }
+
+  saveFile(file: any) {
+    return this.http.post(environment.apiUrl + 'files', file)
       .pipe(map(res => {
         return res;
       }))

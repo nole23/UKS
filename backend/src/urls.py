@@ -16,6 +16,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from users import views
+from files import views as files
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -29,5 +30,6 @@ urlpatterns = [
     path('api/issue/<int:id>', views.getIssueById),
     path('api/add-issue-comment', views.saveCommentByIssue),
     path('api/filter/<str:status>/<str:params>/<int:id>', views.filters),
-    path('api/delete-repository/<int:id>', views.deleteRepository)
+    path('api/delete-repository/<int:id>', views.deleteRepository),
+    path('api/files', files.File.as_view())
 ]

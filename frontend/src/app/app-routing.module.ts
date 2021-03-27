@@ -11,6 +11,8 @@ import { LoginComponent } from './components/not-auth/login/login.component';
 import { HomeComponent } from './components/auth/home/home.component';
 import { NewComponent } from './components/auth/new/new.component';
 import { RepositoryComponent } from './components/auth/repository/repository.component';
+import { AddFilesComponent } from './components/auth/add-files/add-files.component';
+import { UploadFilesComponent } from './components/auth/upload-files/upload-files.component';
 
 const routes: Routes = [
   { path: '', component: IndexComponent, canActivate: [NotAuthNav] },
@@ -21,6 +23,8 @@ const routes: Routes = [
   { path: 'repo/:id/:type', component: RepositoryComponent, canActivate: [AuthNav] },
   { path: 'repo/:id/:type/:idIssue', component: RepositoryComponent, canActivate: [AuthNav] },
   { path: 'user/:id', component: ErrorComponent },
+  { path: 'add-files', component: AddFilesComponent },
+  { path: 'upload-files', component: UploadFilesComponent },
   { path: '', redirectTo: '', pathMatch: 'full' },
   { path: '**', component: ErrorComponent },
 ];

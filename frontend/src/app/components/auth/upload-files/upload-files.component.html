@@ -1,0 +1,31 @@
+<div class="container">
+    <div class="w-100 h-10 mt-3 float-left">
+        <div class="form-group w-100 float-left">
+            <span class="float-left font-20">{{list_project.name}} / </span>
+        </div>
+    </div>
+
+    <div class="float-left w-100 form-control mb-3" style="height: 40vh; position: relative;">
+        <input hidden type="file" id="files" #uploader (change)="uploadFile($event)" multiple>
+        <i class="fa fa-file-o fa-2x centered" style="top: 30%; transform: scale(1,1.1);" aria-hidden="true"></i>
+        <a class="a-link font-20 cursor centered" (click)="uploader.click()">Choose your files to add them to your
+            repository</a>
+    </div>
+
+    <div class="w-100 h-40p font-17 float-left border" *ngFor="let file of fileNames; let i = index">
+        <div class="float-left w-50 pl-3 pt-1 pr-1 pb-1">
+            <span><i class="fa fa-file-o mr-3" aria-hidden="true"></i>{{file.name}}</span>
+        </div>
+        <div class="float-right w-30"><button class="btn float-right delete-hover" (click)="delete(i)"><i
+                    class="fa fa-times" aria-hidden="true"></i></button></div>
+    </div>
+
+    <div style="clear: both;" class="w-100 mt-3 float-left mt-3 mb-3">
+        <div class="float-left w-70"></div>
+        <div class="float-right w-30">
+            <button class="btn btn-success border-radius-10 mr-3 w-70" (click)="upload()" [disabled]="ngIsNull()">Commit
+                changes</button><button (click)=" cancel()" class="btn btn-danger border-radius-10 w-25">Cancel</button>
+        </div>
+    </div>
+
+</div>

@@ -1,0 +1,30 @@
+<div class="container">
+    <div class="w-100 h-10 mt-3 float-left">
+        <div class="form-group w-100 float-left">
+            <span class="float-left font-20">{{list_project.name}} / </span>
+            <input class="form-control float-left ml-2" style="height:30px; width: fit-content;" type="text"
+                [(ngModel)]="name" placeholder="name your file...">
+            <button class="float-right btn btn-light border-radius-5 border-color" (click)="cancel()">Cancel
+                changes</button>
+        </div>
+    </div>
+
+    <div style="clear:both" class="w-100 mt-3 float-left border" style="height: auto;">
+        <div class="float-left w-100 h-40p color-background1">
+            <div class="float-left w-15 pt-2 pl-1 color-background-white">
+                <span class="bold font-15 color-text"><i class="fa fa-code" aria-hidden="true"></i> Edit new file</span>
+            </div>
+            <div class="float-right w-85"></div>
+        </div>
+        <div #topic contenteditable="true" class="float-left w-100 form-control" [textContent]="body"
+            (input)="body = topic.innerText" style="height: auto; min-height: calc(90vh - 40px);"></div>
+    </div>
+    <div style="clear: both;" class="w-100 mt-3 float-left mt-3 mb-3">
+        <div class="float-left w-70"></div>
+        <div class="float-right w-30">
+            <button (click)="createFile()" [disabled]="ngIsNull()"
+                class="btn btn-success border-radius-10 mr-3 w-70">Commit new
+                file</button><button (click)="cancel()" class="btn btn-danger border-radius-10 w-25">Cancel</button>
+        </div>
+    </div>
+</div>

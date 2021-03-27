@@ -18,6 +18,7 @@
 .w-90 { width: 90%!important; }
 .w-95 { width: 95%!important; }
 .w-100 { width: 100%!important; }
+.h-40p { height: 40px; }
 .h-50 { height: 50px; }
 .border-radius-10 { border-radius: 10px; }
 .border-radius-5 { border-radius: 5px; }
@@ -70,8 +71,11 @@
 .color-green { color: #218838; }
 .color-blue { color: #85C1E9; }
 .color-orange { color: #DD7915; }
-.color-file { color: #79b8ff }
-.color-text { color: #333}
+.color-file { color: #79b8ff; }
+.color-text { color: #333; }
+.color-background { color: #FAFBFC; }
+.color-background1 { color: #E1E4E8; }
+.color-background-white { color: #FFFFFF; }
 
 .border-color {
     border: 1px solid #dee2e6!important;

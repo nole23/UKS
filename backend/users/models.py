@@ -1,7 +1,11 @@
 from django.db import models
 from binaryfield import BinaryField
 
+from common import utils
+
 # Create your models here.
+
+
 class Role(models.Model):
     ROLES = (
         ('O', 'Owner'),
@@ -10,6 +14,7 @@ class Role(models.Model):
     )
     role_name = models.CharField(max_length=1, choices=ROLES)
 
+
 class User(models.Model):
     first_name = models.CharField(max_length=30)
     last_name = models.CharField(max_length=30)
@@ -17,19 +22,26 @@ class User(models.Model):
     username = models.CharField(max_length=30)
     password = models.CharField(max_length=30)
 
+
 class Root_Tree_Project(models.Model):
     name = models.CharField(max_length=150)
     date_create = models.DateTimeField(null=True, blank=True)
 
+
 class Files(models.Model):
     name = models.CharField(max_length=250)
-    data = BinaryField()
+    cover = models.FileField(blank=True, null=True,
+                             upload_to=utils.upload_path)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
 
+
 class Tree_List(models.Model):
-    id_root = models.ForeignKey(Root_Tree_Project, null=True, on_delete=models.CASCADE)
+    id_root = models.ForeignKey(
+        Root_Tree_Project, null=True, on_delete=models.CASCADE)
     id_files = models.ForeignKey(Files, null=True, on_delete=models.CASCADE)
-    id_children = models.ForeignKey(Root_Tree_Project, blank=True, null=True, related_name='children', on_delete=models.CASCADE)
+    id_children = models.ForeignKey(
+        Root_Tree_Project, blank=True, null=True, related_name='children', on_delete=models.CASCADE)
+
 
 class Project(models.Model):
     name = models.CharField(max_length=30)
@@ -37,12 +49,15 @@ class Project(models.Model):
     date_create = models.DateTimeField(null=True, blank=True)
     date_close = models.DateTimeField(null=True, blank=True)
     type_project = models.BooleanField(default=True)
-    root_tree_project = models.ForeignKey(Root_Tree_Project, on_delete=models.CASCADE)
+    root_tree_project = models.ForeignKey(
+        Root_Tree_Project, on_delete=models.CASCADE)
+
 
 class List_Project_User(models.Model):
     project = models.ForeignKey(Project, on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     role = models.ForeignKey(Role, on_delete=models.CASCADE, null=True)
+
 
 class Issue(models.Model):
     name = models.CharField(max_length=30)
@@ -50,6 +65,7 @@ class Issue(models.Model):
     status = models.BooleanField(default=True)
     project = models.ForeignKey(Project, on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
+
 
 class Issue_Comment(models.Model):
     comment = models.CharField(max_length=150)

@@ -1,4 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
+import { NotifierService } from 'angular-notifier';
 import { RootTree } from 'src/app/models/repository';
 
 @Component({
@@ -7,12 +8,17 @@ import { RootTree } from 'src/app/models/repository';
   styleUrls: ['./repository-code.component.scss']
 })
 export class RepositoryCodeComponent implements OnInit {
+  private readonly notifier: NotifierService;
+
   @Input('list_project') list_project: any;
-  @Input('rootTree') rootTree : RootTree;
-  
+  @Input('rootTree') rootTree: RootTree;
+
   settings: any;
-  constructor() {
+  type: any;
+  constructor(notifier: NotifierService) {
     this.settings = null;
+    this.type = null;
+    this.notifier = notifier;
   }
 
   ngOnInit(): void {
@@ -22,7 +28,7 @@ export class RepositoryCodeComponent implements OnInit {
   _parserDate(item: any) {
     let currentDate = new Date();
     let dateSent = new Date(item.dateCreate);
-    let lastDay = Math.floor((Date.UTC(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate()) - Date.UTC(dateSent.getFullYear(), dateSent.getMonth(), dateSent.getDate()) ) /(1000 * 60 * 60 * 24));
+    let lastDay = Math.floor((Date.UTC(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate()) - Date.UTC(dateSent.getFullYear(), dateSent.getMonth(), dateSent.getDate())) / (1000 * 60 * 60 * 24));
     let rootDate = {
       id: item.id,
       name: item.name,
@@ -71,7 +77,7 @@ export class RepositoryCodeComponent implements OnInit {
 
   _createTR(item: any) {
     let resData = []
-    
+
     item.forEach((element: any) => {
       resData.push({
         class: 'font-graph',
@@ -79,7 +85,7 @@ export class RepositoryCodeComponent implements OnInit {
         td: this._createTD(element.td)
       });
     });
-    
+
     return resData;
   }
 
@@ -94,7 +100,11 @@ export class RepositoryCodeComponent implements OnInit {
         name: element.name
       })
     });
-    
+
     return resData;
+  }
+
+  onEmitClose(event: any) {
+    this.type = null;
   }
 }

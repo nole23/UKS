@@ -2,6 +2,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { NotifierModule, NotifierOptions } from 'angular-notifier';
 
 import { AuthNav } from 'src/app/guard/auth-nav';
 import { TokenInterceptor } from 'src/app/guard/token-interceptor';
@@ -27,6 +28,49 @@ import { RepositoryStatisticComponent } from './components/auth/repository-stati
 import { RepositorySettingComponent } from './components/auth/repository-setting/repository-setting.component';
 import { AddIssueComponent } from './components/auth/add-issue/add-issue.component';
 import { IssueComponent } from './components/auth/issue/issue.component';
+import { AddFilesComponent } from './components/auth/add-files/add-files.component';
+import { UploadFilesComponent } from './components/auth/upload-files/upload-files.component';
+
+const customNotifierOptions: NotifierOptions = {
+  position: {
+    horizontal: {
+      position: 'middle',
+      distance: 12
+    },
+    vertical: {
+      position: 'top',
+      distance: 12,
+      gap: 10
+    }
+  },
+  theme: 'material',
+  behaviour: {
+    autoHide: 5000,
+    onClick: 'hide',
+    onMouseover: 'pauseAutoHide',
+    showDismissButton: true,
+    stacking: 4
+  },
+  animations: {
+    enabled: true,
+    show: {
+      preset: 'slide',
+      speed: 300,
+      easing: 'ease'
+    },
+    hide: {
+      preset: 'fade',
+      speed: 300,
+      easing: 'ease',
+      offset: 50
+    },
+    shift: {
+      speed: 300,
+      easing: 'ease'
+    },
+    overlap: 150
+  }
+};
 
 @NgModule({
   declarations: [
@@ -48,9 +92,12 @@ import { IssueComponent } from './components/auth/issue/issue.component';
     RepositoryStatisticComponent,
     RepositorySettingComponent,
     AddIssueComponent,
-    IssueComponent
+    IssueComponent,
+    AddFilesComponent,
+    UploadFilesComponent
   ],
   imports: [
+    NotifierModule.withConfig(customNotifierOptions),
     BrowserModule,
     AppRoutingModule,
     FormsModule,

@@ -7,12 +7,12 @@ import { RepositoryService } from 'src/app/services/repository.service';
   styleUrls: ['./issue.component.scss']
 })
 export class IssueComponent implements OnInit {
-  @Input('issueId') issueId:any;
-  @Input('repoId') repoId:any;
+  @Input('issueId') issueId: any;
+  @Input('repoId') repoId: any;
 
-  issue:any;
-  comment:String;
-  constructor(private repositoryService: RepositoryService) { 
+  issue: any;
+  comment: String;
+  constructor(private repositoryService: RepositoryService) {
     this.issue = null;
     this.comment = null;
   }
@@ -36,6 +36,6 @@ export class IssueComponent implements OnInit {
       .subscribe(res => {
         this.issue.issueComment.push(res["comment"])
         this.comment = null
-    })
+      })
   }
 }
