@@ -4,18 +4,19 @@ from rest_framework.views import APIView
 from django.http import HttpResponse
 from django.core.files.base import ContentFile
 
-from users.models import User, Root_Tree_Project, Files, Tree_List
-from common import utils
+from users.models import User, Files
+from common.utils import token_required_class, create_json_response
 
 
 class File(APIView):
 
+    # DOTO: Dovesti sve fajlove za jedno cvoriste
     def get(self, request):
         pass
 
+    @token_required_class
     def post(self, request):
-        email = "a@gmail.com"
-        user = User.objects.get(email=email)
+        user =  request.user
 
         parent = request.data['parent']
         types = request.data['type']
@@ -23,7 +24,6 @@ class File(APIView):
         if types == "create":
             title = request.data['title'].split(".")
             text = request.data['text']
-
             content = ContentFile(text)
 
             if len(title) > 1:
@@ -39,7 +39,7 @@ class File(APIView):
             Files.objects.create(
                 name=cover.name, cover=cover, user=user)
 
-        return utils.create_json_response({"message": "SUCCESS"}, status=200)
+        return create_json_response({"message": "SUCCESS"}, status=200)
 
     def put(self, request):
         pass

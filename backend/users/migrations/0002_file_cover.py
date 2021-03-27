@@ -1,5 +1,5 @@
 import users.models
-from common import utils
+from users.models import upload_path
 from django.db import migrations, models as mode
 
 
@@ -14,6 +14,6 @@ class Migration(migrations.Migration):
             model_name='files',
             name='cover',
             field=mode.FileField(blank=True, null=True,
-                                 upload_to=utils.upload_path),
+                                 upload_to=upload_path),
         ),
     ]

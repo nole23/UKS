@@ -15,6 +15,8 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from django.conf.urls.static import static
+from django.conf import settings
 from users import views
 from files import views as files
 
@@ -33,3 +35,5 @@ urlpatterns = [
     path('api/delete-repository/<int:id>', views.deleteRepository),
     path('api/files', files.File.as_view())
 ]
+
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

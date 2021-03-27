@@ -2,8 +2,6 @@
 
 from django.db import migrations, models
 import django.db.models.deletion
-from binaryfield import BinaryField
-
 
 class Migration(migrations.Migration):
 

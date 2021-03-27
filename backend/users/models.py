@@ -1,11 +1,9 @@
 from django.db import models
-from binaryfield import BinaryField
 
-from common import utils
+def upload_path(instance, filname):
+    return "/".join(["covers", str(instance.user.username), filname])
 
 # Create your models here.
-
-
 class Role(models.Model):
     ROLES = (
         ('O', 'Owner'),
@@ -31,7 +29,7 @@ class Root_Tree_Project(models.Model):
 class Files(models.Model):
     name = models.CharField(max_length=250)
     cover = models.FileField(blank=True, null=True,
-                             upload_to=utils.upload_path)
+                             upload_to=upload_path)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
 
 

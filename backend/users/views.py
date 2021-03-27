@@ -23,7 +23,7 @@ def index(request):
     role2.save()
     role3.save()
 
-    x = '{ "status":"SUCCESS", "message":"Uspjesno pokrenut serve"}'
+    x = '{ "status":"SUCCESS", "message":"Uspjesno pokrenut server"}'
     y = json.loads(x)
     return JsonResponse(y)
 
@@ -106,7 +106,6 @@ def repository(request):
 def getAllrepository(request):
     if request.method == "GET":
         user = User.objects.get(email=u)
-        user = User.objects.get(email=u)
 
         project = List_Project_User.objects.filter(user=user.id)
 
@@ -133,7 +132,6 @@ def getAllrepository(request):
 
 @csrf_exempt
 def getRepositoryById(request, id):
-    print(request.headers['Authorization'])
     if request.method == "GET":
         list_project = List_Project_User.objects.filter(project_id=id)
 
