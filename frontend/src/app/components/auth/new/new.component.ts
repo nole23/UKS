@@ -21,13 +21,12 @@ export class NewComponent implements OnInit {
   }
 
   ngSave() {
-    console.log(this.registration)
     this.isSave = true;
     this.repositoryService.saveRepository(this.registration)
       .subscribe(res => {
         this.isSave = false;
-        if (res['status'] === 'SUCCESS') {
-          this.router.navigate(['/repo/' + res['project']['id'] + '/c']) 
+        if (res['message'] === 'SUCCESS') {
+          this.router.navigate(['/repo/' + res['project'] + '/c'])
         } else {
           console.log('Nesto ne valjda ovo srediti')
         }

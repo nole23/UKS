@@ -12,15 +12,18 @@ export class AddFilesComponent implements OnInit {
   private readonly notifier: NotifierService;
 
   @Input('list_project') list_project: any;
+  @Input('branch') branch: any;
   @Output() emit = new EventEmitter<any>();
 
   file: any;
   body: any;
   name: any;
+  nameFolder: any;
   constructor(private repositoryService: RepositoryService, notifier: NotifierService) {
     this.file = null;
     this.body = '';
     this.name = '';
+    this.nameFolder = '';
     this.notifier = notifier;
   }
 
@@ -32,14 +35,16 @@ export class AddFilesComponent implements OnInit {
       const formData = new FormData();
       formData.append('type', 'create')
       formData.append('title', this.name)
+      formData.append('folder', this.nameFolder)
+      formData.append('branch', this.branch)
       formData.append('text', this.body)
-      formData.append('parent', this.list_project.rootTree.name)
+      formData.append('parent', this.list_project.id)
 
       this.repositoryService.saveFile(formData)
         .subscribe(res => {
           if (res['message'] === 'SUCCESS') {
             this.notifier.notify('success', 'File ' + this.name + ' is created!')
-            this.cancel()
+            this.cancel({ 'rootTree': res['rootTree'], 'branch': this.branch, 'folder': this.nameFolder })
           } else {
             this.notifier.notify('warming', 'Something isn\'t right. Please wait a moment.')
           }

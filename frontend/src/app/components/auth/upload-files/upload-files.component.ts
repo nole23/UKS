@@ -12,6 +12,7 @@ export class UploadFilesComponent implements OnInit {
   private readonly notifier: NotifierService;
 
   @Input('list_project') list_project: any;
+  @Input('branch') branch: any;
   @Output() emit = new EventEmitter<any>();
 
   fileNames: Array<String>;
@@ -39,13 +40,15 @@ export class UploadFilesComponent implements OnInit {
       const formData = new FormData();
       formData.append('type', 'upload')
       formData.append('cover', this.file, this.file.name)
-      formData.append('parent', this.list_project.rootTree.name)
+      formData.append('parent', this.list_project.id)
+      formData.append('folder', '')
+      formData.append('branch', this.branch)
 
       this.repositoryService.saveFile(formData)
         .subscribe(res => {
           if (res['message'] === 'SUCCESS') {
             this.notifier.notify('success', 'Successful upload')
-            this.cancel()
+            this.cancel({ 'rootTree': res['rootTree'], 'branch': this.branch, 'folder': '' })
           } else {
             this.notifier.notify('warming', 'Something isn\'t right. Please wait a moment.')
           }

@@ -18,16 +18,17 @@ from django.urls import path
 from django.conf.urls.static import static
 from django.conf import settings
 from users import views
-from files import views as files
+from views.files import views as files
+from views.repository import views as repository
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('index', views.index, name='index'),
     path('api/sing-in', views.registration, name='registration'),
     path('api/sing-up', views.login, name='login'),
-    path('api/repository', views.repository),
+    path('api/repository', repository.Repository.as_view()),
+    path('api/get-repositpry/<int:id>', repository.Repository.as_view()),
     path('api/get-all-repository', views.getAllrepository),
-    path('api/get-repositpry/<int:id>', views.getRepositoryById),
     path('api/add-issue', views.addIssue),
     path('api/issue/<int:id>', views.getIssueById),
     path('api/add-issue-comment', views.saveCommentByIssue),

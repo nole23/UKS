@@ -5,7 +5,7 @@ from datetime import datetime
 from django.core import serializers
 import jwt
 import json
-from users.models import User, Role, List_Project_User, Project, Issue, Issue_Comment, Root_Tree_Project, Files, Tree_List
+from users.models import User, Role, List_Project_User, Project, Issue, Issue_Comment, Root_Tree, Files
 
 JWT_SECRET = 'secret'
 JWT_ALGORITHM = 'HS256'
@@ -77,28 +77,28 @@ def login(request):
 @csrf_exempt
 def repository(request):
     if request.method == "POST":
-        body_unicode = request.body.decode('utf-8')
-        body = json.loads(body_unicode)
+        # body_unicode = request.body.decode('utf-8')
+        # body = json.loads(body_unicode)
 
-        user = User.objects.get(email=u)
+        # user = User.objects.get(email=u)
 
-        root_tree = Root_Tree_Project(
-            name=body['name'], date_create=datetime.now())
-        root_tree.save()
+        # root_tree = Root_Tree_Project(
+        #     name=body['name'], date_create=datetime.now())
+        # root_tree.save()
 
-        project = Project(name=body['name'], description=body['description'], date_create=datetime.now(
-        ), type_project=body['type_project'], root_tree_project=root_tree)
-        project.save()
+        # project = Project(name=body['name'], description=body['description'], date_create=datetime.now(
+        # ), type_project=body['type_project'], root_tree_project=root_tree)
+        # project.save()
 
-        role = Role.objects.get(id=1)
+        # role = Role.objects.get(id=1)
 
-        list_project_user = List_Project_User(
-            project=project, user=user, role=role)
-        list_project_user.save()
+        # list_project_user = List_Project_User(
+        #     project=project, user=user, role=role)
+        # list_project_user.save()
 
-        x = '{ "status":"SUCCESS", "project": {"id":"' + str(project.id) + '", "name":"' + project.name + '", "description":"' + project.description + '", "type_project":"' + str(
-            project.type_project) + '", "rootTree":{"id":"' + str(root_tree.id) + '", "name":"' + str(root_tree.name) + '", "dateCreate":"' + str(root_tree.date_create) + '"}} }'
-        y = json.loads(x)
+        # x = '{ "status":"SUCCESS", "project": {"id":"' + str(project.id) + '", "name":"' + project.name + '", "description":"' + project.description + '", "type_project":"' + str(
+        #     project.type_project) + '", "rootTree":{"id":"' + str(root_tree.id) + '", "name":"' + str(root_tree.name) + '", "dateCreate":"' + str(root_tree.date_create) + '"}} }'
+        y = json.loads('{}')
         return JsonResponse(y)
 
 
@@ -133,65 +133,65 @@ def getAllrepository(request):
 @csrf_exempt
 def getRepositoryById(request, id):
     if request.method == "GET":
-        list_project = List_Project_User.objects.filter(project_id=id)
+        # list_project = List_Project_User.objects.filter(project_id=id)
 
-        user = list_project[0].user
-        project = list_project[0].project
-        issues = Issue.objects.filter(project=project.id)
-        role = list_project[0].role
-        root_tree = project.root_tree_project
+        # user = list_project[0].user
+        # project = list_project[0].project
+        # issues = Issue.objects.filter(project=project.id)
+        # role = list_project[0].role
+        # root_tree = project.root_tree_project
 
-        end_issue = len(issues)
-        count_issye = 0
-        dataIssue = '['
-        for each in issues:
-            issue_comment = Issue_Comment.objects.filter(issue=each.id)
+        # end_issue = len(issues)
+        # count_issye = 0
+        # dataIssue = '['
+        # for each in issues:
+        #     issue_comment = Issue_Comment.objects.filter(issue=each.id)
 
-            end_comment = len(issue_comment)
-            count_comment = 0
-            dataComment = '['
-            for ieach in issue_comment:
-                dataComment += '{"id":"' + str(ieach.id) + '", "comment":"' + str(ieach.comment) + '", "user":{"id":"' + str(
-                    ieach.user.id) + '", "firstName":"' + ieach.user.first_name + '", "lastName":"' + ieach.user.last_name + '", "username": "' + ieach.user.username + '"}}'
-                count_comment = count_comment + 1
-                if count_comment < end_comment:
-                    dataComment += ','
-            dataComment += ']'
+        #     end_comment = len(issue_comment)
+        #     count_comment = 0
+        #     dataComment = '['
+        #     for ieach in issue_comment:
+        #         dataComment += '{"id":"' + str(ieach.id) + '", "comment":"' + str(ieach.comment) + '", "user":{"id":"' + str(
+        #             ieach.user.id) + '", "firstName":"' + ieach.user.first_name + '", "lastName":"' + ieach.user.last_name + '", "username": "' + ieach.user.username + '"}}'
+        #         count_comment = count_comment + 1
+        #         if count_comment < end_comment:
+        #             dataComment += ','
+        #     dataComment += ']'
 
-            dataIssue += '{"id":"' + str(each.id) + '", "name":"' + each.name + '", "description":"' + each.description + '", "status":"' + str(each.status) + '", "user":{"id":"' + str(
-                each.user.id) + '", "firstName":"' + each.user.first_name + '", "lastName":"' + each.user.last_name + '", "username": "' + each.user.username + '"}, "issue_comment": ' + dataComment + '}'
-            count_issye = count_issye + 1
-            if count_issye < end_issue:
-                dataIssue += ','
-        dataIssue += ']'
+        #     dataIssue += '{"id":"' + str(each.id) + '", "name":"' + each.name + '", "description":"' + each.description + '", "status":"' + str(each.status) + '", "user":{"id":"' + str(
+        #         each.user.id) + '", "firstName":"' + each.user.first_name + '", "lastName":"' + each.user.last_name + '", "username": "' + each.user.username + '"}, "issue_comment": ' + dataComment + '}'
+        #     count_issye = count_issye + 1
+        #     if count_issye < end_issue:
+        #         dataIssue += ','
+        # dataIssue += ']'
 
-        end_list_project = len(list_project)
-        count_list_project = 0
-        lp = '['
-        for each in list_project:
-            lp += '{"user": {"id":"' + str(each.user.id) + '", "firstName":"' + str(each.user.first_name) + \
-                '", "lastName":"' + \
-                str(each.user.last_name) + '", "username":"' + \
-                str(each.user.username) + '"},'
-            lp += '"role": {"name":"' + str(each.role.role_name) + '"}}'
-            count_list_project = count_list_project + 1
-            if count_list_project < end_list_project:
-                lp += ','
-        lp += ']'
+        # end_list_project = len(list_project)
+        # count_list_project = 0
+        # lp = '['
+        # for each in list_project:
+        #     lp += '{"user": {"id":"' + str(each.user.id) + '", "firstName":"' + str(each.user.first_name) + \
+        #         '", "lastName":"' + \
+        #         str(each.user.last_name) + '", "username":"' + \
+        #         str(each.user.username) + '"},'
+        #     lp += '"role": {"name":"' + str(each.role.role_name) + '"}}'
+        #     count_list_project = count_list_project + 1
+        #     if count_list_project < end_list_project:
+        #         lp += ','
+        # lp += ']'
 
-        data = '{ "project": {"id":"' + str(project.id) + '", "name":"' + str(project.name) + '", "description":"' + str(
-            project.description) + '", "date_create":"' + str(project.date_create) + '",'
-        data += '"date_close":"' + str(project.date_close) + '", "type_project":"' + str(
-            project.type_project) + '", "issue": ' + dataIssue + ', '
-        data += '"rootTree":{"id":"' + str(root_tree.id) + '", "name":"' + str(
-            root_tree.name) + '", "dateCreate":"' + str(root_tree.date_create) + '"},'
-        data += '"user":{"id":"' + str(user.id) + '","first_name":"' + str(user.first_name) + '", "last_name":"' + str(
-            user.last_name) + '", "role":"' + str(role.role_name) + '"}, "list_project_user":' + lp + ''
-        data += '}}'
+        # data = '{ "project": {"id":"' + str(project.id) + '", "name":"' + str(project.name) + '", "description":"' + str(
+        #     project.description) + '", "date_create":"' + str(project.date_create) + '",'
+        # data += '"date_close":"' + str(project.date_close) + '", "type_project":"' + str(
+        #     project.type_project) + '", "issue": ' + dataIssue + ', '
+        # data += '"rootTree":{"id":"' + str(root_tree.id) + '", "name":"' + str(
+        #     root_tree.name) + '", "dateCreate":"' + str(root_tree.date_create) + '"},'
+        # data += '"user":{"id":"' + str(user.id) + '","first_name":"' + str(user.first_name) + '", "last_name":"' + str(
+        #     user.last_name) + '", "role":"' + str(role.role_name) + '"}, "list_project_user":' + lp + ''
+        # data += '}}'
 
-        x = '{ "status":"SUCCESS", "data":' + data + '}'
+        # x = '{ "status":"SUCCESS", "data":' + data + '}'
 
-        y = json.loads(x)
+        y = json.loads('{}')
         return JsonResponse(y)
 
 

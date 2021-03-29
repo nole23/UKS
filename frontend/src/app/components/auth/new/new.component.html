@@ -8,38 +8,45 @@
             <form>
                 <div class="form-group float-left w-100 pt-5">
                     <div class="float-left w-100 mb-1">
-                        <label for="name"class="w-25 float-left">Naziv repositorijuma</label>
-                        <input type="text" class="form-control w-75 float-right" name="name" id="name" [(ngModel)]="registration.name">
+                        <label for="name" class="w-25 float-left">Naziv repositorijuma</label>
+                        <input type="text" class="form-control w-75 float-right" name="name" id="name"
+                            [(ngModel)]="registration.name">
                     </div>
 
                     <div class="float-left w-100 mb-1">
-                        <label for="description"class="w-25 float-left">Opis</label>
-                        <input type="text" class="form-control w-75 float-right" name="description" id="description" [(ngModel)]="registration.description">
+                        <label for="description" class="w-25 float-left">Opis</label>
+                        <input type="text" class="form-control w-75 float-right" name="description" id="description"
+                            [(ngModel)]="registration.description">
                     </div>
 
                     <div class="float-left w-100 mb-1">
                         <div class="form-check">
                             <label class="form-check-label">
-                              <input type="radio" class="form-check-input" name="optradio" [(ngModel)]="registration.type" value="False" [checked]="true">
-                              <div style="padding: 0;">
-                                  <div style="font-size: 14px; margin: 0; padding: 0; width: 100%;">Javan</div>
-                                  <div style="font-size: 10px; margin: 0; padding: 0;">Projekat moci ce svi da vide.</div>
-                              </div>
+                                <input type="radio" class="form-check-input" name="optradio"
+                                    [(ngModel)]="registration.type" value="False" [checked]="true">
+                                <div style="padding: 0;">
+                                    <div style="font-size: 14px; margin: 0; padding: 0; width: 100%;">Javan</div>
+                                    <div style="font-size: 10px; margin: 0; padding: 0;">Projekat moci ce svi da vide.
+                                    </div>
+                                </div>
                             </label>
                         </div>
                         <div class="form-check">
                             <label class="form-check-label">
-                              <input type="radio" class="form-check-input" name="optradio" [(ngModel)]="registration.type_project" value="True">
-                              <div style="padding: 0;">
-                                  <div style="font-size: 14px; margin: 0; padding: 0; width: 100%;">Privatan</div>
-                                  <div style="font-size: 10px; margin: 0; padding: 0;">Projekat ce moci da vide samo osobe koje imaju privilegiju za to.</div>
-                              </div>
+                                <input type="radio" class="form-check-input" name="optradio"
+                                    [(ngModel)]="registration.type_project" value="True">
+                                <div style="padding: 0;">
+                                    <div style="font-size: 14px; margin: 0; padding: 0; width: 100%;">Privatan</div>
+                                    <div style="font-size: 10px; margin: 0; padding: 0;">Projekat ce moci da vide samo
+                                        osobe koje imaju privilegiju za to.</div>
+                                </div>
                             </label>
                         </div>
                     </div>
                 </div>
-                
-                <button type="submit" class="btn btn-primary margin-top float-right" (click)="ngSave()">Kreiraj repozitorijum</button>
+
+                <button type="submit" class="btn btn-primary margin-top float-right" (click)="ngSave()">Create new
+                    repository</button>
             </form>
         </div>
 

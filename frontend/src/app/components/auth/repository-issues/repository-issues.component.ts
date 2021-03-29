@@ -49,8 +49,8 @@ export class RepositoryIssuesComponent implements OnInit {
       }
     });
   }
-  
-  _generateTable(item:any) {
+
+  _generateTable(item: any) {
     this.settings = {
       class: 'table table-hover border border-radius-10',
       thead: null,
@@ -88,7 +88,7 @@ export class RepositoryIssuesComponent implements OnInit {
     this.isAdd = false;
     let issue = new Issue(event);
     let td = this._setTd(issue)
-    this.settings['tbody']['tr'].push({td:td})
+    this.settings['tbody']['tr'].push({ td: td })
   }
 
   ngFilterStatus() {
@@ -103,17 +103,17 @@ export class RepositoryIssuesComponent implements OnInit {
     }
     else {
       this.repositoryService.filter('status', this.form.nativeElement.children['select'].value, this.repoId)
-      .subscribe(res=>{
-        this.form.nativeElement.children['author'].value = 'author'
-        let resData = [];
-        res['data'].forEach(element => {
-          let i = new Issue(element)
-          resData.push(i)
-        });
-        this.issue = resData
-        this.backUpData = resData
-        this._generateTable(resData)
-      })
+        .subscribe(res => {
+          this.form.nativeElement.children['author'].value = 'author'
+          let resData = [];
+          res['data'].forEach(element => {
+            let i = new Issue(element)
+            resData.push(i)
+          });
+          this.issue = resData
+          this.backUpData = resData
+          this._generateTable(resData)
+        })
     }
   }
 
@@ -139,6 +139,6 @@ export class RepositoryIssuesComponent implements OnInit {
   _filterUser() {
     // filter
     // this.userInProject = this.issue.filter((v,i,a)=>a.findIndex(t=>(t.user.id === v.user.id))===i)
-    this.userInProject = this.list_project.list_user
+    this.userInProject = this.list_project.listUser
   }
 }

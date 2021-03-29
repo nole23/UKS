@@ -1,9 +1,12 @@
 from django.db import models
 
+
 def upload_path(instance, filname):
     return "/".join(["covers", str(instance.user.username), filname])
 
 # Create your models here.
+
+
 class Role(models.Model):
     ROLES = (
         ('O', 'Owner'),
@@ -21,24 +24,27 @@ class User(models.Model):
     password = models.CharField(max_length=30)
 
 
-class Root_Tree_Project(models.Model):
-    name = models.CharField(max_length=150)
-    date_create = models.DateTimeField(null=True, blank=True)
-
-
 class Files(models.Model):
     name = models.CharField(max_length=250)
-    cover = models.FileField(blank=True, null=True,
-                             upload_to=upload_path)
+    cover = models.FileField(blank=True, null=True, upload_to=upload_path)
+    dateCreate = models.DateTimeField(null=True, blank=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
 
 
-class Tree_List(models.Model):
-    id_root = models.ForeignKey(
-        Root_Tree_Project, null=True, on_delete=models.CASCADE)
-    id_files = models.ForeignKey(Files, null=True, on_delete=models.CASCADE)
-    id_children = models.ForeignKey(
-        Root_Tree_Project, blank=True, null=True, related_name='children', on_delete=models.CASCADE)
+class Children_Tree(models.Model):
+    name_node = models.CharField(max_length=150)
+    date_create = models.DateTimeField(null=True, blank=True)
+    user_create = models.ForeignKey(User, on_delete=models.CASCADE)
+    files = models.ManyToManyField(Files, blank=True)
+    children_folder = models.ManyToManyField('self', blank=True)
+
+
+class Root_Tree(models.Model):
+    name_branch = models.CharField(max_length=150)
+    date_create = models.DateTimeField(null=True, blank=True)
+    user_create = models.ForeignKey(User, on_delete=models.CASCADE)
+    files = models.ManyToManyField(Files, blank=True)
+    children_folder = models.ManyToManyField(Children_Tree, blank=True)
 
 
 class Project(models.Model):
@@ -47,8 +53,7 @@ class Project(models.Model):
     date_create = models.DateTimeField(null=True, blank=True)
     date_close = models.DateTimeField(null=True, blank=True)
     type_project = models.BooleanField(default=True)
-    root_tree_project = models.ForeignKey(
-        Root_Tree_Project, on_delete=models.CASCADE)
+    root_tree = models.ManyToManyField(Root_Tree, blank=True)
 
 
 class List_Project_User(models.Model):

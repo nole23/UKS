@@ -20,7 +20,7 @@ export class RepositoryMenuComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.listUser = this.list_project.list_user
+    this.listUser = this.list_project.listUser
   }
 
   ngOwn(list: any) {
@@ -34,7 +34,6 @@ export class RepositoryMenuComponent implements OnInit {
   }
 
   ngDeleteProject(id: any) {
-    console.log(id)
     this.repositoryService.deleteRepository(id)
       .subscribe(res => {
         this.router.navigate(['/home'])

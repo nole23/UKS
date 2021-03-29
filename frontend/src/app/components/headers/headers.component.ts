@@ -29,9 +29,8 @@ export class HeadersComponent implements OnInit {
   }
 
   ngLogOut() {
-    console.log('ovde')
     this.authService.logOut();
-    this.ngOnInit();    
+    this.ngOnInit();
     this.router.navigate(['/']);
   }
 }

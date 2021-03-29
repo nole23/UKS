@@ -26,29 +26,28 @@ export class RegistraionComponent implements OnInit {
   }
 
   ngRegistration() {
-    console.log(this.login)
-    
+
     this.isRegistration = true;
     this.isSpiner = true;
 
     const changeForms = this._changeForms();
-    console.log(changeForms)
+
     if (changeForms['status']) {
       this.authService.registraton(this.login)
-      .subscribe(res => {
-        this.isRegistration = false;
-        this.isSpiner = false;
-        if (res['status'] === 'SUCCESS') {
-          this.router.navigate(['/login']);
-        } else {
-          this.isMessage = true;
-          if (res['type'] === 'MAIL') {
-            this.textMessage = ' mail ';
-          } else if (res['type'] === 'OTHER') {
-            this.textMessage = ' server ';
+        .subscribe(res => {
+          this.isRegistration = false;
+          this.isSpiner = false;
+          if (res['status'] === 'SUCCESS') {
+            this.router.navigate(['/login']);
+          } else {
+            this.isMessage = true;
+            if (res['type'] === 'MAIL') {
+              this.textMessage = ' mail ';
+            } else if (res['type'] === 'OTHER') {
+              this.textMessage = ' server ';
+            }
           }
-        }
-      })
+        })
     } else {
       // TO DO ovde ide sve ostalo
       this.isRegistration = false;
@@ -58,7 +57,7 @@ export class RegistraionComponent implements OnInit {
       } else if (!changeForms['firstName'] && !changeForms['lastName'] && !changeForms['email'] && !changeForms['password']) {
         this.textMessage = 'niste uneli ni jedan podataka'
       }
-      
+
     }
   }
 
@@ -73,7 +72,7 @@ export class RegistraionComponent implements OnInit {
     }
 
     if
-    (
+      (
       this.login.firstName === undefined,
       this.login.lastName === undefined,
       this.login.password === undefined,

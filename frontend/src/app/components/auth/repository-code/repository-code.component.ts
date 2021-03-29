@@ -1,6 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { NotifierService } from 'angular-notifier';
-import { RootTree } from 'src/app/models/repository';
+import { Files, RootTree, ChildremTree } from 'src/app/models/repository';
 
 @Component({
   selector: 'app-repository-code',
@@ -15,52 +15,57 @@ export class RepositoryCodeComponent implements OnInit {
 
   settings: any;
   type: any;
+  branch: String;
+  readMe: any;
   constructor(notifier: NotifierService) {
     this.settings = null;
     this.type = null;
     this.notifier = notifier;
+    this.branch = null;
+    this.readMe = null;
   }
 
   ngOnInit(): void {
-    this._parserDate(this.rootTree);
+    this._parserDate(this.rootTree[0]);
+  }
+
+  ngParserText(text) {
+    return text.replace(/(?:\r\n|\r|\n)/g, '<br>')
+  }
+
+  onEmitClose(event: any) {
+    if (event !== null) {
+      this._pushNewFile(event);
+    }
+    this.type = null;
   }
 
   _parserDate(item: any) {
-    let currentDate = new Date();
-    let dateSent = new Date(item.dateCreate);
-    let lastDay = Math.floor((Date.UTC(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate()) - Date.UTC(dateSent.getFullYear(), dateSent.getMonth(), dateSent.getDate())) / (1000 * 60 * 60 * 24));
-    let rootDate = {
-      id: item.id,
-      name: item.name,
-      dateCreate: lastDay == 0 ? 'Danas kreirano' : 'Kreirano prije ' + lastDay + ' dana'
+
+    let dataTR = [];
+
+    this.branch = item.nameBranch;
+
+    if (item.childrenFolder.length !== 0) {
+      item.childrenFolder.forEach(element => {
+        let rootDate = this._parserChildren(element, 'folder');
+        dataTR.push(this._parserTableTR(rootDate, 'folder'))
+      });
     }
 
-    let dataTR = [
-      {
-        td: [
-          {
-            class: '',
-            style: '',
-            link: null,
-            name: '<span class="float-center"><i class="fa fa-folder color-file" aria-hidden="true"></i> <a class="cursor-pointer" href="http://localhost:4200/repo/1/c?name=' + rootDate.name + '" class="ml-2">' + rootDate.name + '</a></span>'
-          },
-          {
-            class: '',
-            style: '',
-            link: null,
-            name: '<span class="float-center">Project</span>'
-          },
-          {
-            class: '',
-            style: '',
-            link: null,
-            name: '<span class="float-right color-text">' + rootDate.dateCreate + '</span>'
-          }
-        ]
-      }
-    ]
+    if (item.files.length !== 0) {
+      item.files.forEach(element => {
+        if (element.name === 'README.md') {
+          this.readMe = element
+        }
+        let rootDate = this._parserChildren(element, 'file');
+        dataTR.push(this._parserTableTR(rootDate, 'file'))
+      });
+    }
 
-    this._createTableData(dataTR);
+    if (dataTR.length !== 0) {
+      this._createTableData(dataTR);
+    }
   }
 
   _createTableData(item: any) {
@@ -104,7 +109,65 @@ export class RepositoryCodeComponent implements OnInit {
     return resData;
   }
 
-  onEmitClose(event: any) {
-    this.type = null;
+  _parserChildren(data: any, type: String) {
+    let currentDate = new Date();
+    let dateSent = new Date(data.dateCreate);
+    let lastDay = Math.floor((Date.UTC(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate()) - Date.UTC(dateSent.getFullYear(), dateSent.getMonth(), dateSent.getDate())) / (1000 * 60 * 60 * 24));
+
+    return {
+      id: data.id,
+      name: type === 'folder' ? data.nameNode : data.name,
+      dateCreate: lastDay == 0 ? 'Created today.' : lastDay + '  days ago.'
+    }
+  }
+
+  _parserTableTR(data: any, type: String) {
+    const icon = type === 'folder' ? 'fa-folder' : 'fa-file-o'
+    const name = type === 'folder' ? data.name : data.name
+    let i = '<i class="color-file fa ' + icon + '" aria-hidden="true"></i>';
+    let a = '<a class="cursor-pointer" href="http://localhost:4200/repo/1/c?name=' + name + '" class="ml-2">' + name + '</a>';
+    let p = 'Project'
+    return {
+      td: [
+        {
+          class: '',
+          style: '',
+          link: null,
+          name: '<span class="float-center">' + i + ' </span>' + a
+        },
+        {
+          class: '',
+          style: '',
+          link: null,
+          name: '<span class="float-center">' + p + '</span>'
+        },
+        {
+          class: '',
+          style: '',
+          link: null,
+          name: '<span class="float-right color-text">' + data.dateCreate + '</span>'
+        }
+      ]
+    }
+  }
+
+  _pushNewFile(event: any) {
+    const branch = event.branch, folder = event.folder;
+
+    if (folder === '') {
+      const indexFile = event.rootTree.files.length - 1;
+      for (let i in this.rootTree) {
+        this.rootTree[i].files.push(new Files(event.rootTree.files[indexFile]))
+      }
+    }
+
+    if (folder !== '') {
+      console.log(this.rootTree)
+      const indexChildrenFolder = event.rootTree.childrenFolder.length - 1;
+      for (let i in this.rootTree) {
+        this.rootTree[i].childrenFolder.push(new ChildremTree(event.rootTree.childrenFolder[indexChildrenFolder]))
+      }
+    }
+    this._parserDate(this.rootTree[0])
   }
 }

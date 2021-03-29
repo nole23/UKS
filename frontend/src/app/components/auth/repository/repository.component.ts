@@ -24,20 +24,21 @@ export class RepositoryComponent implements OnInit {
     this.activatedRoute.params.subscribe(res => {
       this.repoId = res['id'];
       this.viewId = res['type'];
-      
-      if (this.viewId === 'issue'){
+
+      if (this.viewId === 'issue') {
         this.issueId = res['idIssue']
       }
 
       //if (this.viewId === 'i') {
-        this._getRepositpry(res['id']);
-     // } 
+      this._getRepositpry(res['id']);
+      // } 
     })
   }
 
   _getRepositpry(id: any) {
     this.repositoryService.getRepositoryById(id)
       .subscribe(res => {
+        console.log(res)
         this.list_project = new Project(res['project'])
         this.rootTree = this.list_project.rootTree;
       })

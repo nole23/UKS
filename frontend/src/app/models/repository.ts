@@ -12,9 +12,9 @@ export class Project {
     description: String;
     date_create: String;
     type_project: Boolean;
-    list_user: any;
+    listUser: any;
     issue: any;
-    rootTree: RootTree;
+    rootTree: any;
 
     constructor(item: any) {
         if (item !== null) {
@@ -23,12 +23,12 @@ export class Project {
             this.description = item.description;
             this.date_create = item.date_create;
             this.type_project = item.type_project
-            this.list_user = [];
-            if (item.list_project_user !== undefined) {
-                if (item.list_project_user !== null) {
-                    item.list_project_user.forEach(element => {
+            this.listUser = [];
+            if (item.listUser !== undefined) {
+                if (item.listUser !== null) {
+                    item.listUser.forEach(element => {
                         let i = new List_Project_User(element);
-                        this.list_user.push(i);
+                        this.listUser.push(i);
                     });
                 }
             }
@@ -41,8 +41,14 @@ export class Project {
                     });
                 }
             }
+            this.rootTree = []
             if (item.rootTree !== undefined) {
-                this.rootTree = item.rootTree;
+                if (item.rootTree !== null) {
+                    item.rootTree.forEach(element => {
+                        let rt = new RootTree(element);
+                        this.rootTree.push(rt);
+                    });
+                }
             }
 
         }
@@ -76,7 +82,7 @@ export class Role {
 
     constructor(item: any) {
         if (item !== null) {
-            this.name = item.name;
+            this.name = item.roleName;
         }
     }
 }
@@ -93,21 +99,85 @@ export class List_Project_User {
     }
 }
 
-export class RootTree {
+export class Files {
     id: any;
-    name: String;
-    dateCreate: String;
-    children: any;
+    name: any;
+    cover: any;
+    dateCreate: any;
+    user: any;
 
     constructor(item: any) {
         this.id = item.id;
         this.name = item.name;
+        this.cover = item.cover;
         this.dateCreate = item.dateCreate;
-        this.children = [];
-        if (item.children !== undefined) {
-            item.children.forEach(element => {
-                this.children.push(new RootTree(element));
-            });
+        this.user = item.user;
+    }
+}
+
+export class ChildremTree {
+    id: any;
+    nameNode: any;
+    dateCreate: any;
+    userCreate: any;
+    files: any;
+    childrenFolder: any;
+
+    constructor(item: any) {
+        this.id = item.id;
+        this.nameNode = item.nameNode;
+        this.dateCreate = item.dateCreate;
+        this.userCreate = item.userCreate;
+        this.files = [];
+        if (item.files !== undefined) {
+            if (item.files !== null) {
+                item.files.forEach(element => {
+                    let f = new Files(element);
+                    this.files.push(f);
+                });
+            }
+        }
+        this.childrenFolder = [];
+        if (item.childrenFolder !== undefined) {
+            if (item.childrenFolder !== null) {
+                item.childrenFolder.forEach(element => {
+                    let cf = new ChildremTree(element);
+                    this.childrenFolder.push(cf);
+                });
+            }
+        }
+    }
+}
+
+export class RootTree {
+    id: any;
+    nameBranch: String;
+    dateCreate: String;
+    userCreate: any;
+    files: any;
+    childrenFolder: any;
+
+    constructor(item: any) {
+        this.id = item.id;
+        this.nameBranch = item.nameBranch;
+        this.dateCreate = item.dateCreate;
+        this.userCreate = item.userCreate;
+        this.files = [];
+        if (item.files !== undefined) {
+            if (item.files !== null) {
+                item.files.forEach(element => {
+                    let f = new Files(element);
+                    this.files.push(f);
+                });
+            }
+        }
+        this.childrenFolder = [];
+        if (item.childrenFolder !== undefined) {
+            if (item.childrenFolder !== null) {
+                item.childrenFolder.forEach(element => {
+                    this.childrenFolder.push(new ChildremTree(element))
+                });
+            }
         }
     }
 }

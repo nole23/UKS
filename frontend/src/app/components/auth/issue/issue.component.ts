@@ -20,7 +20,6 @@ export class IssueComponent implements OnInit {
   ngOnInit(): void {
     this.repositoryService.getIssueById(this.issueId)
       .subscribe(res => {
-        console.log(res)
         this.issue = res['issue']
       })
   }

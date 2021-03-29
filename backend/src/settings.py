@@ -32,7 +32,6 @@ CORS_ORIGIN_WHITELIST = (
     'http://127.0.0.1:4200',
 )
 
-
 # Application definition
 
 INSTALLED_APPS = [
@@ -43,7 +42,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'corsheaders',
-    'users',
+    'users'
 ]
 
 MIDDLEWARE = [
