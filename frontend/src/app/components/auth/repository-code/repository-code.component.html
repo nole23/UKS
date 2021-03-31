@@ -40,7 +40,8 @@
         <app-generig-table [settings]="settings"></app-generig-table>
     </div>
 
-    <div class="mt-3 mb-3 border rounded pt-3 pr-3 pb-3 pl-3 float-left w-100" style="clear: both;">
+    <div class="mt-3 mb-3 border rounded pt-3 pr-3 pb-3 pl-3 float-left w-100" style="clear: both;"
+        *ngIf="readMe !== null">
         <div class="w-100 h-50 float-left">
             <div class="w-20 float-left">
                 <span class="font-20 bold">{{readMe.name}}</span>

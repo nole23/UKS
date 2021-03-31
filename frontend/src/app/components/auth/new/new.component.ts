@@ -28,7 +28,7 @@ export class NewComponent implements OnInit {
         if (res['message'] === 'SUCCESS') {
           this.router.navigate(['/repo/' + res['project'] + '/c'])
         } else {
-          console.log('Nesto ne valjda ovo srediti')
+          console.log('Nesto ne valja, ovo srediti')
         }
       })
   }

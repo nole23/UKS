@@ -10,23 +10,27 @@ import { Files, RootTree, ChildremTree } from 'src/app/models/repository';
 export class RepositoryCodeComponent implements OnInit {
   private readonly notifier: NotifierService;
 
-  @Input('list_project') list_project: any;
+  @Input('branch') branch: String;
   @Input('rootTree') rootTree: RootTree;
+  @Input('repoId') repoId: any;
+  @Input('tree') tree: any;
+  @Input('list_project') list_project: any;
 
   settings: any;
   type: any;
-  branch: String;
+  folder: String;
   readMe: any;
   constructor(notifier: NotifierService) {
     this.settings = null;
     this.type = null;
     this.notifier = notifier;
     this.branch = null;
+    this.folder = null;
     this.readMe = null;
   }
 
   ngOnInit(): void {
-    this._parserDate(this.rootTree[0]);
+    this._parserData(this.rootTree[0]);
   }
 
   ngParserText(text) {
@@ -40,12 +44,9 @@ export class RepositoryCodeComponent implements OnInit {
     this.type = null;
   }
 
-  _parserDate(item: any) {
-
+  _parserData(item: any) {
     let dataTR = [];
-
-    this.branch = item.nameBranch;
-
+    this.folder = item.nameBranch !== undefined ? item.nameBranch : item.nameNode;
     if (item.childrenFolder.length !== 0) {
       item.childrenFolder.forEach(element => {
         let rootDate = this._parserChildren(element, 'folder');
@@ -117,23 +118,30 @@ export class RepositoryCodeComponent implements OnInit {
     return {
       id: data.id,
       name: type === 'folder' ? data.nameNode : data.name,
-      dateCreate: lastDay == 0 ? 'Created today.' : lastDay + '  days ago.'
+      parentFolder: type === 'file' ? data.nameNode : null,
+      dateCreate: lastDay < 0 ? 'Created today.' : lastDay + '  days ago.'
     }
   }
 
   _parserTableTR(data: any, type: String) {
+
+    let test = '?'
+    this.tree.forEach(element => {
+      if (element !== this.branch && element !== undefined) test += 'name=' + element + '&'
+    });
     const icon = type === 'folder' ? 'fa-folder' : 'fa-file-o'
     const name = type === 'folder' ? data.name : data.name
+    const link = type === 'folder' ? '/repo/' + this.repoId + '/c/folder/' + this.branch + test + 'name=' + name : '/repo/' + this.repoId + '/blob/' + this.branch + test + '/' + name
+
     let i = '<i class="color-file fa ' + icon + '" aria-hidden="true"></i>';
-    let a = '<a class="cursor-pointer" href="http://localhost:4200/repo/1/c?name=' + name + '" class="ml-2">' + name + '</a>';
     let p = 'Project'
     return {
       td: [
         {
-          class: '',
+          class: 'cursor',
           style: '',
-          link: null,
-          name: '<span class="float-center">' + i + ' </span>' + a
+          link: link,
+          name: '<span class="float-center">' + i + ' </span>' + name
         },
         {
           class: '',
@@ -153,21 +161,26 @@ export class RepositoryCodeComponent implements OnInit {
 
   _pushNewFile(event: any) {
     const branch = event.branch, folder = event.folder;
+    let data = JSON.parse(localStorage.getItem('project'));
+    localStorage.removeItem('project');
 
     if (folder === '') {
       const indexFile = event.rootTree.files.length - 1;
       for (let i in this.rootTree) {
         this.rootTree[i].files.push(new Files(event.rootTree.files[indexFile]))
+        data.rootTree[i].files.push(new Files(event.rootTree.files[indexFile]))
       }
     }
 
     if (folder !== '') {
-      console.log(this.rootTree)
       const indexChildrenFolder = event.rootTree.childrenFolder.length - 1;
       for (let i in this.rootTree) {
         this.rootTree[i].childrenFolder.push(new ChildremTree(event.rootTree.childrenFolder[indexChildrenFolder]))
+        data.rootTree[i].childrenFolder.push(new ChildremTree(event.rootTree.childrenFolder[indexChildrenFolder]))
       }
     }
-    this._parserDate(this.rootTree[0])
+
+    localStorage.setItem('project', JSON.stringify(data))
+    this._parserData(this.rootTree[0])
   }
 }

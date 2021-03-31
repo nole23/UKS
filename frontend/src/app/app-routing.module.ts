@@ -13,6 +13,7 @@ import { NewComponent } from './components/auth/new/new.component';
 import { RepositoryComponent } from './components/auth/repository/repository.component';
 import { AddFilesComponent } from './components/auth/add-files/add-files.component';
 import { UploadFilesComponent } from './components/auth/upload-files/upload-files.component';
+import { BlobComponent } from './components/auth/blob/blob.component';
 
 const routes: Routes = [
   { path: '', component: IndexComponent, canActivate: [NotAuthNav] },
@@ -21,6 +22,8 @@ const routes: Routes = [
   { path: 'home', component: HomeComponent, canActivate: [AuthNav] },
   { path: 'new', component: NewComponent, canActivate: [AuthNav] },
   { path: 'repo/:id/:type', component: RepositoryComponent, canActivate: [AuthNav] },
+  { path: 'repo/:id/:type/folder/:folderName', component: RepositoryComponent, canActivate: [AuthNav] },
+  { path: 'repo/:id/blob/:folderName/:fileName', component: BlobComponent, canActivate: [AuthNav] },
   { path: 'repo/:id/:type/:idIssue', component: RepositoryComponent, canActivate: [AuthNav] },
   { path: 'user/:id', component: ErrorComponent },
   { path: 'add-files', component: AddFilesComponent },
@@ -30,7 +33,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes, {preloadingStrategy: PreloadAllModules})],
+  imports: [RouterModule.forRoot(routes, { preloadingStrategy: PreloadAllModules })],
   exports: [RouterModule]
 })
 export class AppRoutingModule { }

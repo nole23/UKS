@@ -39,7 +39,7 @@ export class GenerigTableComponent implements OnInit {
 
   _setList(data: any) {
     let res = [];
-    for (let i=0; i<data.length; i++) {
+    for (let i = 0; i < data.length; i++) {
       res.push({
         class: data[i].class === undefined ? null : data[i].class,
         style: data[i].style === undefined ? null : data[i].style,
@@ -52,7 +52,7 @@ export class GenerigTableComponent implements OnInit {
 
   _setTD(data: any) {
     let res = [];
-    for (let i=0; i<data.length; i++) {
+    for (let i = 0; i < data.length; i++) {
       res.push({
         class: data[i].class === undefined ? null : data[i].class,
         style: data[i].style === undefined ? null : data[i].style,
@@ -68,7 +68,7 @@ export class GenerigTableComponent implements OnInit {
     if (item > 7) {
       return 'tdw-auto'
     }
-    
+
     return 'tdw-' + item;
   }
 }

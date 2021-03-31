@@ -1,5 +1,7 @@
 <app-headers></app-headers>
 
+<app-repository-menu *ngIf="ngIsRepositoryMenu()" [viewId]="viewId"></app-repository-menu>
+
 <router-outlet>
     <notifier-container></notifier-container>
 </router-outlet>

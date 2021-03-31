@@ -35,7 +35,10 @@ export class RepositoryService {
   getRepositoryById(id: any) {
     return this.http.get(environment.apiUrl + 'get-repositpry/' + id)
       .pipe(map(res => {
-        return res;
+        if (res['message'] === 'SUCCESS') {
+          return { 'status': true, 'project': res['project'] }
+        }
+        return { 'status': false }
       }))
   }
 

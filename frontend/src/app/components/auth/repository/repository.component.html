@@ -1,10 +1,8 @@
 <div class="container vh-100">
-    <div class="header" *ngIf="list_project !== null">
-        <app-repository-menu [list_project]="list_project" [viewId]="viewId"></app-repository-menu>
-    </div>
-    
     <div class="body" *ngIf="viewId === 'c' && rootTree !== null">
-        <app-repository-code [list_project]="list_project" [rootTree]="rootTree"></app-repository-code>
+        <app-repository-code [branch]="branch" [repoId]="repoId" [rootTree]="rootTree" [tree]="tree"
+            [list_project]="list_project">
+        </app-repository-code>
     </div>
 
     <div class="body" *ngIf="viewId === 'i' && list_project !== null">

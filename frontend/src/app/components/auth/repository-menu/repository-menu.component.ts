@@ -9,24 +9,37 @@ import { Router } from '@angular/router';
   styleUrls: ['./repository-menu.component.scss']
 })
 export class RepositoryMenuComponent implements OnInit {
-  @Input('list_project') list_project: Project;
   @Input('viewId') viewId: String;
 
   listUser: any;
   count: number;
+  list_project: any;
   constructor(private repositoryService: RepositoryService, private router: Router) {
     this.listUser = null
     this.count = 2;
+    this.list_project = null;
   }
 
   ngOnInit(): void {
-    this.listUser = this.list_project.listUser
+    this._getParam();
+  }
+
+  _getParam() {
+    this.list_project = JSON.parse(localStorage.getItem('project'));
+    if (this.list_project !== null) {
+      this.listUser = this.list_project.listUser
+    } else {
+      let self = this
+      setTimeout(function () {
+        self._getParam();
+      }, 100)
+    }
   }
 
   ngOwn(list: any) {
     let res = ''
     list.forEach(element => {
-      if (element.role.name === 'O') {
+      if (element.role.roleName === 'O') {
         res = element.user.username
       }
     });

@@ -30,6 +30,7 @@ import { AddIssueComponent } from './components/auth/add-issue/add-issue.compone
 import { IssueComponent } from './components/auth/issue/issue.component';
 import { AddFilesComponent } from './components/auth/add-files/add-files.component';
 import { UploadFilesComponent } from './components/auth/upload-files/upload-files.component';
+import { BlobComponent } from './components/auth/blob/blob.component';
 
 const customNotifierOptions: NotifierOptions = {
   position: {
@@ -94,7 +95,8 @@ const customNotifierOptions: NotifierOptions = {
     AddIssueComponent,
     IssueComponent,
     AddFilesComponent,
-    UploadFilesComponent
+    UploadFilesComponent,
+    BlobComponent
   ],
   imports: [
     NotifierModule.withConfig(customNotifierOptions),
