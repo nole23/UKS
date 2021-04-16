@@ -39,10 +39,10 @@ export class BlobComponent implements OnInit {
     let project = JSON.parse(localStorage.getItem('project'));
     let treeRoot = project.rootTree[0]
     if (this.tree.length > 1) {
-      let helpTreeRoot = treeRoot.childrenFolder;
+      let helpTreeRoot = treeRoot;
       this.tree.forEach(element => {
         if (element !== 'master') {
-          helpTreeRoot = helpTreeRoot.find(x => x.nameNode === element)
+          helpTreeRoot = helpTreeRoot.childrenFolder.find(x => x.nameNode === element)
           this.file = helpTreeRoot.files.find(x => x.name.toString() === this.fileName.toString())
         }
       });

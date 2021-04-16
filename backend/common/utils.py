@@ -23,13 +23,7 @@ def create_json_response(message, status):
 
 def read_file(user, branch, folder, name_file):
     file_data = None
-    file_location = 'media/covers/' + user + '/' + branch + '/'
-
-    if folder is not None:
-        file_location += folder + '/' + name_file
-    else:
-        file_location += name_file
-
+    file_location = 'media/' + name_file.name
     try:
         with open(file_location, 'r') as f:
             file_data = f.read()
@@ -57,7 +51,7 @@ def serializeFiles(data, node, folder, username):
         dt.append({
             'id': str(each.id),
             'name': each.name,
-            'cover': read_file(username, node, folder, each.name),
+            'cover': read_file(username, node, folder, each.cover),
             'dateCreate': str(each.dateCreate),
             'user': userSerialize(each.user)
         })

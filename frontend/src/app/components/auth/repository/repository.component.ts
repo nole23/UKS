@@ -51,17 +51,15 @@ export class RepositoryComponent implements OnInit {
   _getNewRepoNode() {
     let project = JSON.parse(localStorage.getItem('project'));
     let treeRoot = project.rootTree[0]
-    // if () {
 
-    // }
     if (this.tree !== undefined && this.tree.length > 1) {
       this.list_project = null;
       this.rootTree = null;
       this.branch = null;
-      let helpTreeRoot = treeRoot.childrenFolder;
+      let helpTreeRoot = treeRoot;
       this.tree.forEach(element => {
         if (element !== 'master') {
-          helpTreeRoot = helpTreeRoot.find(x => x.nameNode === element)
+          helpTreeRoot = helpTreeRoot.childrenFolder.find(x => x.nameNode === element)
         }
       });
       this.list_project = new Project(project)

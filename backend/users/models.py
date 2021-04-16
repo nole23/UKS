@@ -2,7 +2,16 @@ from django.db import models
 
 
 def upload_path(instance, filname):
-    return "/".join(["covers", str(instance.user.username), filname])
+    splits = filname.split("_")
+    link = ""
+    index = len(splits)
+    count = 0
+    for each in splits:
+        link += each
+        count = count + 1
+        if count < index:
+            link += "/"
+    return "/".join(["covers", str(instance.user.username), link])
 
 # Create your models here.
 
@@ -36,7 +45,8 @@ class Children_Tree(models.Model):
     date_create = models.DateTimeField(null=True, blank=True)
     user_create = models.ForeignKey(User, on_delete=models.CASCADE)
     files = models.ManyToManyField(Files, blank=True)
-    children_folder = models.ManyToManyField('self', blank=True)
+    children_folder = models.ManyToManyField(
+        'self', blank=True, symmetrical=False, related_name='children_tree')
 
 
 class Root_Tree(models.Model):

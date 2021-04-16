@@ -13,6 +13,7 @@ export class UploadFilesComponent implements OnInit {
 
   @Input('list_project') list_project: any;
   @Input('branch') branch: any;
+  @Input('tree') tree: any;
   @Output() emit = new EventEmitter<any>();
 
   fileNames: Array<String>;
@@ -21,7 +22,6 @@ export class UploadFilesComponent implements OnInit {
     this.fileNames = null;
     this.file = null;
     this.notifier = notifier;
-
   }
 
   ngOnInit(): void {
@@ -39,16 +39,23 @@ export class UploadFilesComponent implements OnInit {
     if (this.file !== null) {
       const formData = new FormData();
       formData.append('type', 'upload')
-      formData.append('cover', this.file, this.file.name)
+      let name = '';
+      this.tree.forEach(element => {
+        name += '_' + element;
+      });
+      name += '_' + this.file.name
+      console.log(name)
+      formData.append('cover', this.file, name)
       formData.append('parent', this.list_project.id)
       formData.append('folder', '')
       formData.append('branch', this.branch)
+      formData.append('tree', this.tree)
 
       this.repositoryService.saveFile(formData)
         .subscribe(res => {
           if (res['message'] === 'SUCCESS') {
             this.notifier.notify('success', 'Successful upload')
-            this.cancel({ 'rootTree': res['rootTree'], 'branch': this.branch, 'folder': '' })
+            this.cancel({ 'rootTree': res['rootTree'], 'folder': this.tree[this.tree.length - 1], 'tree': this.tree })
           } else {
             this.notifier.notify('warming', 'Something isn\'t right. Please wait a moment.')
           }

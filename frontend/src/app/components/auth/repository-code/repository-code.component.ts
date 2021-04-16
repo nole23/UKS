@@ -1,13 +1,13 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, OnChanges } from '@angular/core';
 import { NotifierService } from 'angular-notifier';
-import { Files, RootTree, ChildremTree } from 'src/app/models/repository';
+import { RootTree } from 'src/app/models/repository';
 
 @Component({
   selector: 'app-repository-code',
   templateUrl: './repository-code.component.html',
   styleUrls: ['./repository-code.component.scss']
 })
-export class RepositoryCodeComponent implements OnInit {
+export class RepositoryCodeComponent implements OnInit, OnChanges {
   private readonly notifier: NotifierService;
 
   @Input('branch') branch: String;
@@ -30,6 +30,12 @@ export class RepositoryCodeComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this._parserData(this.rootTree[0]);
+    console.log(this.tree)
+  }
+
+  ngOnChanges(): void {
+    this.settings = null;
     this._parserData(this.rootTree[0]);
   }
 
@@ -103,7 +109,8 @@ export class RepositoryCodeComponent implements OnInit {
         class: element.class,
         style: element.style,
         link: element.link,
-        name: element.name
+        name: element.name,
+        date: element.date
       })
     });
 
@@ -111,15 +118,12 @@ export class RepositoryCodeComponent implements OnInit {
   }
 
   _parserChildren(data: any, type: String) {
-    let currentDate = new Date();
     let dateSent = new Date(data.dateCreate);
-    let lastDay = Math.floor((Date.UTC(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate()) - Date.UTC(dateSent.getFullYear(), dateSent.getMonth(), dateSent.getDate())) / (1000 * 60 * 60 * 24));
-
     return {
       id: data.id,
       name: type === 'folder' ? data.nameNode : data.name,
       parentFolder: type === 'file' ? data.nameNode : null,
-      dateCreate: lastDay < 0 ? 'Created today.' : lastDay + '  days ago.'
+      dateCreate: dateSent
     }
   }
 
@@ -150,37 +154,35 @@ export class RepositoryCodeComponent implements OnInit {
           name: '<span class="float-center">' + p + '</span>'
         },
         {
-          class: '',
+          class: 'float-right color-text',
           style: '',
           link: null,
-          name: '<span class="float-right color-text">' + data.dateCreate + '</span>'
+          name: null,
+          date: data.dateCreate
         }
       ]
     }
   }
 
   _pushNewFile(event: any) {
-    const branch = event.branch, folder = event.folder;
     let data = JSON.parse(localStorage.getItem('project'));
     localStorage.removeItem('project');
 
-    if (folder === '') {
-      const indexFile = event.rootTree.files.length - 1;
-      for (let i in this.rootTree) {
-        this.rootTree[i].files.push(new Files(event.rootTree.files[indexFile]))
-        data.rootTree[i].files.push(new Files(event.rootTree.files[indexFile]))
-      }
+    let help_root = event.rootTree
+
+    if (event.tree.length > 1) {
+      this.tree.forEach(element => {
+        if (element !== 'master') {
+          let index = help_root.childrenFolder.find(x => x.nameNode === element) // index je undefined, srediti ovo ovde
+          help_root = index
+        }
+      });
     }
 
-    if (folder !== '') {
-      const indexChildrenFolder = event.rootTree.childrenFolder.length - 1;
-      for (let i in this.rootTree) {
-        this.rootTree[i].childrenFolder.push(new ChildremTree(event.rootTree.childrenFolder[indexChildrenFolder]))
-        data.rootTree[i].childrenFolder.push(new ChildremTree(event.rootTree.childrenFolder[indexChildrenFolder]))
-      }
-    }
+    data.rootTree = []
+    data.rootTree.push(event.rootTree)
 
     localStorage.setItem('project', JSON.stringify(data))
-    this._parserData(this.rootTree[0])
+    this._parserData(help_root)
   }
 }

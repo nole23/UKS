@@ -1,11 +1,11 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, OnChanges } from '@angular/core';
 
 @Component({
   selector: 'app-generig-table',
   templateUrl: './generig-table.component.html',
   styleUrls: ['./generig-table.component.scss']
 })
-export class GenerigTableComponent implements OnInit {
+export class GenerigTableComponent implements OnInit, OnChanges {
   @Input('settings') settings: any;
 
   options: any;
@@ -15,6 +15,10 @@ export class GenerigTableComponent implements OnInit {
 
   ngOnInit(): void {
     this._setOptions();
+  }
+
+  ngOnChanges(): void {
+    this._setOptions()
   }
 
   _setOptions() {
@@ -58,7 +62,8 @@ export class GenerigTableComponent implements OnInit {
         style: data[i].style === undefined ? null : data[i].style,
         id: data[i].id === undefined ? null : data[i].id,
         name: data[i].name === undefined ? null : data[i].name,
-        link: data[i].link === undefined ? null : data[i].link
+        link: data[i].link === undefined ? null : data[i].link,
+        date: data[i].date === undefined ? null : data[i].date
       })
     }
     return res;

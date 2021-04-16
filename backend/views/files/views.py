@@ -22,8 +22,14 @@ class File(APIView):
         types = request.data['type']
         folder = request.data['folder']
         branch = request.data['branch']
+        tree = request.data['tree'].split(',')
 
-        path = branch + '/'
+        path = ""
+        if tree is not None:
+            for each in tree:
+                path += each + "/"
+        else:
+            path = "master/"
 
         project = Project.objects.get(id=id_project)
         rootTree = project.root_tree.first()
@@ -51,16 +57,31 @@ class File(APIView):
 
         if types == "upload":
             cover = request.data['cover']
+            name = cover.name.split("_")
             files = Files.objects.create(
-                name=cover.name, cover=cover, dateCreate=datetime.now(), user=user)
+                name=name[-1], cover=cover, dateCreate=datetime.now(), user=user)
 
-        if folder != "":
-            childrenTree = Children_Tree.objects.create(
-                name_node=folder, date_create=datetime.now(), user_create=request._user)
-            childrenTree.files.add(files)
-            rootTree.children_folder.add(childrenTree)
+        if len(tree) > 1:
+            help_child = rootTree
+            for each in tree:
+                if each != 'master':
+                    help_child = help_child.children_folder.get(name_node=each)
+
+            if folder != "":
+                childrenTree = Children_Tree.objects.create(
+                    name_node=folder, date_create=datetime.now(), user_create=request._user)
+                childrenTree.files.add(files)
+                help_child.children_folder.add(childrenTree)
+            else:
+                help_child.files.add(files)
         else:
-            rootTree.files.add(files)
+            if folder != "":
+                childrenTree = Children_Tree.objects.create(
+                    name_node=folder, date_create=datetime.now(), user_create=request._user)
+                childrenTree.files.add(files)
+                rootTree.children_folder.add(childrenTree)
+            else:
+                rootTree.files.add(files)
 
         jsonRootTree = rootTreeSeriallize(rootTree, 'none')
         return create_json_response({"message": "SUCCESS", "rootTree": jsonRootTree}, status=200)

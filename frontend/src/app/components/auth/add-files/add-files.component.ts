@@ -13,6 +13,7 @@ export class AddFilesComponent implements OnInit {
 
   @Input('list_project') list_project: any;
   @Input('branch') branch: any;
+  @Input('tree') tree: any;
   @Output() emit = new EventEmitter<any>();
 
   file: any;
@@ -39,12 +40,13 @@ export class AddFilesComponent implements OnInit {
       formData.append('branch', this.branch)
       formData.append('text', this.body)
       formData.append('parent', this.list_project.id)
+      formData.append('tree', this.tree)
 
       this.repositoryService.saveFile(formData)
         .subscribe(res => {
           if (res['message'] === 'SUCCESS') {
             this.notifier.notify('success', 'File ' + this.name + ' is created!')
-            this.cancel({ 'rootTree': res['rootTree'], 'branch': this.branch, 'folder': this.nameFolder })
+            this.cancel({ 'rootTree': res['rootTree'], 'folder': this.nameFolder, 'tree': this.tree })
           } else {
             this.notifier.notify('warming', 'Something isn\'t right. Please wait a moment.')
           }

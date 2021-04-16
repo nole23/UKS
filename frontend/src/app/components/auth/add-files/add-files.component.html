@@ -1,7 +1,13 @@
 <div class="container">
     <div class="w-100 h-10 mt-3 float-left">
         <div class="form-group w-100 float-left">
-            <span class="float-left font-20" style="height:30px; width: fit-content;">{{list_project.name}} / </span>
+            <span class="float-left font-20" style="height:30px; width: fit-content;">
+                <span>{{list_project.name}}</span>
+                <span *ngFor="let item of tree">
+                    <span *ngIf="item !== 'master'">{{' / ' + item}}</span>
+                </span>
+                <span> /</span>
+            </span>
             <input class="form-control float-left ml-2" style="height:30px; width: fit-content;" type="text"
                 [(ngModel)]="nameFolder" placeholder="Name folder...">
             <input class="form-control float-left ml-2" style="height:30px; width: fit-content;" type="text"
