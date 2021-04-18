@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Subject } from 'rxjs';
-import { map, catchError } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 import { UserRegistration } from 'src/app/models/user';
 
@@ -10,19 +10,21 @@ import { UserRegistration } from 'src/app/models/user';
 })
 export class AuthService {
 
+  private API_URL = environment['apiUrl'];
+
   private loginSource = new Subject<any>();
   login$ = this.loginSource.asObservable();
   constructor(private http: HttpClient) { }
 
   registraton(login: any) {
-    return this.http.post(environment.apiUrl + 'sing-in', login)
+    return this.http.post(this.API_URL + 'sing-in', login)
       .pipe(map(res => {
         return res;
       }))
   }
 
   login(login: UserRegistration) {
-    return this.http.post(environment.apiUrl + 'sing-up', login)
+    return this.http.post(this.API_URL + 'sing-up', login)
       .pipe(map(res => {
         if (res['status']) {
           const user = res['user'];
@@ -43,6 +45,7 @@ export class AuthService {
   logOut() {
     localStorage.removeItem('user');
     localStorage.removeItem('jwt');
+    localStorage.removeItem('project');
     this.loginSource.next();
   }
 }

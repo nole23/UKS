@@ -9,17 +9,19 @@ import { Repository } from 'src/app/models/repository';
 })
 export class RepositoryService {
 
+  private API_URL = environment['apiUrl'];
+
   constructor(private http: HttpClient) { }
 
   saveRepository(repository: Repository) {
-    return this.http.post(environment.apiUrl + 'repository', repository)
+    return this.http.post(this.API_URL + 'repository', repository)
       .pipe(map(res => {
         return res;
       }))
   }
 
   getAllRepository() {
-    return this.http.get(environment.apiUrl + 'get-all-repository')
+    return this.http.get(this.API_URL + 'get-all-repository')
       .pipe(map(res => {
         return res;
       }))
@@ -33,7 +35,7 @@ export class RepositoryService {
   }
 
   getRepositoryById(id: any) {
-    return this.http.get(environment.apiUrl + 'get-repositpry/' + id)
+    return this.http.get(this.API_URL + 'get-repositpry/' + id)
       .pipe(map(res => {
         if (res['message'] === 'SUCCESS') {
           return { 'status': true, 'project': res['project'] }
@@ -43,42 +45,42 @@ export class RepositoryService {
   }
 
   saveIssue(item: any) {
-    return this.http.post(environment.apiUrl + 'add-issue', item)
+    return this.http.post(this.API_URL + 'add-issue', item)
       .pipe(map(res => {
         return res;
       }))
   }
 
   getIssueById(id: any) {
-    return this.http.get(environment.apiUrl + 'issue/' + id)
+    return this.http.get(this.API_URL + 'issue/' + id)
       .pipe(map(res => {
         return res
       }))
   }
 
   saveComment(item: any) {
-    return this.http.post(environment.apiUrl + 'add-issue-comment', item)
+    return this.http.post(this.API_URL + 'add-issue-comment', item)
       .pipe(map(res => {
         return res;
       }))
   }
 
   filter(status: any, params: any, id: any) {
-    return this.http.get(environment.apiUrl + 'filter/' + status + '/' + params + '/' + id)
+    return this.http.get(this.API_URL + 'filter/' + status + '/' + params + '/' + id)
       .pipe(map(res => {
         return res;
       }))
   }
 
   deleteRepository(id: any) {
-    return this.http.delete(environment.apiUrl + 'delete-repository/' + id, {})
+    return this.http.delete(this.API_URL + 'delete-repository/' + id, {})
       .pipe(map(res => {
         return res;
       }))
   }
 
   saveFile(file: any) {
-    return this.http.post(environment.apiUrl + 'files', file)
+    return this.http.post(this.API_URL + 'files', file)
       .pipe(map(res => {
         return res;
       }))
