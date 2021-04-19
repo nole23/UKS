@@ -1,1 +1,22 @@
-<p>repository-action works!</p>
+<div class="float-left w-70">
+    <!-- left -->
+    <div class="form-group float-left w-100" #formcontrol>
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-12 mb-3" *ngFor="let item of description">
+                    <h1 *ngIf="item.h1 !== undefined">{{item.h1}}</h1>
+                    <h2 *ngIf="item.h2 !== undefined">{{item.h2}}</h2>
+                    <h3 *ngIf="item.h3 !== undefined">{{item.h3}}</h3>
+
+                    <span *ngIf="item.text !== undefined">{{item.text}}</span>
+                    <div class="float-left w-100" *ngIf="item.list !== undefined">
+                        <span *ngFor="let i of item.list">
+                            {{i.text}} <span *ngIf="i.link !== undefined"><a class="nav-link cursor"
+                                    [routerLink]="['/' + i.link]">link</a></span>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -34,7 +34,8 @@ urlpatterns = [
     path('api/add-issue-comment', views.saveCommentByIssue),
     path('api/filter/<str:status>/<str:params>/<int:id>', views.filters),
     path('api/delete-repository/<int:id>', views.deleteRepository),
-    path('api/files', files.File.as_view())
+    path('api/files', files.File.as_view()),
+    path('api/actions/<int:id>', views.actions, name='actions')
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
