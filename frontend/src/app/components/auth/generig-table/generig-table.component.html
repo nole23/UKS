@@ -18,14 +18,23 @@
       <tr *ngFor="let item of options.table.tbody.tr; let i = index" [ngClass]="item.class" [ngStyle]="item.style">
         <td class="w-5">{{i+1}}</td>
         <td [ngClass]="ngSetClass(item.td.length)" *ngFor="let i of item.td">
-          <div *ngIf="i.link !== null && i.date === null" [ngClass]="i.class" [ngStyle]="i.style"
+          <div *ngIf="i.link !== null && i.date === null && i.button === null" [ngClass]="i.class" [ngStyle]="i.style"
             [routerLink]="[i.link]" [innerHTML]="i.name"></div>
 
-          <div *ngIf="i.link === null && i.date === null" [ngClass]="i.class" [ngStyle]="i.style" [innerHTML]="i.name">
+          <div *ngIf="i.link === null && i.date === null && i.button === null" [ngClass]="i.class" [ngStyle]="i.style" [innerHTML]="i.name">
           </div>
 
-          <div *ngIf="i.link === null && i.date !== null" [ngClass]="i.class" [ngStyle]="i.style">
+          <div *ngIf="i.link === null && i.date !== null && i.button === null" [ngClass]="i.class" [ngStyle]="i.style">
             {{i.date | timeago}}
+          </div>
+
+          <div *ngIf="i.button !== null && i.date === null && i.link === null">
+            <button [ngClass]="i.button.class" [ngStyle]="i.button.style" (click)="button(item)">
+              <span *ngIf="i.button.span !== null">
+                <i [ngClass]="i.button.span.i" aria-hidden="true"></i>
+              </span>
+              {{i.button.name}}
+            </button>
           </div>
         </td>
       </tr>

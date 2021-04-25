@@ -20,6 +20,7 @@ from django.conf import settings
 from users import views
 from views.files import views as files
 from views.repository import views as repository
+from views.update import views as update
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -34,7 +35,10 @@ urlpatterns = [
     path('api/add-issue-comment', views.saveCommentByIssue),
     path('api/filter/<str:status>/<str:params>/<int:id>', views.filters),
     path('api/delete-repository/<int:id>', views.deleteRepository),
-    path('api/files', files.File.as_view())
+    path('api/files', files.File.as_view()),
+    path('api/userSearch/<str:text>', update.Update.as_view()),
+    path('api/updateProject', update.Update.as_view()),
+    path('api/addUserInProject', update.Update.as_view())
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

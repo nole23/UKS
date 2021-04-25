@@ -83,4 +83,25 @@ export class RepositoryService {
         return res;
       }))
   }
+
+  updateProject(data: any) {
+    return this.http.put(environment.apiUrl + 'updateProject', data)
+      .pipe(map(res => {
+        return res;
+      }))
+  }
+
+  userSearch(text: any) {
+    return this.http.get(environment.apiUrl + 'userSearch/' + text)
+      .pipe(map(res => {
+        return res;
+      }))
+  }
+
+  addUserInProject(data: any) {
+    return this.http.post(environment.apiUrl + 'addUserInProject', data)
+      .pipe(map(res => {
+        return res;
+      }))
+  }
 }

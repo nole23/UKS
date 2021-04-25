@@ -11,7 +11,7 @@ export class Project {
     name: String;
     description: String;
     date_create: String;
-    type_project: Boolean;
+    typeProject: Boolean;
     listUser: any;
     issue: any;
     rootTree: any;
@@ -22,7 +22,7 @@ export class Project {
             this.name = item.name;
             this.description = item.description;
             this.date_create = item.date_create;
-            this.type_project = item.type_project
+            this.typeProject = item.typeProject
             this.listUser = [];
             if (item.listUser !== undefined) {
                 if (item.listUser !== null) {

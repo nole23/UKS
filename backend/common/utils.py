@@ -115,14 +115,20 @@ def roleSerialize(data):
     }
 
 
-def listUserSerialize(data):
-    rd = []
-    for each in data:
-        rd.append({
-            'user': userSerialize(each.user),
-            'role': roleSerialize(each.role)
-        })
-    return rd
+def listUserSerialize(data, notList=False):
+    if notList == False:
+        rd = []
+        for each in data:
+            rd.append({
+                'user': userSerialize(each.user),
+                'role': roleSerialize(each.role)
+            })
+        return rd
+    else:
+        return {
+            'user': userSerialize(data.user),
+            'role': roleSerialize(data.role)
+        }
 
 
 def projectSerialize(data, issuesData, listProjectData):
