@@ -1,0 +1,18 @@
+[
+    {
+        "h1": "Get started with UKSrepository",
+        "text": "Build, test, and deploy your code. Make code reviews, branch management, and issue triaging work the way you want. Select a workflow template to get started."
+    },
+    {
+        "h3": "Steps for creating project",
+        "list": [
+            {
+                "text": "1. Click on 'Create repository' on following ",
+                "link": "new"
+            },
+            {
+                "text": "2. Enter a Repository name, Description and choose type of your repository (public or private). Click on 'Create new repository' button to save entered data."
+            }
+        ]
+    }
+]

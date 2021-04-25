@@ -104,4 +104,11 @@ export class RepositoryService {
         return res;
       }))
   }
+
+  getActions(id: any) {
+    return this.http.get(environment.apiUrl + 'actions/' + id)
+      .pipe(map(res => {
+        return res;
+      }))
+  }
 }

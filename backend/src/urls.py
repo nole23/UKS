@@ -36,6 +36,7 @@ urlpatterns = [
     path('api/filter/<str:status>/<str:params>/<int:id>', views.filters),
     path('api/delete-repository/<int:id>', views.deleteRepository),
     path('api/files', files.File.as_view()),
+    path('api/actions/<int:id>', views.actions, name='actions'),
     path('api/userSearch/<str:text>', update.Update.as_view()),
     path('api/updateProject', update.Update.as_view()),
     path('api/addUserInProject', update.Update.as_view())

@@ -309,3 +309,13 @@ def deleteRepository(request, id):
         x = '{ "status":"SUCCESS" }'
         y = json.loads(x)
         return JsonResponse(y)
+
+@csrf_exempt
+def actions(request, id):
+    if request.method == "GET":
+        file = open("config/actions.json", "r")
+        data = file.read()
+        file.close()
+        x = '{ "status":"SUCCESS", "description":'+ data +' }'
+        y = json.loads(x)
+        return JsonResponse(y)
