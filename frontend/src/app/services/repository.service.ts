@@ -113,4 +113,11 @@ export class RepositoryService {
         return res;
       }))
   }
+
+  getParam(id: any) {
+    return this.http.get(environment.apiUrl + 'statistic/' + id)
+      .pipe(map(res => {
+        return res;
+      }))
+  }
 }
