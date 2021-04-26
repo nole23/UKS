@@ -21,6 +21,7 @@ from users import views
 from views.files import views as files
 from views.repository import views as repository
 from views.update import views as update
+from views.statistic import views as statistic
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -39,7 +40,8 @@ urlpatterns = [
     path('api/actions/<int:id>', views.actions, name='actions'),
     path('api/userSearch/<str:text>', update.Update.as_view()),
     path('api/updateProject', update.Update.as_view()),
-    path('api/addUserInProject', update.Update.as_view())
+    path('api/addUserInProject', update.Update.as_view()),
+    path('api/statistic/<int:id>', statistic.Statistic.as_view())
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -12,7 +12,7 @@ import { NotifierService } from 'angular-notifier';
 })
 export class RepositorySettingComponent implements OnInit {
   private readonly notifier: NotifierService;
-  
+
   tabName: String;
   project: Project;
   spiner: Boolean;
@@ -93,7 +93,7 @@ export class RepositorySettingComponent implements OnInit {
       thead: undefined,
       tbody: {
         tr: this._createTR(users, status)
-      } 
+      }
     }
     console.log(settings)
     this.settings = settings;
@@ -152,11 +152,11 @@ export class RepositorySettingComponent implements OnInit {
     const formData = new FormData();
     formData.append('user', event.td[0].id);
     formData.append('project', this.project.id);
-    
+
     this.repositoryService.addUserInProject(formData)
       .subscribe(res => {
         if (res['message'] === 'SUCCESS') {
-          let message = res['data'].find(x => {return x.isSave})
+          let message = res['data'].find(x => { return x.isSave })
           if (message.isSave === 'true') {
             let listUser = this._updateProject(new User(res['data'][1]), new Role(res['data'][2]))
             this.notifier.notify('success', 'User ' + event.td[0].name + ' add in project.')

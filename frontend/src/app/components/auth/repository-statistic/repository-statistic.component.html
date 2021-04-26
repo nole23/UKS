@@ -1,1 +1,29 @@
-<p>repository-statistic works!</p>
+<div class="w-100 pb-2 pl-1 pr-1">
+    <div class="float-left w-70">
+        <div class="sidebar" style="float:left; position: unset!important;">
+            <a class="cursorBlue" (click)="tabName = 'options'"
+                [ngClass]="{'sidebar-active': tabName === 'options'}">Project progress</a>
+            <a class="cursorBlue" (click)="tabName = 'access'"
+                [ngClass]="{'sidebar-active': tabName === 'access'}">Number of issues</a>
+        </div>
+
+        <div class="content w-100 color-text" *ngIf="tabName === 'options'">
+            <div class="chart-wrapper" *ngIf="isShow">
+                <canvas baseChart [datasets]="barChartData" [labels]="barChartLabels" [options]="barChartOptions"
+                    [plugins]="barChartPlugins" [legend]="barChartLegend" [chartType]="barChartType"
+                    [colors]="lineChartColors">
+                </canvas>
+            </div>
+        </div>
+
+        <div class="content w-100 color-text" *ngIf="tabName === 'access'">
+            <div class="chart-wrapper" *ngIf="isShowIssue">
+                <canvas baseChart [data]="pieChartData" [labels]="pieChartLabels" [chartType]="pieChartType"
+                    [options]="pieChartOptions" [plugins]="pieChartPlugins" [legend]="pieChartLegend"
+                    [colors]="pieChartColors">
+                </canvas>
+            </div>
+        </div>
+
+    </div>
+</div>

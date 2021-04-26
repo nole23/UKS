@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { NotifierModule, NotifierOptions } from 'angular-notifier';
 import { TimeagoModule } from 'ngx-timeago';
+import { ChartsModule } from 'ng2-charts';
 
 import { AuthNav } from 'src/app/guard/auth-nav';
 import { TokenInterceptor } from 'src/app/guard/token-interceptor';
@@ -105,7 +106,8 @@ const customNotifierOptions: NotifierOptions = {
     AppRoutingModule,
     FormsModule,
     HttpClientModule,
-    TimeagoModule.forRoot()
+    TimeagoModule.forRoot(),
+    ChartsModule
   ],
   providers: [
     AuthNav,
