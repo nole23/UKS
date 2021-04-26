@@ -79,6 +79,7 @@
 .color-background { color: #FAFBFC; }
 .color-background1 { color: #E1E4E8; }
 .color-background-white { color: #FFFFFF; }
+.error-color { color: red; border: 1px solid red;}
 
 .border-color {
     border: 1px solid #dee2e6!important;

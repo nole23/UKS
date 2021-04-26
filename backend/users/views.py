@@ -30,48 +30,50 @@ def index(request):
 
 @csrf_exempt
 def registration(request):
-    if request.method == "POST":
-        body_unicode = request.body.decode('utf-8')
-        body = json.loads(body_unicode)
+    # if request.method == "POST":
+    #     body_unicode = request.body.decode('utf-8')
+    #     body = json.loads(body_unicode)
 
-        username = body['email'].split('@')
-        username = username[0]
+    #     username = body['email'].split('@')
+    #     username = username[0]
 
-        p = User(first_name=body['firstName'], last_name=body['lastName'],
-                 email=body['email'], username=username, password=body['password'])
-        p.save()
+    #     p = User(first_name=body['firstName'], last_name=body['lastName'],
+    #              email=body['email'], username=username, password=body['password'])
+    #     p.save()
 
-        x = '{ "status":"SUCCESS" }'
-        y = json.loads(x)
-        return JsonResponse(y)
+    #     x = '{ "status":"SUCCESS" }'
+    #     y = json.loads(x)
+    #     return JsonResponse(y)
+    pass
 
 
 @csrf_exempt
 def login(request):
-    if request.method == "POST":
-        body_unicode = request.body.decode('utf-8')
-        body = json.loads(body_unicode)
+    # if request.method == "POST":
+    #     body_unicode = request.body.decode('utf-8')
+    #     body = json.loads(body_unicode)
 
-        email = body['email']
-        password = body['password']
-        x = ''
+    #     email = body['email']
+    #     password = body['password']
+    #     x = ''
 
-        user = User.objects.get(email=email)
-        if user.password != password:
-            x = '{ "status":false }'
-            y = json.loads(x)
-            return JsonResponse(y)
+    #     user = User.objects.get(email=email)
+    #     if user.password != password:
+    #         x = '{ "status":false }'
+    #         y = json.loads(x)
+    #         return JsonResponse(y)
 
-        payload = {
-            'user_id': user.id,
-            'exp': datetime.utcnow() + timedelta(seconds=JWT_EXP_DELTA_SECONDS)
-        }
-        jwt_token = jwt.encode(payload, JWT_SECRET, JWT_ALGORITHM)
+    #     payload = {
+    #         'user_id': user.id,
+    #         'exp': datetime.utcnow() + timedelta(seconds=JWT_EXP_DELTA_SECONDS)
+    #     }
+    #     jwt_token = jwt.encode(payload, JWT_SECRET, JWT_ALGORITHM)
 
-        x = '{ "status":true, "user":{"firstName":"' + user.first_name + \
-            '", "lastName":"' + user.last_name + '"}, "jwt":"' + jwt_token + '"}'
-        y = json.loads(x)
-        return JsonResponse(y)
+    #     x = '{ "status":true, "user":{"firstName":"' + user.first_name + \
+    #         '", "lastName":"' + user.last_name + '"}, "jwt":"' + jwt_token + '"}'
+    #     y = json.loads(x)
+    #     return JsonResponse(y)
+    pass
 
 
 @csrf_exempt
@@ -310,12 +312,13 @@ def deleteRepository(request, id):
         y = json.loads(x)
         return JsonResponse(y)
 
+
 @csrf_exempt
 def actions(request, id):
     if request.method == "GET":
         file = open("config/actions.json", "r")
         data = file.read()
         file.close()
-        x = '{ "status":"SUCCESS", "description":'+ data +' }'
+        x = '{ "status":"SUCCESS", "description":' + data + ' }'
         y = json.loads(x)
         return JsonResponse(y)

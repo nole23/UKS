@@ -45,6 +45,13 @@ def userSerialize(data):
     }
 
 
+def loginSerialize(user, jwt):
+    return {
+        'user': userSerialize(user),
+        'jwt': jwt
+    }
+
+
 def serializeFiles(data, node, folder, username):
     dt = []
     for each in data:

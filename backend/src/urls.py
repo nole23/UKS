@@ -22,12 +22,14 @@ from views.files import views as files
 from views.repository import views as repository
 from views.update import views as update
 from views.statistic import views as statistic
+from views.authController import view_registration as registration
+from views.authController import views as login
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('index', views.index, name='index'),
-    path('api/sing-in', views.registration, name='registration'),
-    path('api/sing-up', views.login, name='login'),
+    path('api/sing-in', registration.Registration.as_view()),
+    path('api/sing-up', login.Login.as_view()),
     path('api/repository', repository.Repository.as_view()),
     path('api/get-repositpry/<int:id>', repository.Repository.as_view()),
     path('api/get-all-repository', views.getAllrepository),

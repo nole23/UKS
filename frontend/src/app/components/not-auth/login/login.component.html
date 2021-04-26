@@ -1,24 +1,26 @@
 <div class="container mt-3">
     <div class="d-flex justify-content-center  mb-3">
-        <div class="col-sm-5 p-2 reg-bord" *ngIf="!isLogin">
-            <h3>Ulogujte se</h3>
-            <p class="red-text" *ngIf="message !== null">Sifra ili lozinka nisu ispravni.</p>
-
+        <div class="col-sm-5 p-2 reg-bord">
+            <h3>Login forms</h3>
+            <hr>
             <form>
                 <div class="form-group">
-                    <label for="password"class="w-100">Email</label>
-                    <input type="text" class="form-control" name="email" id="email" [(ngModel)]="login.email" placeholder="Unesite email">
+                    <label for="password" class="w-100">Email</label>
+                    <input type="text" class="form-control" name="email" id="email" [(ngModel)]="login.email"
+                        [ngClass]="cssEmail" placeholder="Email...">
 
-                    <label for="password"class="w-100">Sifra</label>
-                    <input type="password" class="form-control" name="password" id="password" [(ngModel)]="login.password" placeholder="Unesite sifru">
+                    <label for="password" class="w-100">Password</label>
+                    <input type="password" class="form-control" name="password" id="password" [ngClass]="cssPassword"
+                        [(ngModel)]="login.password" placeholder="Password">
                 </div>
-                
-                <button type="submit" class="btn btn-primary margin-top float-right" (click)="ngLogin()">Ulogujte se</button>
-            </form>
-        </div>
 
-        <div class="col-sm-5 p-2 reg-bord" *ngIf="isLogin">
-            <h3>Login ...</h3>
+                <button type="submit" class="btn btn-primary margin-top float-right" (click)="ngLogin()">
+                    Login
+                    <span *ngIf="isSpiner">
+                        <div class="spinner-border text-success" style="width: 1rem; height: 1rem;"></div>
+                    </span>
+                </button>
+            </form>
         </div>
     </div>
 </div>
