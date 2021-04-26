@@ -10,7 +10,9 @@ import { AuthService } from 'src/app/services/auth.service';
 export class HeadersComponent implements OnInit {
 
   isStatus: Boolean;
+  userID: any;
   constructor(private authService: AuthService, private router: Router) {
+    this.userID = null;
     this.authService.login$.subscribe(res => {
       this.ngOnInit();
     });
@@ -19,6 +21,7 @@ export class HeadersComponent implements OnInit {
   ngOnInit(): void {
     if (localStorage.getItem('jwt')) {
       this.isStatus = true;
+      this.userID = JSON.parse(localStorage.getItem('user'))['id']
     } else {
       this.isStatus = false;
     }
