@@ -22,10 +22,12 @@ class Role(models.Model):
         ('C', 'Collaborator'),
         ('V', 'Visitor'),
     )
+    id = models.AutoField(primary_key=True)
     role_name = models.CharField(max_length=1, choices=ROLES)
 
 
 class User(models.Model):
+    id = models.AutoField(primary_key=True)
     first_name = models.CharField(max_length=30)
     last_name = models.CharField(max_length=30)
     email = models.CharField(max_length=30)
@@ -34,6 +36,7 @@ class User(models.Model):
 
 
 class Files(models.Model):
+    id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=250)
     cover = models.FileField(blank=True, null=True, upload_to=upload_path)
     dateCreate = models.DateTimeField(null=True, blank=True)
@@ -41,6 +44,7 @@ class Files(models.Model):
 
 
 class Children_Tree(models.Model):
+    id = models.AutoField(primary_key=True)
     name_node = models.CharField(max_length=150)
     date_create = models.DateTimeField(null=True, blank=True)
     user_create = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -50,6 +54,7 @@ class Children_Tree(models.Model):
 
 
 class Root_Tree(models.Model):
+    id = models.AutoField(primary_key=True)
     name_branch = models.CharField(max_length=150)
     date_create = models.DateTimeField(null=True, blank=True)
     user_create = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -58,6 +63,7 @@ class Root_Tree(models.Model):
 
 
 class Project(models.Model):
+    id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=30)
     description = models.CharField(max_length=150)
     date_create = models.DateTimeField(null=True, blank=True)
@@ -67,12 +73,14 @@ class Project(models.Model):
 
 
 class List_Project_User(models.Model):
+    id = models.AutoField(primary_key=True)
     project = models.ForeignKey(Project, on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     role = models.ForeignKey(Role, on_delete=models.CASCADE, null=True)
 
 
 class Issue(models.Model):
+    id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=30)
     description = models.CharField(max_length=150)
     status = models.BooleanField(default=True)
@@ -81,6 +89,7 @@ class Issue(models.Model):
 
 
 class Issue_Comment(models.Model):
+    id = models.AutoField(primary_key=True)
     comment = models.CharField(max_length=150)
     issue = models.ForeignKey(Issue, on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
