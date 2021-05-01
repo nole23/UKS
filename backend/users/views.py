@@ -199,108 +199,112 @@ def getRepositoryById(request, id):
 
 @csrf_exempt
 def addIssue(request):
-    if request.method == "POST":
-        body_unicode = request.body.decode('utf-8')
-        body = json.loads(body_unicode)
+    # if request.method == "POST":
+    #     body_unicode = request.body.decode('utf-8')
+    #     body = json.loads(body_unicode)
 
-        project = Project.objects.get(id=body['id'])
-        user = User.objects.get(id=1)
+    #     project = Project.objects.get(id=body['id'])
+    #     user = User.objects.get(id=1)
 
-        issue = Issue(
-            name=body['name'], description=body['description'], project=project, user=user)
-        issue.save()
+    #     issue = Issue(
+    #         name=body['name'], description=body['description'], project=project, user=user)
+    #     issue.save()
 
-        data = '{"id":"' + str(issue.id) + '", "name":"' + issue.name + '", "description":"' + str(issue.description) + '", "user":{"id":"' + str(issue.user.id) + \
-            '", "firstName":"' + str(issue.user.first_name) + '", "lastName":"' + str(
-                issue.user.last_name) + '", "username":"' + str(issue.user.username) + '"}}'
+    #     data = '{"id":"' + str(issue.id) + '", "name":"' + issue.name + '", "description":"' + str(issue.description) + '", "user":{"id":"' + str(issue.user.id) + \
+    #         '", "firstName":"' + str(issue.user.first_name) + '", "lastName":"' + str(
+    #             issue.user.last_name) + '", "username":"' + str(issue.user.username) + '"}}'
 
-        x = '{ "status":"SUCCESS", "issue": ' + data + ' }'
+    #     x = '{ "status":"SUCCESS", "issue": ' + data + ' }'
 
-        y = json.loads(x)
-        return JsonResponse(y)
+    #     y = json.loads(x)
+    #     return JsonResponse(y)
+    pass
 
 
 @csrf_exempt
 def getIssueById(request, id):
-    if request.method == "GET":
-        issue = Issue.objects.get(id=id)
+    # if request.method == "GET":
+    #     issue = Issue.objects.get(id=id)
 
-        issue_comment = Issue_Comment.objects.filter(issue=issue.id)
+    #     issue_comment = Issue_Comment.objects.filter(issue=issue.id)
 
-        userData = '{"id":"' + str(issue.user.id) + '", "firstName":"' + str(
-            issue.user.first_name) + '", "lastName":"' + str(issue.user.last_name) + '"}'
+    #     userData = '{"id":"' + str(issue.user.id) + '", "firstName":"' + str(
+    #         issue.user.first_name) + '", "lastName":"' + str(issue.user.last_name) + '"}'
 
-        commentsData = '['
-        end = len(issue_comment)
-        count = 0
-        for each in issue_comment:
-            commentUser = '{"id":"' + str(each.user.id) + '", "firstName":"' + str(
-                each.user.first_name) + '", "lastName":"' + str(each.user.last_name) + '"}'
-            commentsData += '{"id":"' + str(each.id) + '", "comment":"' + str(
-                each.comment) + '", "user":' + commentUser + '}'
-            count = count + 1
-            if count < end:
-                commentsData += ','
-        commentsData += ']'
+    #     commentsData = '['
+    #     end = len(issue_comment)
+    #     count = 0
+    #     for each in issue_comment:
+    #         commentUser = '{"id":"' + str(each.user.id) + '", "firstName":"' + str(
+    #             each.user.first_name) + '", "lastName":"' + str(each.user.last_name) + '"}'
+    #         commentsData += '{"id":"' + str(each.id) + '", "comment":"' + str(
+    #             each.comment) + '", "user":' + commentUser + '}'
+    #         count = count + 1
+    #         if count < end:
+    #             commentsData += ','
+    #     commentsData += ']'
 
-        issue_data = '{"id":"' + str(issue.id) + '", "name":"' + str(issue.name) + '", "description":"' + str(
-            issue.description) + '", "status":"' + str(issue.status) + '", "user":' + userData + ', "issueComment":' + commentsData + '}'
+    #     issue_data = '{"id":"' + str(issue.id) + '", "name":"' + str(issue.name) + '", "description":"' + str(
+    #         issue.description) + '", "status":"' + str(issue.status) + '", "user":' + userData + ', "issueComment":' + commentsData + '}'
 
-        x = '{ "status":"SUCCESS", "issue": ' + issue_data + '}'
-        y = json.loads(x)
-        return JsonResponse(y)
+    #     x = '{ "status":"SUCCESS", "issue": ' + issue_data + '}'
+    #     y = json.loads(x)
+    #     return JsonResponse(y)
+    pass
 
 
 @csrf_exempt
 def saveCommentByIssue(request):
-    if request.method == "POST":
-        body_unicode = request.body.decode('utf-8')
-        body = json.loads(body_unicode)
+    # if request.method == "POST":
+    #     body_unicode = request.body.decode('utf-8')
+    #     body = json.loads(body_unicode)
 
-        user = User.objects.get(email=u)
-        issue = Issue.objects.get(pk=body['id'])
+    #     user = User.objects.get(email=u)
+    #     issue = Issue.objects.get(pk=body['id'])
 
-        issueComment = Issue_Comment(
-            comment=body['comment'], issue=issue, user=user)
-        issueComment.save()
+    #     issueComment = Issue_Comment(
+    #         comment=body['comment'], issue=issue, user=user)
+    #     issueComment.save()
 
-        userData = '{"id":"' + str(user.id) + '", "firstName":"' + str(
-            user.first_name) + '", "lastName":"' + str(user.last_name) + '"}'
-        data = '{"id":"' + str(issueComment.id) + '", "comment":"' + \
-            str(issueComment.comment) + '", "user":' + userData + '}'
+    #     userData = '{"id":"' + str(user.id) + '", "firstName":"' + str(
+    #         user.first_name) + '", "lastName":"' + str(user.last_name) + '"}'
+    #     data = '{"id":"' + str(issueComment.id) + '", "comment":"' + \
+    #         str(issueComment.comment) + '", "user":' + userData + '}'
 
-        x = '{ "status":"SUCCESS", "comment": ' + data + ' }'
-        y = json.loads(x)
-        return JsonResponse(y)
+    #     x = '{ "status":"SUCCESS", "comment": ' + data + ' }'
+    #     y = json.loads(x)
+    #     return JsonResponse(y)
+    pass
 
 
 @csrf_exempt
 def filters(request, status, params, id):
-    if request.method == "GET":
-        data = ""
-        if status == "status":
-            trueOrFalse = eval(params)
-            issues = Issue.objects.filter(project=id, status=trueOrFalse)
+    # if request.method == "GET":
+    #     data = ""
+    #     if status == "status":
+    #         trueOrFalse = eval(params)
+    #         issues = Issue.objects.filter(project=id, status=trueOrFalse)
 
-            end_issue = len(issues)
-            count_issye = 0
-            dataIssue = '['
-            for each in issues:
-                dataIssue += '{"id":"' + str(each.id) + '", "name":"' + each.name + '", "description":"' + each.description + '", "status":"' + str(each.status) + '", "user":{"id":"' + str(
-                    each.user.id) + '", "firstName":"' + each.user.first_name + '", "lastName":"' + each.user.last_name + '", "username": "' + each.user.username + '"} }'
-                count_issye = count_issye + 1
-                if count_issye < end_issue:
-                    dataIssue += ','
-            dataIssue += ']'
+    #         end_issue = len(issues)
+    #         count_issye = 0
+    #         dataIssue = '['
+    #         for each in issues:
+    #             dataIssue += '{"id":"' + str(each.id) + '", "name":"' + each.name + '", "description":"' + each.description + '", "status":"' + str(each.status) + '", "user":{"id":"' + str(
+    #                 each.user.id) + '", "firstName":"' + each.user.first_name + '", "lastName":"' + each.user.last_name + '", "username": "' + each.user.username + '"} }'
+    #             count_issye = count_issye + 1
+    #             if count_issye < end_issue:
+    #                 dataIssue += ','
+    #         dataIssue += ']'
 
-            data = dataIssue
+    #         data = dataIssue
 
-        elif status == "author":
-            pass
+    #     elif status == "author":
+    #         pass
 
-        x = '{ "status":"SUCCESS", "data":' + data + ' }'
-        y = json.loads(x)
-        return JsonResponse(y)
+    #     x = '{ "status":"SUCCESS", "data":' + data + ' }'
+    #     y = json.loads(x)
+    #     return JsonResponse(y)
+    pass
 
 
 @csrf_exempt

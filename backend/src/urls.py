@@ -24,26 +24,54 @@ from views.update import views as update
 from views.statistic import views as statistic
 from views.authController import view_registration as registration
 from views.authController import views as login
+from views.issues import views as issues
+from views.issues import views_comment as issuesComment
 
 urlpatterns = [
+    # region Global
     path('admin/', admin.site.urls),
     path('index', views.index, name='index'),
+    path('api/actions/<int:id>', views.actions, name='actions'),
+    # endregion Global
+
+    # region Auth
     path('api/sing-in', registration.Registration.as_view()),
     path('api/sing-up', login.Login.as_view()),
+    # endregion Auth
+
+    # region Repository
     path('api/repository', repository.Repository.as_view()),
     path('api/get-repositpry/<int:id>', repository.Repository.as_view()),
     path('api/get-all-repository', views.getAllrepository),
-    path('api/add-issue', views.addIssue),
-    path('api/issue/<int:id>', views.getIssueById),
-    path('api/add-issue-comment', views.saveCommentByIssue),
-    path('api/filter/<str:status>/<str:params>/<int:id>', views.filters),
     path('api/delete-repository/<int:id>', views.deleteRepository),
+    # endregion Repository
+
+    # region Files
     path('api/files', files.File.as_view()),
-    path('api/actions/<int:id>', views.actions, name='actions'),
+    # endregion Files
+
+    # region Update
     path('api/userSearch/<str:text>', update.Update.as_view()),
     path('api/updateProject', update.Update.as_view()),
     path('api/addUserInProject', update.Update.as_view()),
-    path('api/statistic/<int:id>', statistic.Statistic.as_view())
+    # endregion Update
+
+    # region Statistic
+    path('api/statistic/<int:id>', statistic.Statistic.as_view()),
+    # endregion Statistic
+
+    # region Issues
+    path('api/add-issue', issues.Issues.as_view()),
+    path('api/close-issue', issues.Issues.as_view()),
+    path('api/update-issue', issuesComment.IssuesComment.as_view()),
+    path('api/assigne-issue', issues.IssuesGet.as_view()),
+    path('api/issue/<int:id>', issues.IssuesGet.as_view()),
+    path('api/delete-issues/<int:id>', issues.Issues.as_view()),
+    path('api/add-issue-comment', issuesComment.IssuesComment.as_view()),
+    path('api/filter/<str:status>/<str:params>/<str:nameUser>/<int:id>',
+         issues.Issues.as_view()),
+    # endregion Issues
 ]
+
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

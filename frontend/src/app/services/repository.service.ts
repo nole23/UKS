@@ -65,8 +65,29 @@ export class RepositoryService {
       }))
   }
 
-  filter(status: any, params: any, id: any) {
-    return this.http.get(this.API_URL + 'filter/' + status + '/' + params + '/' + id)
+  closeIssues(data: any) {
+    return this.http.put(this.API_URL + 'close-issue', data)
+      .pipe(map(res => {
+        return res;
+      }))
+  }
+
+  updateIssue(data: any) {
+    return this.http.put(this.API_URL + 'update-issue', data)
+      .pipe(map(res => {
+        return res;
+      }))
+  }
+
+  assignedIssue(data: any) {
+    return this.http.put(this.API_URL + 'assigne-issue', data)
+      .pipe(map(res => {
+        return res;
+      }))
+  }
+
+  filter(status: any, params: any, nameUser: any, id: any) {
+    return this.http.get(this.API_URL + 'filter/' + status + '/' + params + '/' + nameUser + '/' + id)
       .pipe(map(res => {
         return res;
       }))
@@ -74,6 +95,13 @@ export class RepositoryService {
 
   deleteRepository(id: any) {
     return this.http.delete(this.API_URL + 'delete-repository/' + id, {})
+      .pipe(map(res => {
+        return res;
+      }))
+  }
+
+  deleteIssues(id: any) {
+    return this.http.delete(this.API_URL + 'delete-issues/' + id, {})
       .pipe(map(res => {
         return res;
       }))

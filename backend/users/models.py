@@ -85,7 +85,11 @@ class Issue(models.Model):
     description = models.CharField(max_length=150)
     status = models.BooleanField(default=True)
     project = models.ForeignKey(Project, on_delete=models.CASCADE)
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(
+        User, on_delete=models.CASCADE, related_name='user')
+    date_create = models.DateTimeField(null=True, blank=True)
+    assigned = models.ManyToManyField(
+        User, blank=True, related_name='assigned')
 
 
 class Issue_Comment(models.Model):
@@ -93,3 +97,5 @@ class Issue_Comment(models.Model):
     comment = models.CharField(max_length=150)
     issue = models.ForeignKey(Issue, on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
+    date_create = models.DateTimeField(null=True, blank=True)
+    type_comment = models.CharField(max_length=150, default='COMMENT')

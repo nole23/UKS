@@ -62,18 +62,21 @@ export class Issue {
     user: User;
     comments: any;
     status: Boolean;
-
+    dateCreate: any;
+    assigned: any;
     constructor(item: any) {
         this.id = item.id;
         this.name = item.name;
         this.description = item.description;
         this.user = new User(item.user);
         this.comments = item.comments;
+        this.dateCreate = item.dateCreate;
         if (item.status !== undefined) {
             if (item.status !== null) {
-                this.status = item.status === 'True' ? true : false;
+                this.status = item.status
             }
         }
+        this.assigned = item.assigned;
     }
 }
 

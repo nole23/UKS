@@ -34,7 +34,7 @@ export class RegistraionComponent implements OnInit {
       this.authService.registraton(this.login)
         .subscribe(res => {
           console.log(res)
-          if (res['status'] === 'SUCCESS') {
+          if (res['message'] === 'SUCCESS') {
             this.router.navigate(['/login']);
           } else {
             this.isSpiner = false;

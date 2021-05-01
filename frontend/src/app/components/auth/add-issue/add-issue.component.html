@@ -1,25 +1,25 @@
 <div class="container mt-3">
     <div class="mb-3">
-        <div class="col-sm-12 p-2 reg-bord" *ngIf="!isRegistration">
+        <div class="col-sm-12 p-2 reg-bord">
             <form>
                 <div class="form-group">
-                    <label for="username" class="w-100">Naziv issua</label>
+                    <label for="username" class="w-100">Name issue</label>
                     <input type="text" class="form-control" name="name" id="name" [(ngModel)]="newIssue.name"
-                        placeholder="Naziv issua">
+                        placeholder="Name issue">
 
-                    <label for="password" class="w-100">Opis</label>
-                    <input type="text" class="form-control" name="description" id="description"
-                        [(ngModel)]="newIssue.description" placeholder="Unesite opis">
-
+                    <br>
+                    <label for="password" class="w-100">Description</label>
+                    <textarea class="form-control" rows="5" id="comment" name="text" [(ngModel)]="newIssue.description"
+                        placeholder="Description..."></textarea>
                 </div>
 
-                <button type="submit" class="btn btn-primary margin-top float-right" (click)="ngAddIssue()">Dodati
-                    issue</button>
+                <button type="submit" class="btn btn-primary margin-top float-right" [disabled]="!_disableButton()"
+                    (click)="ngAddIssue()">Add issue
+                    <span *ngIf="isRegistration">
+                        <div class="spinner-border text-success" style="width: 1rem; height: 1rem;"></div>
+                    </span>
+                </button>
             </form>
-        </div>
-
-        <div class="col-sm-5 p-2 reg-bord" *ngIf="isRegistration">
-            <h3>Cuvanje...</h3>
         </div>
     </div>
 </div>

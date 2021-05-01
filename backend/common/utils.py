@@ -44,6 +44,17 @@ def userSerialize(data):
         'username': data.username
     }
 
+def userFirstSerialize(data):
+    dt = []
+    for each in data:
+        dt.append({
+            'id': str(each.id),
+            'firstName': each.first_name,
+            'lastName': each.last_name,
+            'username': each.username
+        })
+    return dt
+
 
 def loginSerialize(user, jwt):
     return {
@@ -114,6 +125,43 @@ def issuesSerialize(data):
             'user': userSerialize(each.user)
         })
     return rd
+
+
+def issueSerialize(data):
+    return {
+        'id': str(data.id),
+        'name': data.name,
+        'description': data.description,
+        'status': data.status,
+        'user': userSerialize(data.user),
+        'dateCreate': str(data.date_create),
+        'assigned': userFirstSerialize(data.assigned.all())
+    }
+
+
+def issuesCommentSerialize(data):
+    rd = []
+    for each in data:
+        rd.append({
+            'id': str(each.id),
+            'comment': each.comment,
+            'issue': issueSerialize(each.issue),
+            'user': userSerialize(each.user),
+            'dateCreate': str(each.date_create),
+            'typeComment': each.type_comment
+        })
+    return rd
+
+
+def issueCommentSerialize(data):
+    return {
+        'id': str(data.id),
+        'comment': data.comment,
+        'issue': issueSerialize(data.issue),
+        'user': userSerialize(data.user),
+        'dateCreate': str(data.date_create),
+        'typeComment': data.type_comment
+    }
 
 
 def roleSerialize(data):

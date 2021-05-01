@@ -71,6 +71,7 @@
 .cursorBlue { cursor: pointer; }
 .cursorBlue:hover { background-color: #007bff!important; color: #FFFFFF!important }
 
+.color-red { color: red}
 .color-green { color: #218838; }
 .color-blue { color: #85C1E9; }
 .color-orange { color: #DD7915; }
@@ -79,6 +80,7 @@
 .color-background { color: #FAFBFC; }
 .color-background1 { color: #E1E4E8; }
 .color-background-white { color: #FFFFFF; }
+.color-background-red { background-color: rgba(240, 148, 148, 0.5);}
 .error-color { color: red; border: 1px solid red;}
 
 .border-color {

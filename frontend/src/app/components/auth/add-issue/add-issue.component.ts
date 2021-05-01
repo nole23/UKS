@@ -1,5 +1,6 @@
 import { Component, OnInit, Output, Input, EventEmitter } from '@angular/core';
 import { RepositoryService } from 'src/app/services/repository.service';
+import { NotifierService } from 'angular-notifier';
 
 @Component({
   selector: 'app-add-issue',
@@ -7,13 +8,16 @@ import { RepositoryService } from 'src/app/services/repository.service';
   styleUrls: ['./add-issue.component.scss']
 })
 export class AddIssueComponent implements OnInit {
+  private readonly notifier: NotifierService;
+
   @Input('id') id: any;
   @Output() emit = new EventEmitter<any>();
 
   newIssue: any;
   isRegistration: Boolean;
-  constructor(private repositoryService: RepositoryService) {
+  constructor(private repositoryService: RepositoryService, notifier: NotifierService) {
     this.isRegistration = false;
+    this.notifier = notifier;
   }
 
   ngOnInit(): void {
@@ -27,10 +31,23 @@ export class AddIssueComponent implements OnInit {
 
   ngAddIssue() {
     this.isRegistration = true;
-    this.repositoryService.saveIssue(this.newIssue)
+
+    const formData = new FormData();
+    formData.append('name', this.newIssue.name)
+    formData.append('description', this.newIssue.description)
+    formData.append('id', this.id)
+
+    this.repositoryService.saveIssue(formData)
       .subscribe(res => {
-        this.isRegistration = false;
-        this.emit.emit(res['issue'])
+        if (res["message"] === 'SUCCESS') {
+          this.isRegistration = false;
+          this.emit.emit(res['data'])
+          this.notifier.notify('success', 'Issue add')
+        }
       })
+  }
+
+  _disableButton() {
+    return this.newIssue.name && this.newIssue.description;
   }
 }
