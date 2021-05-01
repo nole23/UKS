@@ -1,0 +1,68 @@
+<div class="container vh-100 pb-0 pl-0 pt-0 pr-0" style="width: 100%;">
+    <div class="row" style="margin: 0;">
+        <div class="col-lg-4 col-md-5" *ngIf="user !== null">
+            <div style="clear: both;" class="row ml-0 mr-0 mt-3">
+                <div class="col-sm-12 image-style pt-2 pl-2 pb-2 pr-2">
+                    <img src="../../../../assets/picture/avatar.png" alt="">
+                </div>
+
+                <div class="col-sm-12" *ngIf="!isEdit">
+                    <div class="font-25">
+                        {{user.firstName + ' ' + user.lastName}}
+                    </div>
+                    <div class="font-18">
+                        {{user.username}}
+                    </div>
+
+                    <button class="btn btn-outline-dark w-100" *ngIf="user.id === loginUser.id"
+                        (click)="isEdit = true">Eddit profile</button>
+                </div>
+
+                <div class="col-sm-12" *ngIf="isEdit">
+                    <form>
+                        <div class="form-group">
+                            <label for="firstName" class="w-100">Edit Name</label>
+                            <input type="text" class="form-control" name="firstName" id="firstName"
+                                [(ngModel)]="user.firstName" placeholder="{{user.firstName}}">
+
+                            <label for="lastName" class="w-100">Last name</label>
+                            <input type="text" class="form-control" name="lastName" id="lastName"
+                                [(ngModel)]="user.lastName" placeholder="{{user.lastName}}">
+
+                            <label for="username" class="w-100">username</label>
+                            <input type="text" class="form-control" name="username" id="username"
+                                [(ngModel)]="user.username" placeholder="{{user.username}}">
+                        </div>
+
+                        <button type="submit" class="btn btn-primary margin-top float-right ml-2" (click)="update()">
+                            Update data
+                            <span *ngIf="isSpiner">
+                                <div class="spinner-border text-success" style="width: 1rem; height: 1rem;"></div>
+                            </span>
+                        </button>
+                        <button class="btn btn-outline-dark float-right" (click)="isEdit = false">Cancel</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-8 col-md-7">
+            <div class="w-100 mt-5 font-20" style="border-bottom: 1px solid #ccc;">
+                <span>Repository</span>
+            </div>
+
+            <div style="clear: both;" class="row" *ngIf="repositories !== null">
+
+                <div class="col-lg-4 col-md-6 col-sm-12 height-100 pt-2 pr-2 pb-2 pl-2"
+                    *ngFor="let item of repositories">
+                    <div class="border-color w-100 h-100 pt-2 pr-2 pb-2 pl-2 border-radius">
+                        <a class="cursor-pointer"
+                            [routerLink]="['/repo/' + item.project.id + '/c']">{{item.project.name}}</a>
+                        <p class="font-12">{{_getOwner(item)}}</p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>

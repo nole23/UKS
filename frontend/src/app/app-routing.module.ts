@@ -14,6 +14,8 @@ import { RepositoryComponent } from './components/auth/repository/repository.com
 import { AddFilesComponent } from './components/auth/add-files/add-files.component';
 import { UploadFilesComponent } from './components/auth/upload-files/upload-files.component';
 import { BlobComponent } from './components/auth/blob/blob.component';
+import { UserProfileComponent } from './components/auth/user-profile/user-profile.component';
+
 
 const routes: Routes = [
   { path: '', component: IndexComponent, canActivate: [NotAuthNav] },
@@ -25,7 +27,7 @@ const routes: Routes = [
   { path: 'repo/:id/:type/folder/:folderName', component: RepositoryComponent, canActivate: [AuthNav] },
   { path: 'repo/:id/blob/:folderName/:fileName', component: BlobComponent, canActivate: [AuthNav] },
   { path: 'repo/:id/:type/:idIssue', component: RepositoryComponent, canActivate: [AuthNav] },
-  { path: 'user/:id', component: ErrorComponent },
+  { path: 'user/:id', component: UserProfileComponent, canActivate: [AuthNav] },
   { path: 'add-files', component: AddFilesComponent },
   { path: 'upload-files', component: UploadFilesComponent },
   { path: '', redirectTo: '', pathMatch: 'full' },

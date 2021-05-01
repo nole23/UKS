@@ -44,6 +44,7 @@ def userSerialize(data):
         'username': data.username
     }
 
+
 def userFirstSerialize(data):
     dt = []
     for each in data:
@@ -195,9 +196,21 @@ def projectSerialize(data, issuesData, listProjectData):
         'dateClose': str(data.date_close),
         'typeProject': data.type_project,
         'rootTree': rootTreeSeriallize(data.root_tree.all()),
-        'issue': issuesSerialize(issuesData),
-        'listUser': listUserSerialize(listProjectData)
+        'issue': issuesSerialize(issuesData) if issuesData != None else None,
+        'listUser': listUserSerialize(listProjectData) if listProjectData != None else None
     }
+
+
+def listProjectUserSerialize(data):
+    rd = []
+    for each in data:
+        rd.append({
+            'id': str(each.id),
+            'project': projectSerialize(each.project, None, None),
+            'user': userSerialize(each.user),
+            'role': roleSerialize(each.role)
+        })
+    return rd
 
 # endregion
 

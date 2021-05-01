@@ -10,8 +10,10 @@ export class HomeComponent implements OnInit {
 
   settings: any;
   data: any;
+  user: any;
   constructor(private repositoryService: RepositoryService) {
     this.settings = null;
+    this.user = JSON.parse(localStorage.getItem('user'))
   }
 
   ngOnInit(): void {
@@ -27,7 +29,7 @@ export class HomeComponent implements OnInit {
   }
 
   _getAllRepository() {
-    this.repositoryService.getAllRepository()
+    this.repositoryService.getAllRepository(this.user.id)
       .subscribe(res => {
         let data = res['data']
 
@@ -44,10 +46,10 @@ export class HomeComponent implements OnInit {
   }
 
   _setData(data: any) {
-    let className = data.owner.isOwner === 'true' ? 'color-green' : 'color-orange'
+    let className = data.role.roleName === 'O' ? 'color-green' : 'color-orange'
     return {
       id: data.id,
-      name: data.owner.username + '/' + data.name + '<br/><div class="font-12 ' + className + '">Owner is: ' + data.owner.name + '</div>',
+      name: data.user.username + '/' + data.project.name + '<br/><div class="font-12 ' + className + '">Owner is: ' + data.user.firstName + ' ' + data.user.lastName + '</div>',
       link: '/repo/' + data.id + '/c'
     }
   }

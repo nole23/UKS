@@ -184,3 +184,19 @@ export class RootTree {
         }
     }
 }
+
+export class RepositoryList {
+    id: any;
+    project: any;
+    role: any;
+    user: any;
+
+    constructor(data: any) {
+        if (data !== undefined) {
+            this.id = data.id;
+            this.project = data.project;
+            this.role = data.role;
+            this.user = new User(data.user);
+        }
+    }
+}

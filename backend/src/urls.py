@@ -32,6 +32,8 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('index', views.index, name='index'),
     path('api/actions/<int:id>', views.actions, name='actions'),
+    path('api/', views.updateUser, name='updateUser'),
+    path('api/<int:id>', views.getUserById, name='getUserById'),
     # endregion Global
 
     # region Auth
@@ -42,8 +44,9 @@ urlpatterns = [
     # region Repository
     path('api/repository', repository.Repository.as_view()),
     path('api/get-repositpry/<int:id>', repository.Repository.as_view()),
-    path('api/get-all-repository', views.getAllrepository),
-    path('api/delete-repository/<int:id>', views.deleteRepository),
+    path('api/get-all-repository/<int:id>',
+         repository.RepositoryGet.as_view()),
+    path('api/delete-repository/<int:id>', repository.Repository.as_view()),
     # endregion Repository
 
     # region Files

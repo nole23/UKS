@@ -20,8 +20,8 @@ export class RepositoryService {
       }))
   }
 
-  getAllRepository() {
-    return this.http.get(this.API_URL + 'get-all-repository')
+  getAllRepository(id: any) {
+    return this.http.get(this.API_URL + 'get-all-repository/' + id)
       .pipe(map(res => {
         return res;
       }))

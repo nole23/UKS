@@ -20,6 +20,6 @@ class Registration(APIView):
         username = username[0]
 
         User.objects.create(first_name=data['firstName'], last_name=data['lastName'],
-                            email=data['email'], username=username, password=data['password'])
+                            email=data['email'], username=username, folder_name=username, password=data['password'])
 
         return create_json_response({"message": "SUCCESS"}, status=200)
