@@ -4,6 +4,7 @@ import { RepositoryService } from 'src/app/services/repository.service';
 import { NotifierService } from 'angular-notifier';
 import { RepositoryList } from 'src/app/models/repository';
 import { ActivatedRoute } from '@angular/router';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-user-profile',
@@ -18,6 +19,7 @@ export class UserProfileComponent implements OnInit {
   user: any;
   isSpiner: Boolean = false;
   repositories: any;
+  imgUrl = 'http://localhost:8000/media/picture/'
   constructor(private userService: UserService, notifier: NotifierService, private repositoryService: RepositoryService, private activatedRoute: ActivatedRoute) {
     this.loginUser = JSON.parse(localStorage.getItem('user'))
     this.notifier = notifier;

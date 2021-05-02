@@ -9,7 +9,7 @@ import { Repository } from 'src/app/models/repository';
 })
 export class RepositoryService {
 
-  private API_URL = environment['apiUrl'];
+  private API_URL = 'http://localhost:8000/api/';
 
   constructor(private http: HttpClient) { }
 
@@ -115,35 +115,35 @@ export class RepositoryService {
   }
 
   updateProject(data: any) {
-    return this.http.put(environment.apiUrl + 'updateProject', data)
+    return this.http.put(this.API_URL + 'updateProject', data)
       .pipe(map(res => {
         return res;
       }))
   }
 
   userSearch(text: any) {
-    return this.http.get(environment.apiUrl + 'userSearch/' + text)
+    return this.http.get(this.API_URL + 'userSearch/' + text)
       .pipe(map(res => {
         return res;
       }))
   }
 
   addUserInProject(data: any) {
-    return this.http.post(environment.apiUrl + 'addUserInProject', data)
+    return this.http.post(this.API_URL + 'addUserInProject', data)
       .pipe(map(res => {
         return res;
       }))
   }
 
   getActions(id: any) {
-    return this.http.get(environment.apiUrl + 'actions/' + id)
+    return this.http.get(this.API_URL + 'actions/' + id)
       .pipe(map(res => {
         return res;
       }))
   }
 
   getParam(id: any) {
-    return this.http.get(environment.apiUrl + 'statistic/' + id)
+    return this.http.get(this.API_URL + 'statistic/' + id)
       .pipe(map(res => {
         return res;
       }))

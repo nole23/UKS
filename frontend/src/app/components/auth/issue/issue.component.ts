@@ -3,6 +3,7 @@ import { RepositoryService } from 'src/app/services/repository.service';
 import { NotifierService } from 'angular-notifier';
 import { Router } from '@angular/router';
 import { Issue } from 'src/app/models/repository';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-issue',
@@ -21,6 +22,7 @@ export class IssueComponent implements OnInit {
   user: any;
   isDisable: Boolean = false;
   isAssigned: Boolean = false;
+  imgUrl = 'http://localhost:8000/media/picture/'
   constructor(private repositoryService: RepositoryService, notifier: NotifierService, private router: Router) {
     this.issue = null;
     this.comment = null;

@@ -12,7 +12,7 @@ import { NotifierService } from 'angular-notifier';
 export class AuthService {
   private readonly notifier: NotifierService;
 
-  private API_URL = environment['apiUrl'];
+  private API_URL = 'http://localhost:8000/api/';
 
   private loginSource = new Subject<any>();
   login$ = this.loginSource.asObservable();

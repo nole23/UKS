@@ -9,7 +9,7 @@
         <ul class="navbar-nav">
             <li class="nav-item" style="width: 45px; height: 45px; border-radius: 50%; background-color: #fff;"
                 *ngIf="_isLogin()">
-                <a class="nav-link" [routerLink]="['/user/' + userID]"> <img src="../../../assets/picture/avatar.png"
+                <a class="nav-link" [routerLink]="['/user/' + userID]"> <img src="{{imgUrl + 'avatar.png'}}"
                         width="100%" height="100%"> </a>
             </li>
             <li class="nav-item" *ngIf="!_isLogin()">

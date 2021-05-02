@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-headers',
@@ -11,6 +12,7 @@ export class HeadersComponent implements OnInit {
 
   isStatus: Boolean;
   userID: any;
+  imgUrl = 'http://localhost:8000/media/picture/'
   constructor(private authService: AuthService, private router: Router) {
     this.userID = null;
     this.authService.login$.subscribe(res => {

@@ -13,6 +13,7 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
+from django.views.generic.base import TemplateView
 from django.contrib import admin
 from django.urls import path
 from django.conf.urls.static import static
@@ -74,6 +75,11 @@ urlpatterns = [
     path('api/filter/<str:status>/<str:params>/<str:nameUser>/<int:id>',
          issues.Issues.as_view()),
     # endregion Issues
+
+    # region Templateview
+    path('', TemplateView.as_view(template_name="ang_home.html"), name='home'),
+    path(r'^$', TemplateView.as_view(template_name="ang_home.html"), name='home')
+    # endregion Templateview
 ]
 
 

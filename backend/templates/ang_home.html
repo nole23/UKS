@@ -1,0 +1,28 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>GitUKS</title>
+    <base href="/">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" type="image/x-icon" href="{% static 'ang/favicon.ico' %}">
+
+    <link rel="stylesheet" href="{% static 'ang/assets/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'ang/assets/css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'ang/assets/css/css/font-awesome.min.css' %}">
+    <script src="{% static 'ang/assets/jquery/jquery.min.js' %}"></script>
+    <script src="{% static 'ang/assets/popper.js/popper.min.js' %}"></script>
+    <script src="{% static 'ang/assets/bootstrap.js/bootstrap.min.js' %}"></script>
+    <link rel="stylesheet" href="{% static 'ang/styles.css' %}">
+</head>
+
+<body>
+    <app-root></app-root>
+    <script src="{% static 'ang/runtime.js' %}" defer></script>
+    <script src="{% static 'ang/polyfills.js' %}" defer></script>
+    <script src="{% static 'ang/main.js' %}" defer></script>
+</body>
+
+</html>
