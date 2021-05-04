@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { Project } from 'src/app/models/repository';
 
 @Component({
   selector: 'app-blob',
@@ -13,13 +14,20 @@ export class BlobComponent implements OnInit {
   project: any;
   file: any;
   tree: any;
+  list_project: any;
+  branchName: any;
   constructor(private activatedRoute: ActivatedRoute) {
     this.branch = null;
     this.fileName = null;
+    this.list_project = null;
+    this.branchName = null;
   }
 
   ngOnInit(): void {
     this.project = JSON.parse(localStorage.getItem('project'))
+
+    this.list_project = new Project(this.project);
+    this.branchName = this.list_project.rootTree[0].nameBranch;
     this.activatedRoute.params.subscribe(res => {
       this.branch = res['folderName'];
       this.tree = ['master'];
@@ -29,6 +37,7 @@ export class BlobComponent implements OnInit {
           let test = element.split('=')[1]
           if (element !== '') this.tree.push(test)
         });
+        console.log(this.tree)
       }
       this.fileName = res['fileName'];
       this._findFolder();
