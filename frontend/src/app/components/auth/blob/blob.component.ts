@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Project } from 'src/app/models/repository';
+import { RepositoryService } from 'src/app/services/repository.service';
+import { NotifierService } from 'angular-notifier';
 
 @Component({
   selector: 'app-blob',
@@ -8,6 +10,7 @@ import { Project } from 'src/app/models/repository';
   styleUrls: ['./blob.component.scss']
 })
 export class BlobComponent implements OnInit {
+  private readonly notifier: NotifierService;
 
   branch: String;
   fileName: String;
@@ -16,11 +19,15 @@ export class BlobComponent implements OnInit {
   tree: any;
   list_project: any;
   branchName: any;
-  constructor(private activatedRoute: ActivatedRoute) {
+  isEdit: boolean = false;
+  rootTree: any;
+  constructor(private activatedRoute: ActivatedRoute, private repositoryService: RepositoryService, notifier: NotifierService) {
     this.branch = null;
     this.fileName = null;
     this.list_project = null;
     this.branchName = null;
+    this.notifier = notifier;
+    this.rootTree = null;
   }
 
   ngOnInit(): void {
@@ -37,7 +44,15 @@ export class BlobComponent implements OnInit {
           let test = element.split('=')[1]
           if (element !== '') this.tree.push(test)
         });
-        console.log(this.tree)
+
+        let helpTreeRoot = this.project.rootTree[0];
+        this.tree.forEach(element => {
+          if (element !== 'master') {
+            helpTreeRoot = helpTreeRoot.childrenFolder.find(x => x.nameNode === element)
+          }
+        });
+        this.list_project = new Project(this.project)
+        this.rootTree = [helpTreeRoot];
       }
       this.fileName = res['fileName'];
       this._findFolder();
@@ -64,4 +79,43 @@ export class BlobComponent implements OnInit {
     return text.replace(/(?:\r\n|\r|\n)/g, '<br>')
   }
 
+  ngOpenEdit() {
+    if (this.isEdit) {
+      this.isEdit = false;
+    } else {
+      this.isEdit = true;
+    }
+  }
+
+  ngSave() {
+    this.repositoryService.saveEditFile(this.file)
+      .subscribe(res => {
+        if (res['message'] === 'SUCCESS') {
+          this.notifier.notify('success', 'File is update.')
+          this._updateData();
+          this.ngOpenEdit();
+        }
+      })
+  }
+
+  _updateData() {
+    let data = JSON.parse(localStorage.getItem('project'))
+    localStorage.removeItem('project')
+
+    let helpTreeRoot = data.rootTree[0];
+    this.tree.forEach(element => {
+      if (element !== 'master') {
+        helpTreeRoot = helpTreeRoot.childrenFolder.find(x => x.nameNode === element)
+      }
+    });
+
+    let file = helpTreeRoot.files.find(x => x.name === this.fileName)
+    let index = helpTreeRoot.files.indexOf(x => x.name === this.fileName)
+    file.cover = this.file.cover
+
+    helpTreeRoot.files.splice(index, 1)
+    helpTreeRoot.files.push(file)
+
+    localStorage.setItem('project', JSON.stringify(data))
+  }
 }

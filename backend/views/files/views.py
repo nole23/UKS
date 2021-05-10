@@ -27,9 +27,9 @@ class File(APIView):
         path = ""
         if tree is not None:
             for each in tree:
-                path += each + "/"
+                path += each + "_"
         else:
-            path = "master/"
+            path = "master_"
 
         project = Project.objects.get(id=id_project)
         rootTree = project.root_tree.first()
@@ -37,7 +37,7 @@ class File(APIView):
         files = None
 
         if folder != "":
-            path += folder + '/'
+            path += folder + '_'
 
         if types == "create":
             title = request.data['title'].split(".")
@@ -87,7 +87,17 @@ class File(APIView):
         return create_json_response({"message": "SUCCESS", "rootTree": jsonRootTree}, status=200)
 
     def put(self, request):
-        pass
+        body_unicode = request.body.decode('utf-8')
+        body = json.loads(body_unicode)
+
+        file = Files.objects.get(id=body['id'])
+
+        file1 = open('media/' + file.cover.name, "w")
+
+        file1.write(body['cover'])
+        file1.close()
+        return create_json_response({"message": "SUCCESS"}, status=200)
+
 
     def delete(self, request):
         pass

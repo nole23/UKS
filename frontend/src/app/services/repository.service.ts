@@ -148,4 +148,11 @@ export class RepositoryService {
         return res;
       }))
   }
+
+  saveEditFile(data: any) {
+    return this.http.put(this.API_URL + 'files', data)
+      .pipe(map(res => {
+        return res;
+      }))
+  }
 }
