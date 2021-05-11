@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Repository } from 'src/app/models/repository';
 import { RepositoryService } from 'src/app/services/repository.service';
+import { NotifierService } from 'angular-notifier';
 
 @Component({
   selector: 'app-new',
@@ -9,27 +10,32 @@ import { RepositoryService } from 'src/app/services/repository.service';
   styleUrls: ['./new.component.scss']
 })
 export class NewComponent implements OnInit {
+  private readonly notifier: NotifierService;
 
   registration: Repository;
-  isSave: Boolean;
-  constructor(private repositoryService: RepositoryService, private router: Router) {
+  isSpiner: Boolean = false;
+  constructor(private repositoryService: RepositoryService, private router: Router, notifier: NotifierService) {
     this.registration = new Repository();
-    this.isSave = false;
+    this.notifier = notifier;
   }
 
   ngOnInit(): void {
   }
 
   ngSave() {
-    this.isSave = true;
+    this.isSpiner = true;
     this.repositoryService.saveRepository(this.registration)
       .subscribe(res => {
-        this.isSave = false;
+        this.isSpiner = false;
         if (res['message'] === 'SUCCESS') {
           this.router.navigate(['/repo/' + res['project'] + '/c'])
         } else {
-          console.log('Nesto ne valja, ovo srediti')
+          this.notifier.notify('warming', 'Server not found. Please contant administrator.')
         }
       })
+  }
+
+  _disableButton() {
+    return this.registration.name && this.registration.description;
   }
 }

@@ -46,10 +46,11 @@ export class HomeComponent implements OnInit {
   }
 
   _setData(data: any) {
-    let className = data.role.roleName === 'O' ? 'color-green' : 'color-orange'
+    let className = data.role.roleName === 'O' ? 'color-green' : 'color-orange';
+    let owner = data.role.roleName === 'O' ? 'Owner is: ' + data.user.firstName + ' ' + data.user.lastName : 'Developer is: ' + data.user.firstName + ' ' + data.user.lastName;
     return {
       id: data.id,
-      name: data.user.username + '/' + data.project.name + '<br/><div class="font-12 ' + className + '">Owner is: ' + data.user.firstName + ' ' + data.user.lastName + '</div>',
+      name: data.user.username + '/' + data.project.name + '<br/><div class="font-12 ' + className + '">' + owner + '</div>',
       link: '/repo/' + data.id + '/c'
     }
   }
