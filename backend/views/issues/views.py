@@ -18,10 +18,18 @@ class Issues(APIView):
         issues = None
         if nameUser != 'author':
             user = User.objects.get(id=nameUser)
-            issues = Issue.objects.filter(
-                project=id, status=trueOrFalse, user=user)
+
+            if params != 'status':
+                issues = Issue.objects.filter(
+                    project=id, status=trueOrFalse, user=user)
+            else:
+                issues = Issue.objects.filter(project=id, user=user)
         else:
-            issues = Issue.objects.filter(project=id, status=trueOrFalse)
+            if params != 'status':
+                issues = Issue.objects.filter(
+                    project=id, status=trueOrFalse)
+            else:
+                issues = Issue.objects.filter(project=id)
 
         data = issuesSerialize(issues)
         return create_json_response({"message": "SUCCESS", "data": data}, status=200)

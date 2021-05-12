@@ -88,7 +88,7 @@ export class RepositoryIssuesComponent implements OnInit {
     let data = [{
       id: item.id,
       link: null,
-      name: '<div class="w-100 h-50 font-16 bold">' + icon + '<a class="cursor ' + color + '" href="/repo/' + this.repoId + '/issue/' + item.id + '"> ' + name + ' </a></div><div class="w-100 h-50 font-12">' + description + ' <span class="font-8">' + item.user.firstName + ' ' + item.user.lastName + '</span></div>'
+      name: '<div class="w-100 h-50 font-16 bold">' + icon + '<a class="cursor ' + color + '" href="/#/repo/' + this.repoId + '/issue/' + item.id + '"> ' + name + ' </a></div><div class="w-100 h-50 font-12">' + ' <span class="font-8">' + 'Created by: ' + item.user.firstName + ' ' + item.user.lastName + '</span></div>'
     }]
     return data;
   }
@@ -106,26 +106,18 @@ export class RepositoryIssuesComponent implements OnInit {
     let nameUser = this.form.nativeElement.children['author'].value
     this.settings = null;
 
-    if (status === 'status') {
-      this.issue = this.list_project.issue
-      setTimeout(() => {
-        this._generateTable(this.list_project.issue)
-      }, 50);
-    }
-    else {
-      this.repositoryService.filter('status', status, nameUser, this.repoId)
-        .subscribe(res => {
-          if (res['message'] === 'SUCCESS') {
-            let resData = [];
-            res['data'].forEach((element: any) => {
-              resData.push(new Issue(element))
-            });
+    this.repositoryService.filter('status', status, nameUser, this.repoId)
+      .subscribe(res => {
+        if (res['message'] === 'SUCCESS') {
+          let resData = [];
+          res['data'].forEach((element: any) => {
+            resData.push(new Issue(element))
+          });
 
-            this.issue = resData
-            this._generateTable(resData)
-          }
-        })
-    }
+          this.issue = resData
+          this._generateTable(resData)
+        }
+      })
   }
 
   _filterUser() {

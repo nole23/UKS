@@ -51,7 +51,7 @@ export class HomeComponent implements OnInit {
     return {
       id: data.id,
       name: data.user.username + '/' + data.project.name + '<br/><div class="font-12 ' + className + '">' + owner + '</div>',
-      link: '/repo/' + data.id + '/c'
+      link: '/repo/' + data.project.id + '/c'
     }
   }
 
