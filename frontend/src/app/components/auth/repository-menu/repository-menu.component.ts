@@ -1,5 +1,4 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { Project } from 'src/app/models/repository';
 import { RepositoryService } from 'src/app/services/repository.service';
 import { Router } from '@angular/router';
 
@@ -14,10 +13,13 @@ export class RepositoryMenuComponent implements OnInit {
   listUser: any;
   count: number;
   list_project: any;
+  user: any;
+  isOwner: Boolean = false;
   constructor(private repositoryService: RepositoryService, private router: Router) {
     this.listUser = null
     this.count = 2;
     this.list_project = null;
+    this.user = JSON.parse(localStorage.getItem('user'))
   }
 
   ngOnInit(): void {
@@ -28,6 +30,7 @@ export class RepositoryMenuComponent implements OnInit {
     this.list_project = JSON.parse(localStorage.getItem('project'));
     if (this.list_project !== null) {
       this.listUser = this.list_project.listUser
+      this._getOwner();
     } else {
       let self = this
       setTimeout(function () {
@@ -59,5 +62,15 @@ export class RepositoryMenuComponent implements OnInit {
       this.router.navigate(['/#'], { skipLocationChange: true })
         .then(() => { this.router.navigate([link]); });
     }
+  }
+
+  _getOwner() {
+    let listUser = this.listUser.find(x => x.role.roleName === 'O')
+    if (listUser === undefined) {
+      this.isOwner = false;
+    } else {
+      this.isOwner = this.user.id.toString() === listUser.user.id.toString()
+    }
+    console.log(this.isOwner)
   }
 }

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { RepositoryService } from 'src/app/services/repository.service';
-import { List_Project_User, Project } from 'src/app/models/repository';
+import { Project } from 'src/app/models/repository';
 
 @Component({
   selector: 'app-repository',

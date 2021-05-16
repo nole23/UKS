@@ -1,15 +1,15 @@
-<div class="w-100 pb-2 pl-1 pr-1">
+<div class="w-100 pb-2 pl-1 pr-1" *ngIf="tabName !== null">
     <div class="float-left w-70" *ngIf="!spiner">
 
 
         <div class="sidebar" style="float:left; position: unset!important;">
-            <a class="cursorBlue" (click)="tabName = 'options'"
-                [ngClass]="{'sidebar-active': tabName === 'options'}">Options</a>
+            <a class="cursorBlue" (click)="tabName = 'options'" [ngClass]="{'sidebar-active': tabName === 'options'}"
+                *ngIf="isOwner">Options</a>
             <a class="cursorBlue" (click)="tabName = 'access'"
                 [ngClass]="{'sidebar-active': tabName === 'access'}">Manager access</a>
         </div>
 
-        <div class="content w-100 color-text" *ngIf="tabName === 'options'">
+        <div class="content w-100 color-text" *ngIf="tabName === 'options' && isOwner">
             <div class="float-left w-100 h-45 border-bottom">
                 <h3>Settings</h3>
             </div>

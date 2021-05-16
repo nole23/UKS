@@ -19,18 +19,23 @@ export class RepositorySettingComponent implements OnInit {
   searchText: String;
   settings: any;
   listUser: any;
+  isOwner: Boolean = false;
+  user: any;
   constructor(private repositoryService: RepositoryService, notifier: NotifierService) {
-    this.tabName = 'options';
+    this.tabName = null;
     this.project = new Project(JSON.parse(localStorage.getItem('project')));
     this.spiner = false;
     this.notifier = notifier;
     this.searchText = null;
     this.settings = null;
     this.listUser = null;
+    this.user = JSON.parse(localStorage.getItem('user'))
+
   }
 
   ngOnInit(): void {
     this.listUser = this.project.listUser
+    this._getOwner();
     this._createTableDate(this.listUser, 'inicial');
   }
 
@@ -185,5 +190,21 @@ export class RepositorySettingComponent implements OnInit {
   _changeProject() {
     localStorage.removeItem('project')
     localStorage.setItem('project', JSON.stringify(this.project))
+  }
+
+  _getOwner() {
+    let listUser = this.project.listUser;
+    let findUser = listUser.find(x => x.role.name === 'O')
+    if (findUser === undefined) {
+      this.isOwner = false;
+      this.tabName = 'options'
+    } else {
+      this.isOwner = this.user.id.toString() === findUser.user.id.toString()
+      if (this.isOwner) {
+        this.tabName = 'options'
+      } else {
+        this.tabName = 'access'
+      }
+    }
   }
 }
