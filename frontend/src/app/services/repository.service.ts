@@ -155,4 +155,10 @@ export class RepositoryService {
         return res;
       }))
   }
+
+  downloadProject(id: String) {
+    return this.http.get(this.API_URL + 'download/' + id, {
+      responseType: 'arraybuffer'
+    });
+  }
 }

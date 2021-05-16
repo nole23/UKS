@@ -39,7 +39,9 @@ export class UploadFilesComponent implements OnInit {
     if (this.file !== null) {
       const formData = new FormData();
       formData.append('type', 'upload')
-      let name = '';
+      let owner = this.list_project.listUser.find(x => x.role.name === 'O')
+
+      let name = owner.user.username + '_' + this.list_project.name;
       this.tree.forEach(element => {
         name += '_' + element;
       });

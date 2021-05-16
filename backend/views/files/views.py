@@ -21,18 +21,17 @@ class File(APIView):
         id_project = request.data['parent']
         types = request.data['type']
         folder = request.data['folder']
-        branch = request.data['branch']
         tree = request.data['tree'].split(',')
-
-        path = ""
-        if tree is not None:
-            for each in tree:
-                path += each + "_"
-        else:
-            path = "master_"
 
         project = Project.objects.get(id=id_project)
         rootTree = project.root_tree.first()
+
+        path = rootTree.user_create.username + "_" + project.name + "_"
+        if tree is not None:
+            for each in tree:
+                path += each + "_"
+
+        print(path)
 
         files = None
 
@@ -97,7 +96,6 @@ class File(APIView):
         file1.write(body['cover'])
         file1.close()
         return create_json_response({"message": "SUCCESS"}, status=200)
-
 
     def delete(self, request):
         pass

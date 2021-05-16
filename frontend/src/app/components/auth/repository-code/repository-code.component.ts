@@ -1,6 +1,7 @@
 import { Component, OnInit, Input, OnChanges } from '@angular/core';
 import { NotifierService } from 'angular-notifier';
 import { RootTree } from 'src/app/models/repository';
+import { RepositoryService } from 'src/app/services/repository.service';
 
 @Component({
   selector: 'app-repository-code',
@@ -20,7 +21,8 @@ export class RepositoryCodeComponent implements OnInit, OnChanges {
   type: any;
   folder: String;
   readMe: any;
-  constructor(notifier: NotifierService) {
+  isDownload: Boolean = false;
+  constructor(notifier: NotifierService, private repositoryService: RepositoryService) {
     this.settings = null;
     this.type = null;
     this.notifier = notifier;
@@ -31,7 +33,6 @@ export class RepositoryCodeComponent implements OnInit, OnChanges {
 
   ngOnInit(): void {
     this._parserData(this.rootTree[0]);
-    console.log(this.tree)
   }
 
   ngOnChanges(): void {
@@ -184,5 +185,23 @@ export class RepositoryCodeComponent implements OnInit, OnChanges {
 
     localStorage.setItem('project', JSON.stringify(data))
     this._parserData(help_root)
+  }
+
+  download() {
+    this.notifier.notify('info', 'Preparing to download project ' + this.list_project.name);
+    this.isDownload = true;
+    this.repositoryService.downloadProject(this.list_project.id)
+      .subscribe(res => {
+        const blob = new Blob([res], {
+          type: 'application/zip'
+        });
+        const url = window.URL.createObjectURL(blob);
+        var anchor = document.createElement("a");
+        anchor.download = this.list_project.name + '.zip';
+        anchor.href = url;
+        anchor.click();
+        this.isDownload = false;
+        this.notifier.notify('success', 'Project ' + this.list_project.name + ' is download successiful.');
+      })
   }
 }

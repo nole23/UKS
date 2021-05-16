@@ -11,7 +11,9 @@ def upload_path(instance, filname):
         count = count + 1
         if count < index:
             link += "/"
-    return "/".join(["covers", str(instance.user.folder_name), link])
+
+    print("/".join(["covers", link]))
+    return "/".join(["covers", link])
 
 # Create your models here.
 

@@ -27,6 +27,7 @@ from views.authController import view_registration as registration
 from views.authController import views as login
 from views.issues import views as issues
 from views.issues import views_comment as issuesComment
+from views.download import views as download
 
 urlpatterns = [
     # region Global
@@ -75,6 +76,10 @@ urlpatterns = [
     path('api/filter/<str:status>/<str:params>/<str:nameUser>/<int:id>',
          issues.Issues.as_view()),
     # endregion Issues
+
+    # region Download
+    path('api/download/<int:id>', download.Download.as_view()),
+    # endregion Download
 
     # region Templateview
     path('', TemplateView.as_view(template_name="ang_home.html"), name='home'),
