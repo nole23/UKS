@@ -1,6 +1,6 @@
 from rest_framework.views import APIView
 from common.utils import token_required_class, create_json_response, projectSerialize, listProjectUserSerialize
-from users.models import Role, Issue, Files, Root_Tree, Project, List_Project_User, User
+from users.models import Role, Issue, Files, Root_Tree, Project, List_Project_User, User, Statistic
 from datetime import datetime
 from django.core.files.base import ContentFile
 import json
@@ -46,6 +46,10 @@ class Repository(APIView):
 
         List_Project_User.objects.create(
             project=project, user=request._user, role=role)
+
+        # For statistic
+        Statistic.objects.create(
+            project=project, files=files, date_create=datetime.now())
 
         return create_json_response({"message": "SUCCESS", "project": str(project.id)}, status=200)
 

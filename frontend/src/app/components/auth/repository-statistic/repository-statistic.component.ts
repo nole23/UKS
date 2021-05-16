@@ -59,7 +59,7 @@ export class RepositoryStatisticComponent implements OnInit {
     }
 
     this.pieChartColors = [{
-      backgroundColor: ['rgb(0, 123, 255)', 'rgba(33, 136, 56)'],
+      backgroundColor: ['rgba(33, 136, 56)', 'rgb(215,58,74)']
     }];
   }
 

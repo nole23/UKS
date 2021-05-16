@@ -1,18 +1,12 @@
-from django.http import JsonResponse
 import json
 from rest_framework.views import APIView
-from django.http import HttpResponse
 from django.core.files.base import ContentFile
-from datetime import datetime, timedelta
-from users.models import User, Files, Root_Tree, Project, Children_Tree
+from datetime import datetime
+from users.models import Files, Project, Children_Tree, Statistic
 from common.utils import token_required_class, create_json_response, rootTreeSeriallize
 
 
 class File(APIView):
-
-    # DOTO: Dovesti sve fajlove za jedno cvoriste
-    def get(self, request):
-        pass
 
     @token_required_class
     def post(self, request):
@@ -82,6 +76,10 @@ class File(APIView):
             else:
                 rootTree.files.add(files)
 
+        # For statistic
+        Statistic.objects.create(
+            project=project, files=files, date_create=datetime.now())
+
         jsonRootTree = rootTreeSeriallize(rootTree, 'none')
         return create_json_response({"message": "SUCCESS", "rootTree": jsonRootTree}, status=200)
 
@@ -96,6 +94,3 @@ class File(APIView):
         file1.write(body['cover'])
         file1.close()
         return create_json_response({"message": "SUCCESS"}, status=200)
-
-    def delete(self, request):
-        pass

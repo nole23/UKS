@@ -11,8 +11,6 @@ def upload_path(instance, filname):
         count = count + 1
         if count < index:
             link += "/"
-
-    print("/".join(["covers", link]))
     return "/".join(["covers", link])
 
 # Create your models here.
@@ -73,6 +71,13 @@ class Project(models.Model):
     date_close = models.DateTimeField(null=True, blank=True)
     type_project = models.BooleanField(default=True)
     root_tree = models.ManyToManyField(Root_Tree, blank=True)
+
+
+class Statistic(models.Model):
+    id = models.AutoField(primary_key=True)
+    project = models.ForeignKey(Project, on_delete=models.CASCADE)
+    files = models.ForeignKey(Files, on_delete=models.CASCADE)
+    date_create = models.DateTimeField(null=True, blank=True)
 
 
 class List_Project_User(models.Model):

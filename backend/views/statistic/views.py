@@ -1,31 +1,20 @@
-from django.http import JsonResponse
-import json
 from rest_framework.views import APIView
-from django.http import HttpResponse
-from django.core.files.base import ContentFile
-from datetime import datetime, timedelta
-from users.models import User, Files, Root_Tree, Project, Children_Tree, Issue
-from common.utils import token_required_class, create_json_response, rootTreeSeriallize
+from users.models import Project, Issue, Statistic as static
+from common.utils import create_json_response
 
 
 class Statistic(APIView):
-
     def get(self, request, id):
         project = Project.objects.get(id=id)
 
-        root_tree = project.root_tree.first()
-        children_folder = root_tree.children_folder.all()
+        statistic = static.objects.filter(project=project)
 
-        files = root_tree.files.all()
         issues = Issue.objects.filter(project=project)
 
-        for each in children_folder:
-            data = each.files.all()
-            files.append(data)
-
         count_of_ammount = []
-        for i in range(12):
-            count = files.filter(dateCreate__month=str(i+1))
+        number_of_months = 12
+        for i in range(number_of_months):
+            count = statistic.filter(date_create__month=str(i+1))
             count_of_ammount.append(len(count))
 
         count_of_issues = []
