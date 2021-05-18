@@ -53,6 +53,7 @@ urlpatterns = [
 
     # region Files
     path('api/files', files.File.as_view()),
+    path('api/files/<int:id>', files.File.as_view()),
     # endregion Files
 
     # region Update

@@ -161,4 +161,11 @@ export class RepositoryService {
       responseType: 'arraybuffer'
     });
   }
+
+  deleteFile(file: any) {
+    return this.http.delete(this.API_URL + 'files/' + file.id, {})
+      .pipe(map(res => {
+        return res;
+      }))
+  }
 }

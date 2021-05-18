@@ -3,6 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Project } from 'src/app/models/repository';
 import { RepositoryService } from 'src/app/services/repository.service';
 import { NotifierService } from 'angular-notifier';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-blob',
@@ -21,13 +22,15 @@ export class BlobComponent implements OnInit {
   branchName: any;
   isEdit: boolean = false;
   rootTree: any;
-  constructor(private activatedRoute: ActivatedRoute, private repositoryService: RepositoryService, notifier: NotifierService) {
+  blobEdit: any;
+  constructor(private activatedRoute: ActivatedRoute, private repositoryService: RepositoryService, private router: Router, notifier: NotifierService) {
     this.branch = null;
     this.fileName = null;
     this.list_project = null;
     this.branchName = null;
     this.notifier = notifier;
     this.rootTree = null;
+    this.blobEdit = null;
   }
 
   ngOnInit(): void {
@@ -66,12 +69,14 @@ export class BlobComponent implements OnInit {
       let helpTreeRoot = treeRoot;
       this.tree.forEach(element => {
         if (element !== 'master') {
-          helpTreeRoot = helpTreeRoot.childrenFolder.find(x => x.nameNode === element)
-          this.file = helpTreeRoot.files.find(x => x.name.toString() === this.fileName.toString())
+          helpTreeRoot = helpTreeRoot.childrenFolder.find(x => x.nameNode === element);
+          this.file = helpTreeRoot.files.find(x => x.name.toString() === this.fileName.toString());
+          this.blobEdit = this.file.cover;
         }
       });
     } else {
       this.file = treeRoot.files.find(x => x.name.toString() === this.fileName.toString())
+      this.blobEdit = this.file.cover;
     }
   }
 
@@ -81,13 +86,26 @@ export class BlobComponent implements OnInit {
 
   ngOpenEdit() {
     if (this.isEdit) {
+      this.blobEdit = this.file.cover;
       this.isEdit = false;
     } else {
       this.isEdit = true;
     }
   }
 
+  ngDelete(file: any) {
+    this.repositoryService.deleteFile(file)
+      .subscribe(res => {
+        if (res['message'] === 'SUCCESS') {
+          this.notifier.notify('success', 'File is deleted.')
+          this._updateProject(file)
+          this.router.navigate(['/repo/' + this.project.id + '/c'])
+        }
+      })
+  }
+
   ngSave() {
+    this.file.cover = this.blobEdit;
     this.repositoryService.saveEditFile(this.file)
       .subscribe(res => {
         if (res['message'] === 'SUCCESS') {
@@ -115,6 +133,24 @@ export class BlobComponent implements OnInit {
 
     helpTreeRoot.files.splice(index, 1)
     helpTreeRoot.files.push(file)
+
+    localStorage.setItem('project', JSON.stringify(data))
+  }
+
+  _updateProject(deletefile) {
+    let data = JSON.parse(localStorage.getItem('project'))
+    localStorage.removeItem('project')
+
+    let helpTreeRoot = data.rootTree[0];
+    this.tree.forEach(element => {
+      if (element !== 'master') {
+        helpTreeRoot = helpTreeRoot.childrenFolder.find(x => x.nameNode === element)
+      }
+    });
+
+    let index = helpTreeRoot.files.indexOf(x => x.name === this.fileName)
+
+    helpTreeRoot.files.splice(index, 1)
 
     localStorage.setItem('project', JSON.stringify(data))
   }

@@ -4,6 +4,7 @@ from django.core.files.base import ContentFile
 from datetime import datetime
 from users.models import Files, Project, Children_Tree, Statistic
 from common.utils import token_required_class, create_json_response, rootTreeSeriallize
+import os
 
 
 class File(APIView):
@@ -93,4 +94,15 @@ class File(APIView):
 
         file1.write(body['cover'])
         file1.close()
+        return create_json_response({"message": "SUCCESS"}, status=200)
+
+    def delete(self, request, id):
+        file = Files.objects.get(id=id)
+        path = file.cover.path
+        print(path)
+        file.delete()
+
+        if os.path.isfile(path):
+            os.remove(path)
+
         return create_json_response({"message": "SUCCESS"}, status=200)
