@@ -204,4 +204,17 @@ export class RepositoryCodeComponent implements OnInit, OnChanges {
         this.notifier.notify('success', 'Project ' + this.list_project.name + ' is download successiful.');
       })
   }
+
+  cretateLink(index: any) {
+
+    const fixLink = 'name=';
+    let generateLink = ''
+    for (let i = 1; i < index + 1; i++) {
+      generateLink += fixLink + this.tree[i];
+      if (i < index) {
+        generateLink += '&';
+      }
+    }
+    return '/repo/' + this.list_project.id + '/c/folder/master?' + generateLink;
+  }
 }

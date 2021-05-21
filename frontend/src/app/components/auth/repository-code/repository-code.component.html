@@ -17,9 +17,11 @@
                 </span>
 
                 <span class="btn btn-outline-light text-dark float-left" *ngIf="tree.length > 1">
-                    <span>{{list_project.name}}</span>
-                    <span *ngFor="let item of tree">
-                        <span *ngIf="item !== 'master'">{{' / ' + item}}</span>
+                    <span> <a class="cursor-pointer" [routerLink]="['/repo/' + list_project.id + '/c']">
+                            {{list_project.name}}</a></span>
+                    <span *ngFor="let item of tree; let i = index">
+                        <span *ngIf="item !== 'master'"> / <a class="cursro-pointer"
+                                [routerLink]="cretateLink(i)">{{item}}</a></span>
                     </span>
                     <span> /</span>
                 </span>

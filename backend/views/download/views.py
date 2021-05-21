@@ -12,15 +12,17 @@ from django.http import HttpResponse
 
 class Download(APIView):
 
+    @token_required_class
     def get(self, request, id):
-
+        user = request.user
         project = Project.objects.get(id=id)
+
         if project is None:
             return create_json_response({"status": "FALSE"}, status=200)
 
         link = 'download/' + project.name
-        shutil.make_archive(link, 'zip',
-                            'media/covers/nole0223/testiramo')
+        projectLink = 'media/covers/' + user.folder_name + '/' + project.name
+        shutil.make_archive(link, 'zip', projectLink)
 
         servableZip = open(link + '.zip', 'rb')
         response = HttpResponse(servableZip, content_type='application/zip')
