@@ -53,7 +53,7 @@ class Repository(APIView):
 
         return create_json_response({"message": "SUCCESS", "project": str(project.id)}, status=200)
 
-    @ token_required_class
+    @token_required_class
     def delete(self, request, id):
         repo = Project.objects.get(id=id).delete()
 
@@ -62,15 +62,20 @@ class Repository(APIView):
 
 class RepositoryGet(APIView):
 
-    @ token_required_class
+    @token_required_class
     def get(self, request, id):
-
+        me = request.user
         user = User.objects.get(id=id)
 
         if user is None:
             return create_json_response({"status": "FALSE"}, status=200)
 
-        projects = List_Project_User.objects.filter(user=user)
+        projects = None
+        if str(user.id) == str(me.id):
+            projects = List_Project_User.objects.filter(user=user)
+        else:
+            projects = List_Project_User.objects.filter(
+                user=user, project__type_project=False)
 
         data = listProjectUserSerialize(projects)
 

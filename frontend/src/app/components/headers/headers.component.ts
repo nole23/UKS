@@ -12,7 +12,8 @@ export class HeadersComponent implements OnInit {
 
   isStatus: Boolean;
   userID: any;
-  imgUrl = 'http://localhost:8000/media/picture/'
+  imgUrl = 'http://localhost:8000/media/picture/';
+  user: any;
   constructor(private authService: AuthService, private router: Router) {
     this.userID = null;
     this.authService.login$.subscribe(res => {
@@ -23,7 +24,8 @@ export class HeadersComponent implements OnInit {
   ngOnInit(): void {
     if (localStorage.getItem('jwt')) {
       this.isStatus = true;
-      this.userID = JSON.parse(localStorage.getItem('user'))['id']
+      this.user = JSON.parse(localStorage.getItem('user'));
+      this.userID = this.user.id;
     } else {
       this.isStatus = false;
     }
