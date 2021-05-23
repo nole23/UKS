@@ -17,12 +17,16 @@ export class IssueComponent implements OnInit {
   @Input('repoId') repoId: any;
 
   issue: any;
+  issueNameHelp: any;
+  issueDescriptionHelp: any;
   comment: any;
   project: any;
   user: any;
   commentCounter: any;
   isDisable: Boolean = false;
   isAssigned: Boolean = false;
+  isSpinerClose: Boolean = false;
+  isSpinerAdd: Boolean = false;
   imgUrl = 'http://localhost:8000/media/picture/'
   constructor(private repositoryService: RepositoryService, notifier: NotifierService, private router: Router) {
     this.issue = null;
@@ -34,11 +38,17 @@ export class IssueComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.ngGetIssueById();
+  }
+
+  ngGetIssueById() {
     this.repositoryService.getIssueById(this.issueId)
       .subscribe(res => {
         let data = res['data']
         data['comments'] = res['comments']
         this.issue = new Issue(data)
+        this.issueNameHelp = this.issue.name;
+        this.issueDescriptionHelp = this.issue.description;
 
         this.isDisable = !this.issue.status;
         this.isAssignedFunction()
@@ -48,6 +58,7 @@ export class IssueComponent implements OnInit {
   }
 
   ngComment() {
+    this.isSpinerAdd = true;
     const formData = new FormData();
     formData.append('id', this.issueId)
     formData.append('comment', this.comment)
@@ -55,13 +66,17 @@ export class IssueComponent implements OnInit {
     this.repositoryService.saveComment(formData)
       .subscribe(res => {
         if (res['message'] === 'SUCCESS') {
-          this.issue.comments.push(res["data"])
+          this.issue.comments.push(res['data'])
           this.comment = null
+        } else {
+          this.notifier.notify('danger', 'Server is not response!')
         }
+        this.isSpinerAdd = false;
       })
   }
 
   ngCloseIssue(issue: any) {
+    this.isSpinerClose = true;
     const formData = new FormData();
     formData.append('id', issue.id)
 
@@ -76,6 +91,7 @@ export class IssueComponent implements OnInit {
         } else {
           this.notifier.notify('warning', 'Issue is already closed')
         }
+        this.isSpinerClose = false;
       })
   }
 
@@ -98,8 +114,8 @@ export class IssueComponent implements OnInit {
   updateIssue() {
     const formData = new FormData();
     formData.append('id', this.issue.id);
-    formData.append('name', this.issue.name);
-    formData.append('description', this.issue.description);
+    formData.append('name', this.issueNameHelp);
+    formData.append('description', this.issueDescriptionHelp);
 
     this.repositoryService.updateIssue(formData)
       .subscribe(res => {
@@ -111,7 +127,6 @@ export class IssueComponent implements OnInit {
       })
   }
 
-  //TODO multiple assignments from multiple users (even one user can assign multiple times)
   assignedUser() {
     const formData = new FormData();
     formData.append('id', this.issue.id);
@@ -128,9 +143,7 @@ export class IssueComponent implements OnInit {
 
   isAssignedFunction() {
     if (this.issue.assigned.length > 0) {
-      if (this.issue.assigned[0].id.toString() === this.user.id.toString()) {
-        this.isAssigned = true;
-      }
+      this.isAssigned = true;
     }
   }
 
@@ -182,4 +195,14 @@ export class IssueComponent implements OnInit {
   changeText(text: String) {
     return text.length > 30 ? text.substring(0, 30) + '...' : text;
   }
+
+  isDisableAddComment() {
+    return !(!this.isDisable && (this.comment !== null && this.comment.length > 0));
+  }
+
+  destroyData() {
+    this.issueNameHelp = this.issue.name;
+    this.issueDescriptionHelp = this.issue.description;
+  }
+
 }

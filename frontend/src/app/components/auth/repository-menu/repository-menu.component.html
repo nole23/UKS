@@ -36,12 +36,12 @@
         <nav class="navbar navbar-expand-sm">
 
             <ul class="navbar-nav">
-                <li class="hover-red" [ngClass]="viewId === 'c' ? 'hover-red-hover' : ''">
+                <li class="hover-red" [ngClass]="viewId === 'c' || viewId === 'blob' ? 'hover-red-hover' : ''">
                     <a class="nav-link link" [routerLink]="['/repo/' + list_project.id + '/c']"
                         (click)="reload(list_project.id, 'c')"> <span> <i class="fa fa-code" aria-hidden="true"></i>
                             Code </span></a>
                 </li>
-                <li class="hover-red" [ngClass]="viewId === 'i' ? 'hover-red-hover' : ''">
+                <li class="hover-red" [ngClass]="viewId === 'i' || viewId === 'issue' ? 'hover-red-hover' : ''">
                     <a class="nav-link link" [routerLink]="['/repo/' + list_project.id + '/i']"
                         (click)="reload(list_project.id, 'i')"> <span> <i class="fa fa-exclamation-circle"
                                 aria-hidden="true"></i> Issues {{' ' + numberOfOpenIssues}} </span></a>
