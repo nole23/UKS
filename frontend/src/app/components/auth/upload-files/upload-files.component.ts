@@ -25,6 +25,8 @@ export class UploadFilesComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    //TODO namestiti način da se vrati nazad na projekat klikom na link
+    //TODO namestiti šetanje kroz dubinu prilikom dodavanja fajlova
   }
 
   uploadFile($event) {
@@ -59,13 +61,13 @@ export class UploadFilesComponent implements OnInit {
             this.notifier.notify('success', 'Successful upload')
             this.cancel({ 'rootTree': res['rootTree'], 'folder': this.tree[this.tree.length - 1], 'tree': this.tree })
           } else {
-            this.notifier.notify('warming', 'Something isn\'t right. Please wait a moment.')
+            this.notifier.notify('error', 'Something isn\'t right')
           }
         }, error => {
-          this.notifier.notify('error', 'Server not responding.')
+          this.notifier.notify('error', 'Server not responding')
         })
     } else {
-      this.notifier.notify('warning', 'First you must choose a file.')
+      this.notifier.notify('warning', 'Choose the file first')
     }
   }
 

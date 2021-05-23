@@ -97,7 +97,7 @@ export class BlobComponent implements OnInit {
     this.repositoryService.deleteFile(file)
       .subscribe(res => {
         if (res['message'] === 'SUCCESS') {
-          this.notifier.notify('success', 'File is deleted.')
+          this.notifier.notify('success', 'File deleted')
           this._updateProject(file)
           this.router.navigate(['/repo/' + this.project.id + '/c'])
         }
@@ -109,7 +109,7 @@ export class BlobComponent implements OnInit {
     this.repositoryService.saveEditFile(this.file)
       .subscribe(res => {
         if (res['message'] === 'SUCCESS') {
-          this.notifier.notify('success', 'File is update.')
+          this.notifier.notify('success', 'File updated')
           this._updateData();
           this.ngOpenEdit();
         }

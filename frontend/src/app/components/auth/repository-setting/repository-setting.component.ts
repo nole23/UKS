@@ -21,7 +21,9 @@ export class RepositorySettingComponent implements OnInit {
   listUser: any;
   isOwner: Boolean = false;
   user: any;
+  loginUser: any;
   constructor(private repositoryService: RepositoryService, notifier: NotifierService) {
+    this.loginUser = JSON.parse(localStorage.getItem('user'))
     this.tabName = null;
     this.project = new Project(JSON.parse(localStorage.getItem('project')));
     this.spiner = false;
@@ -48,14 +50,17 @@ export class RepositorySettingComponent implements OnInit {
     formData.append('type_project', this.project.typeProject.toString())
     formData.append('name', this.project.name.toString())
 
+
+    //TODO when you update project name and you re enter to project options manage access is disabled
+    //if you reload page username is lost so you have to return to the repositories to get it
     this.repositoryService.updateProject(formData)
       .subscribe(res => {
         this.spiner = false;
         if (res['message'] === 'SUCCESS') {
-          this.notifier.notify('success', 'Project name success change.')
+          this.notifier.notify('success', 'Project name updated')
           this._changeProject();
         } else {
-          this.notifier.notify('waring', 'Server not found.')
+          this.notifier.notify('waring', 'Server not responding')
         }
       })
   }
@@ -69,14 +74,16 @@ export class RepositorySettingComponent implements OnInit {
     formData.append('type_project', this.project.typeProject.toString())
     formData.append('name', this.project.name.toString())
 
+
+    //TODO same as with update name of project
     this.repositoryService.updateProject(formData)
       .subscribe(res => {
         this.spiner = false;
         if (res['message'] === 'SUCCESS') {
-          this.notifier.notify('success', 'Project type success change.')
+          this.notifier.notify('success', 'Project type updated')
           this._changeProject();
         } else {
-          this.notifier.notify('waring', 'Server not found.')
+          this.notifier.notify('waring', 'Server not found')
         }
       })
   }
@@ -100,7 +107,6 @@ export class RepositorySettingComponent implements OnInit {
         tr: this._createTR(users, status)
       }
     }
-    console.log(settings)
     this.settings = settings;
   }
 
@@ -119,13 +125,16 @@ export class RepositorySettingComponent implements OnInit {
 
   _createTD(user: any, status: String) {
     let resData = []
+
+    let name = (user.user.id === this.loginUser.id) ? user.user.firstName + ' ' + user.user.lastName + ' (you)' : user.user.firstName + ' ' + user.user.lastName
+
     if (status === 'inicial') {
       resData.push(
         {
-          name: user.user.firstName + ' ' + user.user.lastName
+          name: name
         },
         {
-          name: user.role.name === '0' ? 'Owner' : 'developer'
+          name: user.role.name === 'O' ? 'Owner' : 'developer'
         }
       )
     }
@@ -157,17 +166,16 @@ export class RepositorySettingComponent implements OnInit {
     const formData = new FormData();
     formData.append('user', event.td[0].id);
     formData.append('project', this.project.id);
-
     this.repositoryService.addUserInProject(formData)
       .subscribe(res => {
         if (res['message'] === 'SUCCESS') {
           let message = res['data'].find(x => { return x.isSave })
           if (message.isSave === 'true') {
             let listUser = this._updateProject(new User(res['data'][1]), new Role(res['data'][2]))
-            this.notifier.notify('success', 'User ' + event.td[0].name + ' add in project.')
+            this.notifier.notify('success', 'User ' + event.td[0].name + ' has been successfully added to this project')
             this._createTableDate(listUser, 'inicial');
           } else {
-            this.notifier.notify('warning', 'User ' + event.td[0].name + ' has already been added.')
+            this.notifier.notify('warning', 'User ' + event.td[0].name + ' is already working on this project')
           }
         }
       })

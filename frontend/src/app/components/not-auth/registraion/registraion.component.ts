@@ -40,7 +40,7 @@ export class RegistraionComponent implements OnInit {
             this.isSpiner = false;
 
             if (res['data'] === 'NOT_SAVE_MAIL') {
-              this.notifier.notify('warning', 'Email ' + this.login.email + '  is olready in use.')
+              this.notifier.notify('warning', 'Email ' + this.login.email + '  is already in use')
               this.login.email = undefined;
               this.isEmail = 'error-color';
             }
@@ -51,37 +51,38 @@ export class RegistraionComponent implements OnInit {
 
   _changeForms() {
     if (this.login.firstName === undefined) {
-      this.notifier.notify('error', 'Firstname does not exist.')
+      this.notifier.notify('error', 'First name is required')
       this.isSpiner = false;
       return false;
     }
 
     if (this.login.lastName === undefined) {
-      this.notifier.notify('error', 'Lastname does not exist.')
+      this.notifier.notify('error', 'Last name is required')
       this.isSpiner = false;
       return false;
     }
 
+    //TODO email može bez domena treba izmeniti
     if (this.login.email === undefined) {
-      this.notifier.notify('error', 'Email does not exist.')
+      this.notifier.notify('error', 'Email is required')
       this.isSpiner = false;
       return false;
     }
 
     if (this.login.password === undefined) {
-      this.notifier.notify('error', 'First password does not exist.')
+      this.notifier.notify('error', 'Password is required')
       this.isSpiner = false;
       return false;
     }
 
     if (this.login.aggainPassword === undefined) {
-      this.notifier.notify('error', 'Again passeord does not exist.')
+      this.notifier.notify('error', 'Confirm passeord is required')
       this.isSpiner = false;
       return false;
     }
 
     if (this.login.password.toString() !== this.login.aggainPassword.toString()) {
-      this.notifier.notify('error', 'Password is incorrect.')
+      this.notifier.notify('error', 'Passwords don\'t match')
       this.isSpiner = false;
       this.isPassword = true;
       this.isPasswordColor = 'error-color'

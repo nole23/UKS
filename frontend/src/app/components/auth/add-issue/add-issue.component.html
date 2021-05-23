@@ -3,18 +3,18 @@
         <div class="col-sm-12 p-2 reg-bord">
             <form>
                 <div class="form-group">
-                    <label for="username" class="w-100">Name issue</label>
+                    <label for="username" class="w-100">Issue name</label>
                     <input type="text" class="form-control" name="name" id="name" [(ngModel)]="newIssue.name"
-                        placeholder="Name issue">
+                        placeholder="Issue name...">
 
                     <br>
                     <label for="password" class="w-100">Description</label>
                     <textarea class="form-control" rows="5" id="comment" name="text" [(ngModel)]="newIssue.description"
-                        placeholder="Description..."></textarea>
+                        placeholder="Leave a comment..."></textarea>
                 </div>
 
                 <button type="submit" class="btn btn-primary margin-top float-right" [disabled]="!_disableButton()"
-                    (click)="ngAddIssue()">Add issue
+                    (click)="ngAddIssue()">Submit new issue
                     <span *ngIf="isRegistration">
                         <div class="spinner-border text-success" style="width: 1rem; height: 1rem;"></div>
                     </span>

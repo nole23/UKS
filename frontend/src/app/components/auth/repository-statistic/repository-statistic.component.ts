@@ -36,6 +36,8 @@ export class RepositoryStatisticComponent implements OnInit {
     this.isShowIssue = false;
   }
 
+  //TODO maybe make more grid views like contributors (their issues comments etc)
+  //TODO it would be good to make project progress graph to show for month as well because month is too long
   ngOnInit(): void {
     this._getParam()
     this.lineChartColors = [
@@ -68,7 +70,7 @@ export class RepositoryStatisticComponent implements OnInit {
       .subscribe(res => {
         let data = JSON.parse(res['data'])
         this.barChartData = [
-          { data: data['count_of_ammount'], label: 'Number of files' }
+          { data: data['count_of_ammount'], label: 'Number of new files' }
         ];
 
         let max = Math.max(...data['count_of_ammount'])

@@ -1,6 +1,7 @@
 import { Component, OnInit, Input, ViewChild, ElementRef } from '@angular/core';
 import { RepositoryService } from 'src/app/services/repository.service';
 import { Issue } from 'src/app/models/repository';
+import { TimeagoClock, TimeagoDefaultFormatter, TimeagoPipe } from 'ngx-timeago';
 
 @Component({
   selector: 'app-repository-issues',
@@ -80,6 +81,8 @@ export class RepositoryIssuesComponent implements OnInit {
     return data;
   }
 
+  //TODO: maybe make new tag in table to show who is assigned to each issue
+  //TODO: maybe change to '#53 opened 5 days ago by nole23'
   _setTd(item: any) {
     let description = item.description.length < 100 ? item.description : item.description.substring(0, 100) + '...'
     let name = item.name.length < 50 ? item.name : item.name.substring(0, 50) + '...'
@@ -88,7 +91,7 @@ export class RepositoryIssuesComponent implements OnInit {
     let data = [{
       id: item.id,
       link: null,
-      name: '<div class="w-100 h-50 font-16 bold">' + icon + '<a class="cursor ' + color + '" href="/#/repo/' + this.repoId + '/issue/' + item.id + '"> ' + name + ' </a></div><div class="w-100 h-50 font-12">' + ' <span class="font-8">' + 'Created by: ' + item.user.firstName + ' ' + item.user.lastName + '</span></div>'
+      name: '<div class="w-100 h-50 font-16 bold">' + icon + '<a class="cursor ' + color + '" href="/#/repo/' + this.repoId + '/issue/' + item.id + '"> ' + name + ' </a></div><div class="w-100 h-50 font-14">' + ' <span class="font-12">' + '#' + item.id + ' created by: ' + item.user.firstName + ' ' + item.user.lastName + '</span></div>'
     }]
     return data;
   }

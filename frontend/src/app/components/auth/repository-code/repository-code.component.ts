@@ -174,7 +174,7 @@ export class RepositoryCodeComponent implements OnInit, OnChanges {
     if (event.tree.length > 1) {
       this.tree.forEach(element => {
         if (element !== 'master') {
-          let index = help_root.childrenFolder.find(x => x.nameNode === element) // index je undefined, srediti ovo ovde
+          let index = help_root.childrenFolder.find(x => x.nameNode === element) //TODO index je undefined, srediti ovo ovde
           help_root = index
         }
       });
@@ -187,8 +187,7 @@ export class RepositoryCodeComponent implements OnInit, OnChanges {
     this._parserData(help_root)
   }
 
-  download() {
-    this.notifier.notify('info', 'Preparing to download project ' + this.list_project.name);
+  prepareToDownload() {
     this.isDownload = true;
     this.repositoryService.downloadProject(this.list_project.id)
       .subscribe(res => {
@@ -201,12 +200,20 @@ export class RepositoryCodeComponent implements OnInit, OnChanges {
         anchor.href = url;
         anchor.click();
         this.isDownload = false;
-        this.notifier.notify('success', 'Project ' + this.list_project.name + ' is download successiful.');
+        this.notifier.notify('success', this.list_project.name + ' project downloaded');
       })
   }
 
-  cretateLink(index: any) {
+  //TODO why download makes new folder?
+  download() {
+    this.notifier.notify('info', 'Preparing to download ' + this.list_project.name + ' project');
+    let self = this
+    setTimeout(function () {
+      self.prepareToDownload();
+    }, 3000)
+  }
 
+  cretateLink(index: any) {
     const fixLink = 'name=';
     let generateLink = ''
     for (let i = 1; i < index + 1; i++) {

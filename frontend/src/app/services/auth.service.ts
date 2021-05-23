@@ -44,10 +44,10 @@ export class AuthService {
           return res;
         } else {
           if (res['data'] === 'EMAIL_NOT_FOUND')
-            this.notifier.notify('warning', 'Email is not correct.')
+            this.notifier.notify('warning', 'Email is not correct')
 
           if (res['data'] === 'PASSWORD_NOT_FOUND')
-            this.notifier.notify('warning', 'Password is not correct.')
+            this.notifier.notify('warning', 'Password is not correct')
 
           return res;
         }

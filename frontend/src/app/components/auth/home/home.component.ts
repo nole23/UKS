@@ -45,10 +45,11 @@ export class HomeComponent implements OnInit {
       })
   }
 
+  //TODO maybe create search repositories
   _setData(data: any) {
     let className = data.role.roleName === 'O' ? 'color-green' : 'color-orange';
     let owner = data.role.roleName === 'O' ? 'You are owner.' : 'You are developer.';
-    let icon = !data.project.typeProject ? '<i class="fa fa-users color-green" aria-hidden="true"></i> ' : '<i class="fa fa-lock color-red" aria-hidden="true"></i> ';
+    let icon = !data.project.typeProject ? '<i class="fa fa-users color-green" aria-hidden="true"></i> ' : '<i class="fa fa-lock fa-lg color-red" aria-hidden="true"></i> ';
     return {
       id: data.id,
       name: icon + data.project.rootTree[0].userCreate.username + ' / ' + data.project.name + '<br/><div class="font-12 ' + className + '">' + owner + '</div>',

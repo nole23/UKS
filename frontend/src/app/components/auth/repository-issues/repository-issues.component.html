@@ -9,7 +9,8 @@
             </select>
             <select class="form-control w-20 float-left" id="author" (input)="ngFilterStatus()">
                 <option value="author">Author</option>
-                <option *ngFor="let i of userInProject" value="{{i.user.id}}">{{i.user.firstName + ' ' +
+                <option style="width:10px;" *ngFor="let i of userInProject" value="{{i.user.id}}">{{i.user.firstName + '
+                    ' +
                     i.user.lastName}}</option>
             </select>
         </div>
@@ -18,11 +19,11 @@
     <div class="float-right w-40 min-width" style="height: calc(1.5em + .75rem + 2px)!important;">
         <!-- Right -->
         <div class="form-group float-left w-70">
-            <div class="form-control w-50 float-left">
+            <div class="form-control w-45 float-left">
                 <i class="fa fa-bullhorn" aria-hidden="true"></i> Issues <span class="number"
                     *ngIf="active >= 0">{{active}}</span>
             </div>
-            <div class="form-control w-50 float-left">
+            <div class="form-control w-45 ml-1 float-left">
                 <i class="fa fa-power-off" aria-hidden="true"></i> Closed <span class="number"
                     *ngIf="finish >= 0">{{finish}}</span>
             </div>
@@ -30,7 +31,7 @@
 
 
         <div class="form-group float-left w-30">
-            <button class="btn btn-success" (click)="isAdd = true">Add issue <i class="fa fa-plus"
+            <button class="btn btn-success" (click)="isAdd = true">New issue <i class="fa fa-plus"
                     aria-hidden="true"></i></button>
         </div>
     </div>

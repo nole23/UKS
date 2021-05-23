@@ -2,7 +2,7 @@
     <div class="w-100 h-10 mt-3 float-left">
         <div class="form-group w-100 float-left">
             <span class="float-left font-20">
-                <span>{{list_project.name}}</span>
+                <span><a [routerLink]="['/repo/' + list_project.id + '/c']">{{list_project.name}}</a></span>
                 <span *ngFor="let item of tree">
                     <span *ngIf="item !== 'master'">{{' / ' + item}}</span>
                 </span>
@@ -30,7 +30,8 @@
         <div class="float-left w-70"></div>
         <div class="float-right w-30">
             <button class="btn btn-success border-radius-10 mr-3 w-70" (click)="upload()" [disabled]="ngIsNull()">Commit
-                changes</button><button (click)=" cancel()" class="btn btn-danger border-radius-10 w-25">Cancel</button>
+                changes</button>
+            <button (click)="cancel()" class="btn btn-danger border-radius-10 w-25">Cancel</button>
         </div>
     </div>
 

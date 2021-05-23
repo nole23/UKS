@@ -38,11 +38,11 @@ export class UserProfileComponent implements OnInit {
     this.userService.updateUserData(this.user)
       .subscribe(res => {
         if (res['message'] === 'SUCCESS') {
-          this.notifier.notify('success', 'Update is successifull.')
+          this.notifier.notify('success', 'Profile updated')
           this.isEdit = false
           this._updateData();
         } else {
-          this.notifier.notify('warning', 'Update is not finish!')
+          this.notifier.notify('warning', 'Update failed')
         }
       })
   }
@@ -66,7 +66,7 @@ export class UserProfileComponent implements OnInit {
             this.repositories.push(new RepositoryList(element))
           });
         } else {
-          this.notifier.notify('warning', 'Server not found!')
+          this.notifier.notify('warning', 'Server not found')
         }
       })
   }
@@ -78,12 +78,15 @@ export class UserProfileComponent implements OnInit {
   }
 
   _getOwner(data: any) {
-    if (data.role.roleName === 'C') {
-      return 'User is developer.'
-    } else if (data.role.roleName === 'O') {
-      return 'User is owner.'
-    } else {
-      return 'User is viewer.'
-    }
+    var name = (this.loginUser.id === this.user.id) ? "You are" : this.user.firstName + " is"
+    if (this.loginUser !== this.user)
+
+      if (data.role.roleName === 'C') {
+        return name + ' developer'
+      } else if (data.role.roleName === 'O') {
+        return name + ' owner'
+      } else {
+        return name + ' viewer'
+      }
   }
 }

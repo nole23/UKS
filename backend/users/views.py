@@ -14,7 +14,7 @@ def index(request):
     role2.save()
     role3.save()
 
-    x = '{ "status":"SUCCESS", "message":"Uspjesno pokrenut server"}'
+    x = '{ "status":"SUCCESS", "message":"Server successfully started."}'
     y = json.loads(x)
     return JsonResponse(y)
 

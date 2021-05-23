@@ -8,9 +8,9 @@ describe('RepositoryMenuComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ RepositoryMenuComponent ]
+      declarations: [RepositoryMenuComponent]
     })
-    .compileComponents();
+      .compileComponents();
   });
 
   beforeEach(() => {

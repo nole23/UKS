@@ -8,9 +8,9 @@ describe('BlobComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ BlobComponent ]
+      declarations: [BlobComponent]
     })
-    .compileComponents();
+      .compileComponents();
   });
 
   beforeEach(() => {

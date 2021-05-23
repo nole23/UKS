@@ -42,7 +42,7 @@ export class AddIssueComponent implements OnInit {
         if (res["message"] === 'SUCCESS') {
           this.isRegistration = false;
           this.emit.emit(res['data'])
-          this.notifier.notify('success', 'Issue add')
+          this.notifier.notify('success', 'New issue added')
         }
       })
   }

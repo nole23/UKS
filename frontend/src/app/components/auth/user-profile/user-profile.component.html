@@ -6,36 +6,37 @@
                     <img src="{{imgUrl + 'avatar.png'}}" alt="">
                 </div>
 
-                <div class="col-sm-12" *ngIf="!isEdit">
+                <div class="col-sm-12 pt-2" *ngIf="!isEdit">
                     <div class="font-25">
                         {{user.firstName + ' ' + user.lastName}}
                     </div>
-                    <div class="font-18">
+                    <div class="font-18 pt-1">
                         {{user.username}}
                     </div>
-
-                    <button class="btn btn-outline-dark w-100" *ngIf="user.id === loginUser.id"
-                        (click)="isEdit = true">Eddit profile</button>
+                    <div class="pt-2">
+                        <button class="btn btn-outline-dark w-100" *ngIf="user.id === loginUser.id"
+                            (click)="isEdit = true">Edit profile</button>
+                    </div>
                 </div>
 
                 <div class="col-sm-12" *ngIf="isEdit">
                     <form>
-                        <div class="form-group">
-                            <label for="firstName" class="w-100">Edit Name</label>
+                        <div class="form-group pt-3">
+                            <label for="firstName" class="w-100">First name</label>
                             <input type="text" class="form-control" name="firstName" id="firstName"
                                 [(ngModel)]="user.firstName" placeholder="{{user.firstName}}">
 
-                            <label for="lastName" class="w-100">Last name</label>
+                            <label for="lastName" class="w-100 pt-2">Last name</label>
                             <input type="text" class="form-control" name="lastName" id="lastName"
                                 [(ngModel)]="user.lastName" placeholder="{{user.lastName}}">
 
-                            <label for="username" class="w-100">username</label>
+                            <label for="username" class="w-100 pt-2">Username</label>
                             <input type="text" class="form-control" name="username" id="username"
                                 [(ngModel)]="user.username" placeholder="{{user.username}}">
                         </div>
 
                         <button type="submit" class="btn btn-primary margin-top float-right ml-2" (click)="update()">
-                            Update data
+                            Update profile
                             <span *ngIf="isSpiner">
                                 <div class="spinner-border text-success" style="width: 1rem; height: 1rem;"></div>
                             </span>

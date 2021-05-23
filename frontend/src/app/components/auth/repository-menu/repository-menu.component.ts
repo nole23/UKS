@@ -15,9 +15,13 @@ export class RepositoryMenuComponent implements OnInit {
   list_project: any;
   user: any;
   isOwner: Boolean = false;
+  numberOfContributors: any;
+  numberOfOpenIssues: any;
   constructor(private repositoryService: RepositoryService, private router: Router) {
     this.listUser = null
     this.count = 2;
+    this.numberOfContributors = null;
+    this.numberOfOpenIssues = 0;
     this.list_project = null;
     this.user = JSON.parse(localStorage.getItem('user'))
   }
@@ -36,6 +40,17 @@ export class RepositoryMenuComponent implements OnInit {
       setTimeout(function () {
         self._getParam();
       }, 100)
+    }
+
+    if (this.list_project !== null) {
+      this.numberOfContributors = (this.listUser.length === 1) ? "1 Contributor" : this.listUser.length + " Contributors"
+
+      //TODO maybe auto refresh if possible to see updated number of open issues?
+      this.list_project.issue.forEach(element => {
+        if (element.status) {
+          this.numberOfOpenIssues++;
+        }
+      });
     }
   }
 

@@ -1,16 +1,16 @@
 <div class="container mt-3">
     <div class="d-flex justify-content-center  mb-3">
         <div class="col-sm-5 p-2 reg-bord">
-            <h3>Please input form.</h3>
+            <h3>Registration form</h3>
             <form>
                 <div class="form-group">
-                    <label for="username" class="w-100">Name</label>
+                    <label for="username" class="w-100">First name</label>
                     <input type="text" class="form-control" name="firstName" id="firstName"
-                        [(ngModel)]="login.firstName" placeholder="Name...">
+                        [(ngModel)]="login.firstName" placeholder="First name...">
 
                     <label for="password" class="w-100">Last name</label>
                     <input type="text" class="form-control" name="lastName" id="lastName" [(ngModel)]="login.lastName"
-                        placeholder="Lastname...">
+                        placeholder="Last name...">
 
                     <label for="password" class="w-100">Email</label>
                     <input type="text" class="form-control" name="email" id="email" [(ngModel)]="login.email"
@@ -20,13 +20,14 @@
                     <input type="password" class="form-control" name="password" id="password"
                         [ngClass]="isPasswordColor" [(ngModel)]="login.password" placeholder="Password...">
 
-                    <label for="password" class="w-100">Again password</label>
+                    <label for="password" class="w-100">Confirm password</label>
                     <input type="password" class="form-control" name="aggainPassword" id="aggainPassword"
-                        [ngClass]="isPasswordColor" [(ngModel)]="login.aggainPassword" placeholder="Again password...">
+                        [ngClass]="isPasswordColor" [(ngModel)]="login.aggainPassword"
+                        placeholder="Confirm password...">
                 </div>
 
-                <button type="submit" class="btn btn-primary margin-top float-right"
-                    (click)="ngRegistration()">Registration <span *ngIf="isSpiner">
+                <button type="submit" class="btn btn-primary margin-top float-right" (click)="ngRegistration()">Register
+                    <span *ngIf="isSpiner">
                         <div class="spinner-border text-success" style="width: 1rem; height: 1rem;"></div>
                     </span></button>
             </form>

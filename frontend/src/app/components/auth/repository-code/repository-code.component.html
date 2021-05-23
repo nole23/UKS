@@ -43,7 +43,7 @@
             </div>
             <div class="float-right pl-1 w-50">
                 <button type="button" class="btn btn-success" style="width: 100%;" (click)="download()">
-                    <i class="fa fa-download" aria-hidden="true"></i>
+                    <i class="fa fa-download pr-1" aria-hidden="true"></i>
                     Code
                     <span *ngIf="isDownload">
                         <div class="spinner-border text-success" style="width: 1rem; height: 1rem;"></div>
@@ -63,7 +63,9 @@
             <div class="w-20 float-left">
                 <span class="font-20 bold">{{readMe.name}}</span>
             </div>
+            <hr class="w-100 h-50 float-left">
             <div class="w-20 float-right">
+                <!--//TODO why is edit icon removed from README.md?-->
                 <!--button type="button" class="btn btn-light float-right"><i class="fa fa-pencil"
                         aria-hidden="true"></i></button-->
             </div>

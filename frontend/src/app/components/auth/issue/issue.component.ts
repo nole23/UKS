@@ -20,6 +20,7 @@ export class IssueComponent implements OnInit {
   comment: any;
   project: any;
   user: any;
+  commentCounter: any;
   isDisable: Boolean = false;
   isAssigned: Boolean = false;
   imgUrl = 'http://localhost:8000/media/picture/'
@@ -29,6 +30,7 @@ export class IssueComponent implements OnInit {
     this.notifier = notifier;
     this.project = JSON.parse(localStorage.getItem('project'));
     this.user = JSON.parse(localStorage.getItem('user'));
+    this.commentCounter = null;
   }
 
   ngOnInit(): void {
@@ -40,6 +42,8 @@ export class IssueComponent implements OnInit {
 
         this.isDisable = !this.issue.status;
         this.isAssignedFunction()
+        this._commentCounter(data)
+
       })
   }
 
@@ -64,13 +68,13 @@ export class IssueComponent implements OnInit {
     this.repositoryService.closeIssues(formData)
       .subscribe(res => {
         if (res['message'] === 'SUCCESS') {
-          this.notifier.notify('success', 'Issue is closed.')
+          this.notifier.notify('success', 'Issue is closed')
           this.issue.comments.push(res["data"])
           this.isDisable = true;
           issue.status = false;
           this._updateProject(issue.id, issue, 'close');
         } else {
-          this.notifier.notify('warning', 'Issue is already closed.')
+          this.notifier.notify('warning', 'Issue is already closed')
         }
       })
   }
@@ -79,10 +83,10 @@ export class IssueComponent implements OnInit {
     this.repositoryService.deleteIssues(idIssues)
       .subscribe(res => {
         if (res['message'] === 'FALSE') {
-          this.notifier.notify('error', 'Not delete issue!')
+          this.notifier.notify('error', 'Couldn\'t delete the issue')
         }
 
-        this.notifier.notify('success', 'Delete issue  ' + idIssues + '. successifull.')
+        this.notifier.notify('success', 'Deleted issue  #' + idIssues)
         this._updateProject(idIssues, null, 'remove');
       })
   }
@@ -100,20 +104,21 @@ export class IssueComponent implements OnInit {
     this.repositoryService.updateIssue(formData)
       .subscribe(res => {
         if (res['message'] === 'SUCCESS') {
-          this.notifier.notify('success', 'Issue #' + this.issue.id + ' is update successiful.')
+          this.notifier.notify('success', 'Issue #' + this.issue.id + ' is updated')
           this.issue.comments.push(res["data"])
           this._updateIssueProject(this.issue);
         }
       })
   }
 
+  //TODO multiple assignments from multiple users (even one user can assign multiple times)
   assignedUser() {
     const formData = new FormData();
     formData.append('id', this.issue.id);
     this.repositoryService.assignedIssue(formData)
       .subscribe(res => {
         if (res['message'] === 'SUCCESS') {
-          this.notifier.notify('success', 'Assigned is successifull')
+          this.notifier.notify('success', 'Assigned successfully')
           this.issue.comments.push(res['data'])
           this.issue.assigned = res['issue']['assigned']
           this._updateIssueProject(this.issue)
@@ -159,6 +164,19 @@ export class IssueComponent implements OnInit {
     localStorage.setItem('project', JSON.stringify(data))
 
     this.router.navigate(['/repo/' + this.project.id + '/i'])
+  }
+
+  _commentCounter(data: any) {
+    let comments = data['comments']
+    let counter = 0
+
+    comments.forEach(element => {
+      if (element.typeComment === "COMMENT") {
+        counter++;
+      }
+    });
+
+    this.commentCounter = (counter == 1) ? counter + " comment" : counter + " comments"
   }
 
   changeText(text: String) {

@@ -43,14 +43,14 @@ export class LoginComponent implements OnInit {
 
   _isCheckData() {
     if (this.login.email === undefined) {
-      this.notifier.notify('error', 'Email does not exist.')
+      this.notifier.notify('error', 'Email does not exist')
       this.isSpiner = false;
       this.cssEmail = 'error-color'
       return false;
     }
 
     if (this.login.password === undefined) {
-      this.notifier.notify('error', 'Password does not exist.')
+      this.notifier.notify('error', 'Password does not exist')
       this.isSpiner = false;
       this.cssPassword = 'error-color'
       return false;

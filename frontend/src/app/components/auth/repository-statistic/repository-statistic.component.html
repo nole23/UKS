@@ -4,7 +4,7 @@
             <a class="cursorBlue" (click)="tabName = 'options'"
                 [ngClass]="{'sidebar-active': tabName === 'options'}">Project progress</a>
             <a class="cursorBlue" (click)="tabName = 'access'"
-                [ngClass]="{'sidebar-active': tabName === 'access'}">Number of issues</a>
+                [ngClass]="{'sidebar-active': tabName === 'access'}">Issue progress</a>
         </div>
 
         <div class="content w-100 color-text" *ngIf="tabName === 'options'">

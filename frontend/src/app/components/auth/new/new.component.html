@@ -3,31 +3,36 @@
         <div class="col-sm-10 p-2 reg-bord">
             <div class="border-bottom">
                 <h3>Create new repository</h3>
-                <p>When creating a repository, the project will contain all the project files.</p>
+                <p>A repository contains all project files, including the revision history.</p>
             </div>
             <form>
                 <div class="form-group float-left w-100 pt-5">
                     <div class="float-left w-100 mb-1">
-                        <label for="name" class="w-25 float-left">Repository name</label>
-                        <input type="text" class="form-control w-75 float-right" name="name" id="name" 
-                            [(ngModel)]="registration.name">
+                        <label for="name" class="w-25 float-left mt-2">Repository name</label>
+                        <input type="text" class="form-control w-75 float-right" name="name" id="name"
+                            [(ngModel)]="registration.name"
+                            placeholder="Great repository names are short and memorable">
                     </div>
 
                     <div class="float-left w-100 mb-1">
 
-                        <label for="description" class="w-25 float-left">Description</label>
+                        <label for="description" class="w-25 float-left mt-2">Description</label>
                         <input type="text" class="form-control w-75 float-right" name="description" id="description"
-                            [(ngModel)]="registration.description">
+                            [(ngModel)]="registration.description" placeholder="Short project description">
                     </div>
 
-                    <div class="float-left w-100 mb-1">
+                    <div class="float-left w-100 mb-1 pt-4">
                         <div class="form-check">
                             <label class="form-check-label">
                                 <input type="radio" class="form-check-input" name="optradio"
                                     [(ngModel)]="registration.type_project" value="False" [checked]="true">
                                 <div style="padding: 0;">
-                                    <div style="font-size: 14px; margin: 0; padding: 0; width: 100%;">Public</div>
-                                    <div style="font-size: 10px; margin: 0; padding: 0;">Project is public for all user.</div>
+                                    <div style="font-size: 15px; margin: 0; padding: 0; width: 100%;">
+                                        <i class="fa fa-users color-green" aria-hidden="true"></i> Public
+                                    </div>
+                                    <div style="font-size: 12px; margin: 0; padding: 0;">Anyone on the internet can see
+                                        this repository.
+                                    </div>
                                 </div>
                             </label>
                         </div>
@@ -36,15 +41,18 @@
                                 <input type="radio" class="form-check-input" name="optradio"
                                     [(ngModel)]="registration.type_project" value="True">
                                 <div style="padding: 0;">
-                                    <div style="font-size: 14px; margin: 0; padding: 0; width: 100%;">Private</div>
-                                    <div style="font-size: 10px; margin: 0; padding: 0;">Project is not public.</div>
+                                    <div style="font-size: 15px; margin: 0; padding: 0; width: 100%;"><i
+                                            class="fa fa-lock color-red fa-lg" aria-hidden="true"></i> Private</div>
+                                    <div style="font-size: 12px; margin: 0; padding: 0;">Only you can see this
+                                        repository.</div>
                                 </div>
                             </label>
                         </div>
                     </div>
                 </div>
 
-                <button type="submit" class="btn btn-primary margin-top float-right" (click)="ngSave()" [disabled]="!_disableButton()">
+                <button type="submit" class="btn btn-primary margin-top float-right" (click)="ngSave()"
+                    [disabled]="!_disableButton()">
                     Create new repository
                     <span *ngIf="isSpiner">
                         <div class="spinner-border text-success" style="width: 1rem; height: 1rem;"></div>

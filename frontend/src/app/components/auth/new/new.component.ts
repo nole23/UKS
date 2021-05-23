@@ -30,7 +30,7 @@ export class NewComponent implements OnInit {
         if (res['message'] === 'SUCCESS') {
           this.router.navigate(['/repo/' + res['project'] + '/c'])
         } else {
-          this.notifier.notify('warming', 'Server not found. Please contant administrator.')
+          this.notifier.notify('warming', 'Server not responding')
         }
       })
   }

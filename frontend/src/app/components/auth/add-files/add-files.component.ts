@@ -45,17 +45,17 @@ export class AddFilesComponent implements OnInit {
       this.repositoryService.saveFile(formData)
         .subscribe(res => {
           if (res['message'] === 'SUCCESS') {
-            this.notifier.notify('success', 'File ' + this.name + ' is created!')
+            this.notifier.notify('success', 'File ' + this.name + ' created')
             this.cancel({ 'rootTree': res['rootTree'], 'folder': this.nameFolder, 'tree': this.tree })
           } else {
-            this.notifier.notify('warming', 'Something isn\'t right. Please wait a moment.')
+            this.notifier.notify('warming', 'Something isn\'t right')
           }
         }, error => {
-          this.notifier.notify('error', 'Server not responding.')
+          this.notifier.notify('error', 'Server not responding')
         })
     }
     else {
-      this.notifier.notify('warning', this.body === "" ? 'Body can\'t be an empty string!' : 'File name can\'t be an empty string!')
+      this.notifier.notify('warning', this.body === "" ? 'Body can\'t be an empty string' : 'File name can\'t be an empty string')
     }
   }
 
