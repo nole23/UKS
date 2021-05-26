@@ -86,9 +86,4 @@ export class RepositoryComponent implements OnInit {
       this._getNewRepoNode();
     }
   }
-
-  //TODO
-  ngCloseRepo() {
-    console.log('ovo treba srediti')
-  }
 }

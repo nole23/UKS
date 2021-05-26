@@ -1,0 +1,33 @@
+water:
+	freeze
+	
+fire:
+	ignite
+	
+nature:
+	dot heal
+	
+earth:
+	stun
+	
+shadow:
+	curse
+		
+storm:
+	shock
+	
+wind:
+	speed
+	
+light:
+	heal
+	
+arcane:
+	mana shield
+	
+hunter:
+	poison
+	
+	
+State manager
+Tiles popraviti - 18 minut 

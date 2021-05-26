@@ -37,7 +37,7 @@ export class RepositoryStatisticComponent implements OnInit {
   }
 
   //TODO maybe make more grid views like contributors (their issues comments etc)
-  //TODO it would be good to make project progress graph to show for month as well because month is too long
+  //TODO hardcore values in base to show bar chart grid
   ngOnInit(): void {
     this._getParam()
     this.lineChartColors = [

@@ -174,7 +174,7 @@ export class RepositoryCodeComponent implements OnInit, OnChanges {
     if (event.tree.length > 1) {
       this.tree.forEach(element => {
         if (element !== 'master') {
-          let index = help_root.childrenFolder.find(x => x.nameNode === element) //TODO index je undefined, srediti ovo ovde
+          let index = help_root.childrenFolder.find(x => x.nameNode === element)
           help_root = index
         }
       });
@@ -204,7 +204,6 @@ export class RepositoryCodeComponent implements OnInit, OnChanges {
       })
   }
 
-  //TODO why download makes new folder?
   download() {
     this.notifier.notify('info', 'Preparing to download ' + this.list_project.name + ' project');
     let self = this

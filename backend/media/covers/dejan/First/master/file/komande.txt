@@ -1,0 +1,3 @@
+add-migration "ime"
+remove-migration
+update-database

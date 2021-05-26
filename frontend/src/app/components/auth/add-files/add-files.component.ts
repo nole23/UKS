@@ -20,6 +20,7 @@ export class AddFilesComponent implements OnInit {
   body: any;
   name: any;
   nameFolder: any;
+  isSpiner: Boolean = false;
   constructor(private repositoryService: RepositoryService, notifier: NotifierService) {
     this.file = null;
     this.body = '';
@@ -32,6 +33,7 @@ export class AddFilesComponent implements OnInit {
   }
 
   createFile() {
+    this.isSpiner = true;
     if (this.body !== '' && this.name !== '') {
       const formData = new FormData();
       formData.append('type', 'create')
@@ -50,12 +52,15 @@ export class AddFilesComponent implements OnInit {
           } else {
             this.notifier.notify('warming', 'Something isn\'t right')
           }
+          this.isSpiner = false;
         }, error => {
           this.notifier.notify('error', 'Server not responding')
+          this.isSpiner = false;
         })
     }
     else {
       this.notifier.notify('warning', this.body === "" ? 'Body can\'t be an empty string' : 'File name can\'t be an empty string')
+      this.isSpiner = false;
     }
   }
 
@@ -65,6 +70,18 @@ export class AddFilesComponent implements OnInit {
     } else {
       return true
     }
+  }
+
+  cretateLink(index: any) {
+    const fixLink = 'name=';
+    let generateLink = ''
+    for (let i = 1; i < index + 1; i++) {
+      generateLink += fixLink + this.tree[i];
+      if (i < index) {
+        generateLink += '&';
+      }
+    }
+    return '/repo/' + this.list_project.id + '/c/folder/master?' + generateLink;
   }
 
   cancel(message = null) {

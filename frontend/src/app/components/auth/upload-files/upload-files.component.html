@@ -1,13 +1,18 @@
 <div class="container">
     <div class="w-100 h-10 mt-3 float-left">
         <div class="form-group w-100 float-left">
-            <span class="float-left font-20">
-                <span><a [routerLink]="['/repo/' + list_project.id + '/c']">{{list_project.name}}</a></span>
-                <span *ngFor="let item of tree">
-                    <span *ngIf="item !== 'master'">{{' / ' + item}}</span>
+            <span class="float-left font-20" style="height:30px; width: fit-content;">
+                <span> <a class="cursor-pointer" [routerLink]="['/repo/' + list_project.id + '/c']">
+                        {{list_project.name}}</a></span>
+                <span *ngFor="let item of tree; let i = index">
+                    <span *ngIf="item !== 'master'"> / <a class="cursro-pointer"
+                            [routerLink]="cretateLink(i)">{{item}}</a></span>
                 </span>
                 <span> /</span>
             </span>
+
+            <input class="form-control float-left ml-2" style="height:30px; width: fit-content;" type="text"
+                [(ngModel)]="nameFolder" placeholder="Name your folder...">
         </div>
     </div>
 
@@ -29,9 +34,15 @@
     <div style="clear: both;" class="w-100 mt-3 float-left mt-3 mb-3">
         <div class="float-left w-70"></div>
         <div class="float-right w-30">
-            <button class="btn btn-success border-radius-10 mr-3 w-70" (click)="upload()" [disabled]="ngIsNull()">Commit
-                changes</button>
-            <button (click)="cancel()" class="btn btn-danger border-radius-10 w-25">Cancel</button>
+            <button class="btn btn-success border-radius-10 mr-3 w-70" (click)="upload()" [disabled]="ngIsNull()">
+                Commit changes
+                <span *ngIf="isSpiner">
+                    <div class="spinner-border text-success" style="width: 1rem; height: 1rem;"></div>
+                </span>
+            </button>
+            <button (click)="cancel()" class="btn btn-danger border-radius-10 w-25">
+                Cancel
+            </button>
         </div>
     </div>
 

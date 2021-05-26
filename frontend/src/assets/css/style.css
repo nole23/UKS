@@ -82,6 +82,8 @@
 .color-background-white { color: #FFFFFF; }
 .color-background-red { background-color: rgba(240, 148, 148, 0.5);}
 .error-color { color: red; border: 1px solid red;}
+.color-blue-dark {color: blue}
+.color-green-dark {color:rgb(11, 192, 11)}
 
 .border-color {
     border: 1px solid #dee2e6!important;
@@ -112,4 +114,8 @@
     box-shadow: 0px 0px 2px rgb(24, 23, 23);
     padding: 0.5em 0.1em;
     text-shadow: 0 0 1px #000;
-  }
+}
+
+.assigned-issue {
+    float: right;
+}

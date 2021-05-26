@@ -51,14 +51,12 @@ export class RepositorySettingComponent implements OnInit {
     formData.append('name', this.project.name.toString())
 
 
-    //TODO when you update project name and you re enter to project options manage access is disabled
-    //if you reload page username is lost so you have to return to the repositories to get it
     this.repositoryService.updateProject(formData)
       .subscribe(res => {
         this.spiner = false;
         if (res['message'] === 'SUCCESS') {
           this.notifier.notify('success', 'Project name updated')
-          this._changeProject();
+          this._changeProject(this.project.name.toString(), this.project.typeProject);
         } else {
           this.notifier.notify('waring', 'Server not responding')
         }
@@ -75,13 +73,12 @@ export class RepositorySettingComponent implements OnInit {
     formData.append('name', this.project.name.toString())
 
 
-    //TODO same as with update name of project
     this.repositoryService.updateProject(formData)
       .subscribe(res => {
         this.spiner = false;
         if (res['message'] === 'SUCCESS') {
           this.notifier.notify('success', 'Project type updated')
-          this._changeProject();
+          this._changeProject(this.project.name.toString(), this.project.typeProject);
         } else {
           this.notifier.notify('waring', 'Server not found')
         }
@@ -195,9 +192,13 @@ export class RepositorySettingComponent implements OnInit {
     return data.listUser;
   }
 
-  _changeProject() {
+  _changeProject(name: string, type: Boolean) {
+    let object = localStorage.getItem('project')
     localStorage.removeItem('project')
-    localStorage.setItem('project', JSON.stringify(this.project))
+    if (name !== null) object['name'] = name;
+    object['typeProject'] = type;
+    localStorage.setItem('project', JSON.stringify(object))
+    this.project = new Project(object);
   }
 
   _getOwner() {

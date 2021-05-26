@@ -81,9 +81,8 @@ export class RepositoryIssuesComponent implements OnInit {
     return data;
   }
 
-  //TODO: maybe make new tag in table to show who is assigned to each issue
-  //TODO: maybe change to '#53 opened 5 days ago by nole23'
   _setTd(item: any) {
+    let assign = item.assigned !== undefined ? 'Assigned: ' + item.assigned[0].firstName + ' ' + item.assigned[0].lastName : "";
     let description = item.description.length < 100 ? item.description : item.description.substring(0, 100) + '...'
     let name = item.name.length < 50 ? item.name : item.name.substring(0, 50) + '...'
     let color = item.status ? 'color-green' : 'color-red'
@@ -92,6 +91,9 @@ export class RepositoryIssuesComponent implements OnInit {
       id: item.id,
       link: null,
       name: '<div class="w-100 h-50 font-16 bold">' + icon + '<a class="cursor ' + color + '" href="/#/repo/' + this.repoId + '/issue/' + item.id + '"> ' + name + ' </a></div><div class="w-100 h-50 font-14">' + ' <span class="font-12">' + '#' + item.id + ' created by: ' + item.user.firstName + ' ' + item.user.lastName + '</span></div>'
+    }, {
+      name: assign,
+      class: 'assigned-issue pt-3 font-12'
     }]
     return data;
   }

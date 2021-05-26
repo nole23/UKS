@@ -62,11 +62,20 @@ export class RegistraionComponent implements OnInit {
       return false;
     }
 
-    //TODO email može bez domena treba izmeniti
     if (this.login.email === undefined) {
       this.notifier.notify('error', 'Email is required')
       this.isSpiner = false;
       return false;
+    }
+
+    if (this.login.email !== undefined) {
+      const re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+      let isStatus = re.test(this.login.email.toString());
+      if (!isStatus) {
+        this.notifier.notify('error', 'Email is incorrect')
+        this.isSpiner = false;
+        return false;
+      }
     }
 
     if (this.login.password === undefined) {

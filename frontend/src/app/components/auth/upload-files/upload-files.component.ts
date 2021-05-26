@@ -18,15 +18,16 @@ export class UploadFilesComponent implements OnInit {
 
   fileNames: Array<String>;
   file: File;
+  nameFolder: any;
+  isSpiner: Boolean = false;
   constructor(private repositoryService: RepositoryService, notifier: NotifierService) {
     this.fileNames = null;
     this.file = null;
     this.notifier = notifier;
+    this.nameFolder = '';
   }
 
   ngOnInit(): void {
-    //TODO namestiti način da se vrati nazad na projekat klikom na link
-    //TODO namestiti šetanje kroz dubinu prilikom dodavanja fajlova
   }
 
   uploadFile($event) {
@@ -38,6 +39,7 @@ export class UploadFilesComponent implements OnInit {
   }
 
   upload() {
+    this.isSpiner = true;
     if (this.file !== null) {
       const formData = new FormData();
       formData.append('type', 'upload')
@@ -47,11 +49,15 @@ export class UploadFilesComponent implements OnInit {
       this.tree.forEach(element => {
         name += '_' + element;
       });
+
+      if (this.nameFolder.length > 0)
+        name += '_' + this.nameFolder;
+
       name += '_' + this.file.name
-      console.log(name)
+
       formData.append('cover', this.file, name)
       formData.append('parent', this.list_project.id)
-      formData.append('folder', '')
+      formData.append('folder', this.nameFolder)
       formData.append('branch', this.branch)
       formData.append('tree', this.tree)
 
@@ -63,11 +69,14 @@ export class UploadFilesComponent implements OnInit {
           } else {
             this.notifier.notify('error', 'Something isn\'t right')
           }
+          this.isSpiner = false;
         }, error => {
           this.notifier.notify('error', 'Server not responding')
+          this.isSpiner = false;
         })
     } else {
       this.notifier.notify('warning', 'Choose the file first')
+      this.isSpiner = false;
     }
   }
 
@@ -82,6 +91,18 @@ export class UploadFilesComponent implements OnInit {
   delete(index: any) {
     this.fileNames.splice(index, 1)
     this.file = null
+  }
+
+  cretateLink(index: any) {
+    const fixLink = 'name=';
+    let generateLink = ''
+    for (let i = 1; i < index + 1; i++) {
+      generateLink += fixLink + this.tree[i];
+      if (i < index) {
+        generateLink += '&';
+      }
+    }
+    return '/repo/' + this.list_project.id + '/c/folder/master?' + generateLink;
   }
 
   cancel(message = null) {
