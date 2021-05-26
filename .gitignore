@@ -137,6 +137,7 @@ dmypy.json
 /dist
 /tmp
 /out-tsc
+/media/cover
 # Only exists if Bazel was run
 /bazel-out
 
