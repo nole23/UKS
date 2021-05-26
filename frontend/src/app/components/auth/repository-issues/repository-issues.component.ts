@@ -82,8 +82,10 @@ export class RepositoryIssuesComponent implements OnInit {
   }
 
   _setTd(item: any) {
-    let assign = item.assigned !== undefined ? 'Assigned: ' + item.assigned[0].firstName + ' ' + item.assigned[0].lastName : "";
-    let description = item.description.length < 100 ? item.description : item.description.substring(0, 100) + '...'
+    let assign = '';
+    if (item.assigned !== undefined) {
+      assign += item.assigned.length > 0 ? 'Assigned: ' + item.assigned[0].firstName + ' ' + item.assigned[0].lastName : "";
+    }
     let name = item.name.length < 50 ? item.name : item.name.substring(0, 50) + '...'
     let color = item.status ? 'color-green' : 'color-red'
     let icon = item.status ? '<i class="fa fa-exclamation-circle color-green" aria-hidden="true"></i>' : '<i class="fa fa-exclamation-circle color-red" aria-hidden="true"></i>'

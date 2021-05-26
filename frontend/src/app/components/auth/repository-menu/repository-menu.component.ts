@@ -45,8 +45,6 @@ export class RepositoryMenuComponent implements OnInit {
     if (this.list_project !== null) {
       this.numberOfContributors = (this.listUser.length === 1) ? "1 Contributor" : this.listUser.length + " Contributors"
 
-      //TODO maybe auto refresh if possible to see updated number of open issues?
-      //TODO assing to issue doesnt show in table
       this.list_project.issue.forEach(element => {
         if (element.status) {
           this.numberOfOpenIssues++;

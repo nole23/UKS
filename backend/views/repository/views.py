@@ -15,7 +15,8 @@ class Repository(APIView):
         listProject = List_Project_User.objects.filter(project_id=id)
         project = listProject[0].project
 
-        issues = Issue.objects.filter(project=project.id)
+        issues = Issue.objects.filter(project=project)
+        print(issues[0].assigned)
         projectRest = projectSerialize(project, issues, listProject)
 
         return create_json_response({"message": "SUCCESS", "project": projectRest}, status=200)

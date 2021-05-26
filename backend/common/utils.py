@@ -114,6 +114,16 @@ def rootTreeSeriallize(data, types=None):
             'childrenFolder': serializeFolders(data.children_folder.all(), data.name_branch, data.user_create.username)
         }
 
+def assignedSerialize(data):
+    rd = []
+    for each in data:
+        rd.append({
+            'id': str(each.id),
+            'firstName': each.first_name,
+            'lastName': each.last_name,
+            'username': each.username
+        })
+    return rd
 
 def issuesSerialize(data):
     rd = []
@@ -123,7 +133,8 @@ def issuesSerialize(data):
             'name': each.name,
             'description': each.description,
             'status': each.status,
-            'user': userSerialize(each.user)
+            'user': userSerialize(each.user),
+            'assigned': assignedSerialize(each.assigned.all())
         })
     return rd
 
@@ -201,12 +212,12 @@ def projectSerialize(data, issuesData, listProjectData):
     }
 
 
-def listProjectUserSerialize(data):
+def listProjectUserSerialize(data, isIssue = False):
     rd = []
     for each in data:
         rd.append({
             'id': str(each.id),
-            'project': projectSerialize(each.project, None, None),
+            'project': projectSerialize(each.project, each.project.issue if isIssue != False else None, None),
             'user': userSerialize(each.user),
             'role': roleSerialize(each.role)
         })
