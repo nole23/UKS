@@ -49,6 +49,7 @@ urlpatterns = [
     path('api/get-all-repository/<int:id>',
          repository.RepositoryGet.as_view()),
     path('api/delete-repository/<int:id>', repository.Repository.as_view()),
+    path('api/repository/<str:text>', repository.RepositoryFind.as_view()),
     # endregion Repository
 
     # region Files

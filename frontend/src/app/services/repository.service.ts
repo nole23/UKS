@@ -128,6 +128,13 @@ export class RepositoryService {
       }))
   }
 
+  repoSearch(text: any) {
+    return this.http.get(this.API_URL + 'repository/' + text)
+      .pipe(map(res => {
+        return res;
+      }))
+  }
+
   addUserInProject(data: any) {
     return this.http.post(this.API_URL + 'addUserInProject', data)
       .pipe(map(res => {

@@ -16,7 +16,6 @@ class Repository(APIView):
         project = listProject[0].project
 
         issues = Issue.objects.filter(project=project)
-        print(issues[0].assigned)
         projectRest = projectSerialize(project, issues, listProject)
 
         return create_json_response({"message": "SUCCESS", "project": projectRest}, status=200)
@@ -80,4 +79,17 @@ class RepositoryGet(APIView):
 
         data = listProjectUserSerialize(projects)
 
+        return create_json_response({"status": "SUCCESS", "data": data}, status=200)
+
+
+class RepositoryFind(APIView):
+
+    @token_required_class
+    def get(self, request, text):
+        me = request.user
+
+        projects = List_Project_User.objects.filter(
+            user=me, project__name__contains=text)
+
+        data = listProjectUserSerialize(projects)
         return create_json_response({"status": "SUCCESS", "data": data}, status=200)
