@@ -28,6 +28,8 @@ export class IssueComponent implements OnInit {
   isSpinerClose: Boolean = false;
   isSpinerAdd: Boolean = false;
   imgUrl = 'http://localhost:8000/media/picture/'
+  label: any = null;
+  labels: any = null;
   constructor(private repositoryService: RepositoryService, notifier: NotifierService, private router: Router) {
     this.issue = null;
     this.comment = null;
@@ -38,7 +40,9 @@ export class IssueComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.labels = JSON.parse(localStorage.getItem('labels'));
     this.ngGetIssueById();
+
   }
 
   ngGetIssueById() {
@@ -53,7 +57,7 @@ export class IssueComponent implements OnInit {
         this.isDisable = !this.issue.status;
         this.isAssignedFunction()
         this._commentCounter(data)
-
+        this._getLabels();
       })
   }
 
@@ -167,16 +171,21 @@ export class IssueComponent implements OnInit {
     let index = data.issue.findIndex(x => x.id.toString() === idIssues.toString())
 
     if (type === 'remove') {
-      data.issue.splice(index, 1)
+      data.issue.splice(index, 1);
     }
 
     if (type === 'close') {
-      data.issue[index] = newData
+      data.issue[index] = newData;
+    }
+
+    if (type === 'labels') {
+      data.issue[index] = newData;
     }
 
     localStorage.setItem('project', JSON.stringify(data))
 
-    this.router.navigate(['/repo/' + this.project.id + '/i'])
+    if (type !== 'labels' || type === undefined)
+      this.router.navigate(['/repo/' + this.project.id + '/i'])
   }
 
   _commentCounter(data: any) {
@@ -205,4 +214,28 @@ export class IssueComponent implements OnInit {
     this.issueDescriptionHelp = this.issue.description;
   }
 
+  _getLabels() {
+
+    let help = this.labels.find(x => x.id.toString() === this.issue.labels.toString())
+
+    if (help !== undefined)
+      this.label = help;
+
+  }
+
+  setLabels(item: any) {
+    const formData = new FormData();
+    formData.append('issueId', this.issue.id)
+    formData.append('labelId', item.id)
+
+    this.repositoryService.issueLabels(formData)
+      .subscribe(res => {
+        if (res['message'] === 'SUCCESS') {
+          this.issue.labels = item.id
+          this.label = item
+          this.issue.comments.push(res['data'])
+          this._updateIssueProject(this.issue)
+        }
+      })
+  }
 }

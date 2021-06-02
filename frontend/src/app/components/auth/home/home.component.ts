@@ -17,7 +17,8 @@ export class HomeComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    localStorage.removeItem('project')
+    localStorage.removeItem('project');
+    localStorage.removeItem('labels');
     this._getAllRepository();
     this.data = {
       class: 'table table-hover',

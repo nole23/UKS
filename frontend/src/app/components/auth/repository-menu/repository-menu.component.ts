@@ -85,6 +85,5 @@ export class RepositoryMenuComponent implements OnInit {
     } else {
       this.isOwner = this.user.id.toString() === listUser.user.id.toString()
     }
-    console.log(this.isOwner)
   }
 }

@@ -122,8 +122,11 @@ export class RepositorySettingComponent implements OnInit {
 
   _createTD(user: any, status: String) {
     let resData = []
-
-    let name = (user.user.id === this.loginUser.id) ? user.user.firstName + ' ' + user.user.lastName + ' (you)' : user.user.firstName + ' ' + user.user.lastName
+    let name = ''
+    if (user.user === undefined)
+      name += (user.id === this.loginUser.id) ? user.firstName + ' ' + user.lastName + ' (you)' : user.firstName + ' ' + user.lastName
+    else
+      name += (user.user.id === this.loginUser.id) ? user.user.firstName + ' ' + user.user.lastName + ' (you)' : user.user.firstName + ' ' + user.user.lastName
 
     if (status === 'inicial') {
       resData.push(

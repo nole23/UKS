@@ -58,6 +58,7 @@ export class AuthService {
     localStorage.removeItem('user');
     localStorage.removeItem('jwt');
     localStorage.removeItem('project');
+    localStorage.removeItem('labels');
     this.loginSource.next();
   }
 }

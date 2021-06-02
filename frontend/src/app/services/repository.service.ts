@@ -37,6 +37,9 @@ export class RepositoryService {
   getRepositoryById(id: any) {
     return this.http.get(this.API_URL + 'get-repositpry/' + id)
       .pipe(map(res => {
+        if (res['labels']) {
+          localStorage.setItem('labels', JSON.stringify(res['labels']))
+        }
         if (res['message'] === 'SUCCESS') {
           return { 'status': true, 'project': res['project'] }
         }
@@ -171,6 +174,13 @@ export class RepositoryService {
 
   deleteFile(file: any) {
     return this.http.delete(this.API_URL + 'files/' + file.id, {})
+      .pipe(map(res => {
+        return res;
+      }))
+  }
+
+  issueLabels(data: any) {
+    return this.http.put(this.API_URL + 'labels-issue', data)
       .pipe(map(res => {
         return res;
       }))

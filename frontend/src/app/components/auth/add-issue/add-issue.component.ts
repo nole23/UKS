@@ -15,18 +15,25 @@ export class AddIssueComponent implements OnInit {
 
   newIssue: any;
   isRegistration: Boolean;
+  labels: any;
+  addLabels: any = null;
   constructor(private repositoryService: RepositoryService, notifier: NotifierService) {
     this.isRegistration = false;
     this.notifier = notifier;
   }
 
   ngOnInit(): void {
+    this._getLabels();
     this.newIssue = {
       name: '',
       description: '',
       user: JSON.parse(localStorage.getItem('user')),
       id: this.id
     }
+  }
+
+  _getLabels() {
+    this.labels = JSON.parse(localStorage.getItem('labels'));
   }
 
   ngAddIssue() {
@@ -36,6 +43,7 @@ export class AddIssueComponent implements OnInit {
     formData.append('name', this.newIssue.name)
     formData.append('description', this.newIssue.description)
     formData.append('id', this.id)
+    formData.append('labels', this.addLabels === null ? null : this.addLabels.id)
 
     this.repositoryService.saveIssue(formData)
       .subscribe(res => {
@@ -45,6 +53,10 @@ export class AddIssueComponent implements OnInit {
           this.notifier.notify('success', 'New issue added')
         }
       })
+  }
+
+  setLabels(item: any) {
+    this.addLabels = item;
   }
 
   _disableButton() {

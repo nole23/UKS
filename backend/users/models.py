@@ -98,6 +98,7 @@ class Issue(models.Model):
     date_create = models.DateTimeField(null=True, blank=True)
     assigned = models.ManyToManyField(
         User, blank=True, related_name='assigned')
+    labels = models.CharField(max_length=99999, null=True)
 
 
 class Issue_Comment(models.Model):

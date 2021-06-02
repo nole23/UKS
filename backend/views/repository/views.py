@@ -18,7 +18,12 @@ class Repository(APIView):
         issues = Issue.objects.filter(project=project)
         projectRest = projectSerialize(project, issues, listProject)
 
-        return create_json_response({"message": "SUCCESS", "project": projectRest}, status=200)
+        file = open("config/labels.json", "r")
+        data = file.read()
+        file.close()
+
+        parserLabels = json.loads(data)
+        return create_json_response({"message": "SUCCESS", "project": projectRest, "labels": parserLabels}, status=200)
 
     @token_required_class
     def post(self, request):

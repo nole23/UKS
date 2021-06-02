@@ -21,7 +21,27 @@
                     </span>
                 </button>
             </div>
-
+            <nav class="navbar navbar-expand-sm pl-0 pr-0">
+                <ul class="navbar-nav w-100 border">
+                    <li class="nav-item dropdown w-100 pl-2">
+                        <a class="nav-link dropdown-toggle btn pl-0" style="text-align: left" href="#" id="navbardrop"
+                            data-toggle="dropdown">
+                            <span *ngIf="label === null"> None yet </span>
+                            <span *ngIf="label !== null"> <i class="fa fa-circle" [ngClass]="label.color"
+                                    aria-hidden="true"></i> {{label.name}} </span>
+                        </a>
+                        <div class="dropdown-menu w-100">
+                            <div class="float-left pl-2 pr-2 h-40p mt-2 border-bottom w-100" style="cursor: pointer"
+                                *ngFor="let item of labels" (click)="setLabels(item)">
+                                <div>
+                                    <span><i class="fa fa-circle" [ngClass]="item.color" aria-hidden="true"></i>
+                                        {{item.name}}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </nav>
         </div>
         <div class="float-left w-100">
 
@@ -64,7 +84,7 @@
                     </div>
                 </div>
                 <div class="w-100 hm-40 pt-4 pl-4 pb-4 pr-4">
-                    <div>{{item.comment}}</div>
+                    <div [innerHTML]="item.comment"></div>
                 </div>
             </div>
 
@@ -79,12 +99,14 @@
                     <span *ngIf="item.comment.includes('close')" style="margin-left: 10px;">
                         <i class=" fa fa-exclamation-circle fa-lg color-red" aria-hidden="true"></i>
                     </span>
+                    <span *ngIf="item.comment.includes('label')" style="margin-left: 10px;">
+                        <i class="fa fa-tag fa-lg" aria-hidden="true"></i>
+                    </span>
                     <span
                         style="width: 20px; height: 20px; border-radius: 50%; background-color: #fff; margin-left: 15px;">
                         <img src="{{imgUrl + 'avatar.png'}}" alt="" width="20px" height="20px">
                     </span>
-                    <span>
-                        {{item.comment}}
+                    <span [innerHTML]="item.comment">
                     </span>
                 </div>
             </div>

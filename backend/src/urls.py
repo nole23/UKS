@@ -72,6 +72,7 @@ urlpatterns = [
     path('api/close-issue', issues.Issues.as_view()),
     path('api/update-issue', issuesComment.IssuesComment.as_view()),
     path('api/assigne-issue', issues.IssuesGet.as_view()),
+    path('api/labels-issue', issues.IssueUpdateLabel.as_view()),
     path('api/issue/<int:id>', issues.IssuesGet.as_view()),
     path('api/delete-issues/<int:id>', issues.Issues.as_view()),
     path('api/add-issue-comment', issuesComment.IssuesComment.as_view()),

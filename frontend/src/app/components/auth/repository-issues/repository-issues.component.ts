@@ -86,13 +86,20 @@ export class RepositoryIssuesComponent implements OnInit {
     if (item.assigned !== undefined) {
       assign += item.assigned.length > 0 ? 'Assigned: ' + item.assigned[0].firstName + ' ' + item.assigned[0].lastName : "";
     }
+
+    let labels = '';
+    if (item.labels.toString() !== 'null') {
+      let help = this._getLabels(item.labels);
+      labels += '<span class="bug-tags ' + help.color + '-b color-background-white">' + help.name + '</span>';
+    }
+
     let name = item.name.length < 50 ? item.name : item.name.substring(0, 50) + '...'
     let color = item.status ? 'color-green' : 'color-red'
     let icon = item.status ? '<i class="fa fa-exclamation-circle color-green" aria-hidden="true"></i>' : '<i class="fa fa-exclamation-circle color-red" aria-hidden="true"></i>'
     let data = [{
       id: item.id,
       link: null,
-      name: '<div class="w-100 h-50 font-16 bold">' + icon + '<a class="cursor ' + color + '" href="/#/repo/' + this.repoId + '/issue/' + item.id + '"> ' + name + ' </a></div><div class="w-100 h-50 font-14">' + ' <span class="font-12">' + '#' + item.id + ' created by: ' + item.user.firstName + ' ' + item.user.lastName + '</span></div>'
+      name: '<div class="w-100 h-50 font-16 bold">' + icon + '<a class="cursor ' + color + '" href="/#/repo/' + this.repoId + '/issue/' + item.id + '"> ' + name + ' </a>' + labels + '</div><div class="w-100 h-50 font-14">' + ' <span class="font-12">' + '#' + item.id + ' created by: ' + item.user.firstName + ' ' + item.user.lastName + '</span></div>'
     }, {
       name: assign,
       class: 'assigned-issue pt-3 font-12'
@@ -140,5 +147,10 @@ export class RepositoryIssuesComponent implements OnInit {
     localStorage.setItem('project', JSON.stringify(data));
 
     this._setInformation();
+  }
+
+  _getLabels(id: any) {
+    let labels = JSON.parse(localStorage.getItem('labels'))
+    return labels.find(x => x.id.toString() === id.toString())
   }
 }

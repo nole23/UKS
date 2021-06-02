@@ -41,10 +41,12 @@ class Issues(APIView):
         idProject = request.data['id']
         user = request.user
 
+        labels = request.data['labels']
+
         project = Project.objects.get(id=idProject)
 
         issue = Issue.objects.create(
-            name=name, description=description, project=project, user=user, date_create=datetime.now())
+            name=name, description=description, project=project, user=user, date_create=datetime.now(), labels=labels)
 
         return create_json_response({"message": "SUCCESS", "data": issueSerialize(issue)}, status=200)
 
@@ -102,6 +104,39 @@ class IssuesGet(APIView):
 
         comment = user.first_name + ' ' + user.last_name + \
             ' assigned to issue #' + str(issue.id) + '.'
+
+        issueComment = Issue_Comment.objects.create(
+            comment=comment, issue=issue, user=user, date_create=datetime.now(), type_comment="AUTOGENERATE")
+
+        return create_json_response({"message": "SUCCESS", "data": issueCommentSerialize(issueComment), "issue": issueSerialize(issue)}, status=200)
+
+
+class IssueUpdateLabel(APIView):
+
+    @token_required_class
+    def put(self, request):
+        idIssue = request.data['issueId']
+        idlabel = request.data['labelId']
+
+        issue = Issue.objects.get(id=idIssue)
+        issue.labels = idlabel
+        issue.save()
+
+        file = open("config/labels.json", "r")
+        data = file.read()
+        file.close()
+
+        findLabel = None
+        for e in json.loads(data):
+            if (str(e['id']) == str(idlabel)):
+                findLabel = e
+                break
+
+        user = request.user
+        comment = user.first_name + ' ' + user.last_name + \
+            ' added the <span class="bug-tags ' + str(findLabel['color']) + \
+            '-b color-background-white">' + \
+            str(findLabel['name']) + '</span> label.'
 
         issueComment = Issue_Comment.objects.create(
             comment=comment, issue=issue, user=user, date_create=datetime.now(), type_comment="AUTOGENERATE")
