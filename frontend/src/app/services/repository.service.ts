@@ -139,7 +139,7 @@ export class RepositoryService {
   }
 
   addUserInProject(data: any) {
-    return this.http.post(this.API_URL + 'addUserInProject', data)
+    return this.http.put(this.API_URL + 'addUserInProject', data)
       .pipe(map(res => {
         return res;
       }))

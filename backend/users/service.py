@@ -1,7 +1,7 @@
 import jwt
 from datetime import datetime, timedelta
 
-from common.utils import loginSerialize
+from common.utils import loginSerialize, userSerialize
 from users.models import User
 
 JWT_SECRET = 'secret'
@@ -52,3 +52,13 @@ class UserService():
         user.save()
 
         return {"message": "SUCCESS", "data": None}
+
+    def filter(self, user, text):
+        #queryset = self.userModel.filter(text)
+        queryset = User.objects.filter(first_name__startswith=text) | User.objects.filter(last_name__startswith=text) | User.objects.filter(email__startswith=text)
+
+        lists = []
+        for each in queryset:
+            lists.append(userSerialize(each))
+
+        return {"message": "SUCCESS", "data": lists}
