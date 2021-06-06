@@ -1,8 +1,10 @@
 from django.http import JsonResponse
-from django.views.decorators.csrf import csrf_exempt
+from rest_framework.views import APIView
 import json
-from common.utils import create_json_response, userSerialize
-from users.models import User, Role
+
+from common.utils import create_json_response, userSerialize, decode_body
+from users.models import Role
+from users.service import UserService
 
 
 def index(request):
@@ -18,40 +20,45 @@ def index(request):
     y = json.loads(x)
     return JsonResponse(y)
 
-
-@csrf_exempt
-def actions(request, id):
-    if request.method == "GET":
-        file = open("config/actions.json", "r")
-        data = file.read()
-        file.close()
-        x = '{ "status":"SUCCESS", "description":' + data + ' }'
-        y = json.loads(x)
-        return JsonResponse(y)
+def action(request):
+    file = open("config/actions.json", "r")
+    data = file.read()
+    file.close()
+    x = '{ "status":"SUCCESS", "description":' + data + ' }'
+    y = json.loads(x)
+    return JsonResponse(y)
 
 
-@csrf_exempt
-def updateUser(request):
-    if request.method == "PUT":
-        body_unicode = request.body.decode('utf-8')
-        body = json.loads(body_unicode)
+class User(APIView):
+    user = UserService()
 
-        user = User.objects.get(id=body['id'])
+    def get(self, request, id):
+        user = self.user.getUserById(id)
+        return create_json_response({"message": "SUCCESS", "data": userSerialize(user)}, status=200)
 
-        if user is None:
-            return create_json_response({"message": "FALSE", "data": "USER_NOT_FOUNDE"}, status=200)
+    def put(self, request):
+        data = decode_body(request.body)
 
-        user.first_name = body['firstName']
-        user.last_name = body['lastName']
-        user.username = body['username']
-
-        user.save()
-
-        return create_json_response({"message": "SUCCESS"}, status=200)
+        user = self.user.update(data)
+        return create_json_response({"message": user['message'], "data": user['data']}, status=200)
 
 
-@csrf_exempt
-def getUserById(request, id):
-    user = User.objects.get(id=id)
+class Login(APIView):
+    user = UserService()
 
-    return create_json_response({"message": "SUCCESS", "data": userSerialize(user)}, status=200)
+    def post(self, request):
+
+        data = decode_body(request.body)
+        login = self.user.login(data)
+
+        return create_json_response({"message": login['message'], "data": login['data']}, status=200)
+
+class Registration(APIView):
+    user = UserService()
+
+    def post(self, request):
+
+        data = decode_body(request.body)
+        registration = self.user.create(data)
+
+        return create_json_response({"message": registration['message'], "data": registration['data']}, status=200)

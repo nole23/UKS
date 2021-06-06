@@ -35,6 +35,31 @@ class User(models.Model):
     folder_name = models.CharField(max_length=30)
     password = models.CharField(max_length=30)
 
+    def get_by_email(self, email):
+        return User.objects.get(email=email)
+    
+    def get_all_by_email(self, email):
+        return  User.objects.filter(email__exact=email)
+
+    def get_by_id(self, id):
+        return User.objects.get(id=id)
+
+    def create_new_user(self, data):
+        username = data['email'].split('@')
+        username = username[0]
+
+        User.objects.create(
+            first_name=data['firstName'],
+            last_name=data['lastName'],
+            email=data['email'],
+            username=username,
+            folder_name=username,
+            password=data['password']
+        )
+
+    def update(self, data):
+        data.save()
+
 
 class Files(models.Model):
     id = models.AutoField(primary_key=True)

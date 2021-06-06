@@ -23,8 +23,6 @@ from views.files import views as files
 from views.repository import views as repository
 from views.update import views as update
 from views.statistic import views as statistic
-from views.authController import view_registration as registration
-from views.authController import views as login
 from views.issues import views as issues
 from views.issues import views_comment as issuesComment
 from views.download import views as download
@@ -33,14 +31,15 @@ urlpatterns = [
     # region Global
     path('admin/', admin.site.urls),
     path('index', views.index, name='index'),
-    path('api/actions/<int:id>', views.actions, name='actions'),
-    path('api/', views.updateUser, name='updateUser'),
-    path('api/<int:id>', views.getUserById, name='getUserById'),
+    path('api/', views.User.as_view(), name='updateUser'),
+    path('api/actions', views.action, name='actions'),
+    path('api/<int:id>', views.User.as_view(), name='getUserById'),
+
     # endregion Global
 
     # region Auth
-    path('api/sing-in', registration.Registration.as_view()),
-    path('api/sing-up', login.Login.as_view()),
+    path('api/sing-in', views.Registration.as_view()),
+    path('api/sing-up', views.Login.as_view()),
     # endregion Auth
 
     # region Repository
