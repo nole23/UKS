@@ -2,7 +2,8 @@ from django.test import TestCase, Client
 import json
 from datetime import datetime
 
-from users.models import User, Role, Root_Tree, List_Project_User, Project
+from users.models import User, Role
+from repository.models import Root_Tree, List_Project_User, Project
 from issues.models import Issue
 
 # Create your tests here.
