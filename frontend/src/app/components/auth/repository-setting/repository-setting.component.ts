@@ -89,7 +89,7 @@ export class RepositorySettingComponent implements OnInit {
     if (this.searchText.length > 3) {
       this.repositoryService.userSearch(this.searchText)
         .subscribe(res => {
-          this._createTableDate(res['users'], 'search')
+          this._createTableDate(res['data'], 'search')
         })
     } else {
       this._createTableDate(this.listUser, 'inicial');
@@ -196,7 +196,7 @@ export class RepositorySettingComponent implements OnInit {
   }
 
   _changeProject(name: string, type: Boolean) {
-    let object = localStorage.getItem('project')
+    let object = JSON.parse(localStorage.getItem('project'))
     localStorage.removeItem('project')
     if (name !== null) object['name'] = name;
     object['typeProject'] = type;

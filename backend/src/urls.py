@@ -21,7 +21,7 @@ from django.conf import settings
 from users import views
 from views.files import views as files
 from views.repository import views as repository
-from views.update import views as update
+from update import views as update
 from views.statistic import views as statistic
 from views.issues import views as issues
 from views.issues import views_comment as issuesComment
@@ -58,7 +58,7 @@ urlpatterns = [
 
     # region Update
     path('api/userSearch/<str:text>', update.Update.as_view()),
-    path('api/updateProject', update.Update.as_view()),
+    path('api/updateProject', update.UpdateInfo.as_view()),
     path('api/addUserInProject', update.Update.as_view()),
     # endregion Update
 
