@@ -24,8 +24,8 @@
             <nav class="navbar navbar-expand-sm pl-0 pr-0">
                 <ul class="navbar-nav w-100 border">
                     <li class="nav-item dropdown w-100 pl-2">
-                        <a class="nav-link dropdown-toggle btn pl-0" style="text-align: left" href="#" id="navbardrop"
-                            data-toggle="dropdown">
+                        <a class="nav-link dropdown-toggle btn pl-0 cursor-pointer" style="text-align: left" id="navbardrop"
+                            data-toggle="dropdown" [disabled]="isDisable">
                             <span *ngIf="label === null"> None yet </span>
                             <span *ngIf="label !== null"> <i class="fa fa-circle" [ngClass]="label.color"
                                     aria-hidden="true"></i> {{label.name}} </span>

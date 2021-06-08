@@ -1,5 +1,6 @@
 from rest_framework.views import APIView
-from users.models import Project, Issue, Statistic as static
+from users.models import Project, Statistic as static
+from issues.models import Issue
 from common.utils import create_json_response
 
 
