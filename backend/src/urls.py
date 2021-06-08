@@ -23,8 +23,7 @@ from views.files import views as files
 from views.repository import views as repository
 from update import views as update
 from views.statistic import views as statistic
-from views.issues import views as issues
-from views.issues import views_comment as issuesComment
+from issues import views as issues
 from views.download import views as download
 
 urlpatterns = [
@@ -69,12 +68,12 @@ urlpatterns = [
     # region Issues
     path('api/add-issue', issues.Issues.as_view()),
     path('api/close-issue', issues.Issues.as_view()),
-    path('api/update-issue', issuesComment.IssuesComment.as_view()),
+    path('api/update-issue', issues.IssuesComment.as_view()),
     path('api/assigne-issue', issues.IssuesGet.as_view()),
     path('api/labels-issue', issues.IssueUpdateLabel.as_view()),
     path('api/issue/<int:id>', issues.IssuesGet.as_view()),
     path('api/delete-issues/<int:id>', issues.Issues.as_view()),
-    path('api/add-issue-comment', issuesComment.IssuesComment.as_view()),
+    path('api/add-issue-comment', issues.IssuesComment.as_view()),
     path('api/filter/<str:status>/<str:params>/<str:nameUser>/<int:id>',
          issues.Issues.as_view()),
     # endregion Issues

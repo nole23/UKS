@@ -116,26 +116,3 @@ class List_Project_User(models.Model):
     project = models.ForeignKey(Project, on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     role = models.ForeignKey(Role, on_delete=models.CASCADE, null=True)
-
-
-class Issue(models.Model):
-    id = models.AutoField(primary_key=True)
-    name = models.CharField(max_length=30)
-    description = models.CharField(max_length=150)
-    status = models.BooleanField(default=True)
-    project = models.ForeignKey(Project, on_delete=models.CASCADE)
-    user = models.ForeignKey(
-        User, on_delete=models.CASCADE, related_name='user')
-    date_create = models.DateTimeField(null=True, blank=True)
-    assigned = models.ManyToManyField(
-        User, blank=True, related_name='assigned')
-    labels = models.CharField(max_length=99999, null=True)
-
-
-class Issue_Comment(models.Model):
-    id = models.AutoField(primary_key=True)
-    comment = models.CharField(max_length=150)
-    issue = models.ForeignKey(Issue, on_delete=models.CASCADE)
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    date_create = models.DateTimeField(null=True, blank=True)
-    type_comment = models.CharField(max_length=150, default='COMMENT')
