@@ -1,24 +1,24 @@
-import json
-from rest_framework.views import APIView
 from django.core.files.base import ContentFile
 from datetime import datetime
-from users.models import Files, Project, Children_Tree, Statistic
-from common.utils import token_required_class, create_json_response, rootTreeSeriallize
 import os
 
+from common.utils import rootTreeSeriallize
+from repository.models import Project, Children_Tree
+from files.models import Files
+from statistic.models import Statistic
 
-class File(APIView):
 
-    @token_required_class
-    def post(self, request):
-        user = request.user
+class FileService():
+    project = Project()
+    files = Files()
+    childrenTree = Children_Tree()
 
-        id_project = request.data['parent']
-        types = request.data['type']
-        folder = request.data['folder']
-        tree = request.data['tree'].split(',')
+    def addNewFile(self, user, data):
+        tree = data['tree'].split(',')
+        folder = data['folder']
+        types = data['type']
 
-        project = Project.objects.get(id=id_project)
+        project = Project.objects.get(id=data['parent'])
         rootTree = project.root_tree.first()
 
         path = rootTree.user_create.username + "_" + project.name + "_"
@@ -26,16 +26,13 @@ class File(APIView):
             for each in tree:
                 path += each + "_"
 
-        print(path)
-
         files = None
-
         if folder != "":
             path += folder + '_'
 
         if types == "create":
-            title = request.data['title'].split(".")
-            text = request.data['text']
+            title = data['title'].split(".")
+            text = data['text']
             content = ContentFile(text)
             name = None
 
@@ -46,14 +43,12 @@ class File(APIView):
                 content.name = path + title[0] + ".txt"
                 name = title[0] + ".txt"
 
-            files = Files.objects.create(
-                name=name, cover=content, dateCreate=datetime.now(), user=user)
+            files = self.files.create(name, content, user)
 
         if types == "upload":
-            cover = request.data['cover']
+            cover = data['cover']
             name = cover.name.split("_")
-            files = Files.objects.create(
-                name=name[-1], cover=cover, dateCreate=datetime.now(), user=user)
+            files = self.files.create(name[-1], cover, user)
 
         if len(tree) > 1:
             help_child = rootTree
@@ -63,7 +58,7 @@ class File(APIView):
 
             if folder != "":
                 childrenTree = Children_Tree.objects.create(
-                    name_node=folder, date_create=datetime.now(), user_create=request._user)
+                    name_node=folder, date_create=datetime.now(), user_create=user)
                 childrenTree.files.add(files)
                 help_child.children_folder.add(childrenTree)
             else:
@@ -71,33 +66,29 @@ class File(APIView):
         else:
             if folder != "":
                 childrenTree = Children_Tree.objects.create(
-                    name_node=folder, date_create=datetime.now(), user_create=request._user)
+                    name_node=folder, date_create=datetime.now(), user_create=user)
                 childrenTree.files.add(files)
                 rootTree.children_folder.add(childrenTree)
             else:
                 rootTree.files.add(files)
 
-        # For statistic
         Statistic.objects.create(
             project=project, files=files, date_create=datetime.now())
 
         jsonRootTree = rootTreeSeriallize(rootTree, 'none')
-        return create_json_response({"message": "SUCCESS", "rootTree": jsonRootTree}, status=200)
+        return {"message": "SUCCESS", "rootTree": jsonRootTree}
 
-    def put(self, request):
-        body_unicode = request.body.decode('utf-8')
-        body = json.loads(body_unicode)
-
-        file = Files.objects.get(id=body['id'])
+    def editFile(self, data):
+        file = self.files.find_by_id(data['id'])
 
         file1 = open('media/' + file.cover.name, "w")
 
-        file1.write(body['cover'])
+        file1.write(data['cover'])
         file1.close()
-        return create_json_response({"message": "SUCCESS"}, status=200)
+        return {"message": "SUCCESS", "data": None}
 
-    def delete(self, request, id):
-        file = Files.objects.get(id=id)
+    def delete(self, id):
+        file = self.files.find_by_id(id)
         path = file.cover.path
         print(path)
         file.delete()
@@ -105,4 +96,4 @@ class File(APIView):
         if os.path.isfile(path):
             os.remove(path)
 
-        return create_json_response({"message": "SUCCESS"}, status=200)
+        return {"message": "SUCCESS", "data": None}

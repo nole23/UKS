@@ -1,4 +1,5 @@
-from users.models import Role, Project, List_Project_User
+from users.models import Role
+from repository.models import Project, List_Project_User
 from users.service import UserService
 from common.utils import userSerialize, roleSerialize
 

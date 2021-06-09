@@ -19,12 +19,12 @@ from django.urls import path
 from django.conf.urls.static import static
 from django.conf import settings
 from users import views
-from views.files import views as files
-from views.repository import views as repository
+from files import views as files
+from repository import views as repository
 from update import views as update
-from views.statistic import views as statistic
+from statistic import views as statistic
 from issues import views as issues
-from views.download import views as download
+from download import views as download
 
 urlpatterns = [
     # region Global

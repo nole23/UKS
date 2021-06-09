@@ -1,6 +1,7 @@
 from django.db import models
 from datetime import datetime
-from users.models import User, Project
+from users.models import User
+from repository.models import Project
 
 # Create your models here.
 

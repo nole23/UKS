@@ -1,6 +1,6 @@
 from users.service import UserService
 from issues.models import Issue, Issue_Comment
-from users.models import Project
+from repository.models import Project
 
 from common.utils import issuesSerialize, issueSerialize, issueCommentSerialize, issuesCommentSerialize
 

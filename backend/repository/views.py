@@ -1,6 +1,9 @@
 from rest_framework.views import APIView
 from common.utils import token_required_class, create_json_response, projectSerialize, listProjectUserSerialize
-from users.models import Role, Files, Root_Tree, Project, List_Project_User, User, Statistic
+from users.models import Role, User
+from files.models import Files
+from repository.models import Root_Tree, Project, List_Project_User
+from statistic.models import Statistic
 from issues.models import Issue
 from datetime import datetime
 from django.core.files.base import ContentFile
