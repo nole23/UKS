@@ -230,6 +230,14 @@ def listProjectUserSerialize(data, isIssue=False):
 
 # endregion
 
+# region decode body
+
+
+def decode_body(body):
+    data_unicode = body.decode('utf-8')
+    return json.loads(data_unicode)
+# endregion
+
 # region authorization
 
 
