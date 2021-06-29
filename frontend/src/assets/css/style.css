@@ -84,6 +84,10 @@
 .error-color { color: red; border: 1px solid red;}
 .color-blue-dark {color: blue}
 .color-green-dark {color:rgb(11, 192, 11)}
+.color-red-b { background-color: red; }
+.color-green-b { background-color: #218838; }
+.color-blue-dark-b { background-color: blue; }
+.color-text-b { background-color: #333; }
 
 .border-color {
     border: 1px solid #dee2e6!important;
@@ -106,16 +110,12 @@
     color: white!important;
 }
 
-.fa-circle {
-    width: 2em;
-    text-align: center;
-    display: inline-block;
-    border-radius: 50px;
-    box-shadow: 0px 0px 2px rgb(24, 23, 23);
-    padding: 0.5em 0.1em;
-    text-shadow: 0 0 1px #000;
-}
-
 .assigned-issue {
     float: right;
+}
+
+.bug-tags {
+    border-radius: 20px;
+    padding: 2px;
+    font-size: 10px;
 }

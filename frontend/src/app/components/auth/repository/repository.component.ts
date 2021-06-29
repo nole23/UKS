@@ -26,7 +26,6 @@ export class RepositoryComponent implements OnInit {
     this.activatedRoute.params.subscribe(res => {
       this.repoId = res['id'];
       this.viewId = res['type'];
-      console.log(this.repoId)
       if (this.viewId === 'issue') {
         this.issueId = res['idIssue']
       }

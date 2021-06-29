@@ -14,12 +14,11 @@ export class LoginComponent implements OnInit {
 
   login: UserRegistration;
   isSpiner: Boolean = false;
-  message: any;
+  message: any = null;
   cssEmail: String = '';
   cssPassword: String = '';
   constructor(private authService: AuthService, private router: Router, notifier: NotifierService) {
     this.login = new UserRegistration();
-    this.message = null;
     this.notifier = notifier;
   }
 
@@ -37,7 +36,7 @@ export class LoginComponent implements OnInit {
           if (res['message'] === 'SUCCESS') {
             this.router.navigate(['/home'])
           }
-        })
+        });
     }
   }
 

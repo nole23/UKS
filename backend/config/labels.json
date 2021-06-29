@@ -1,0 +1,26 @@
+[
+    {
+        "id": 1,
+        "name": "bug",
+        "color": "color-red",
+        "description": ""
+    },
+    {
+        "id": 2,
+        "name": "US",
+        "color": "color-green",
+        "description": ""
+    },
+    {
+        "id": 3,
+        "name": "documentation",
+        "color": "color-blue-dark",
+        "description": ""
+    },
+    {
+        "id": 4,
+        "name": "invalid",
+        "color": "color-text",
+        "description": ""
+    }
+]

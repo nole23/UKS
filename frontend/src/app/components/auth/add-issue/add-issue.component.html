@@ -2,15 +2,47 @@
     <div class="mb-3">
         <div class="col-sm-12 p-2 reg-bord">
             <form>
-                <div class="form-group">
-                    <label for="username" class="w-100">Issue name</label>
-                    <input type="text" class="form-control" name="name" id="name" [(ngModel)]="newIssue.name"
-                        placeholder="Issue name...">
+                <div class="float-left w-100">
+                    <div class="form-group float-left w-70 border-create">
+                        <label for="username" class="w-100">Issue name</label>
+                        <input type="text" class="form-control" name="name" id="name" [(ngModel)]="newIssue.name"
+                            placeholder="Issue name...">
 
-                    <br>
-                    <label for="password" class="w-100">Description</label>
-                    <textarea class="form-control" rows="5" id="comment" name="text" [(ngModel)]="newIssue.description"
-                        placeholder="Leave a comment..."></textarea>
+                        <br>
+                        <label for="password" class="w-100">Description</label>
+                        <textarea class="form-control" rows="5" id="comment" name="text"
+                            [(ngModel)]="newIssue.description" placeholder="Leave a comment..."></textarea>
+                    </div>
+                    <div class="form-group float-left w-30 pl-3">
+                        <label for="username" class="w-100">Labels</label>
+                        <nav class="navbar navbar-expand-sm pl-0 pt-0">
+
+                            <ul class="navbar-nav w-100">
+                                <li class="nav-item dropdown w-100">
+                                    <a class="nav-link dropdown-toggle btn pl-0" style="text-align: left" href="#"
+                                        id="navbardrop" data-toggle="dropdown">
+                                        <span *ngIf="addLabels === null"> None yet </span>
+                                        <span *ngIf="addLabels !== null"> <i class="fa fa-circle"
+                                                [ngClass]="addLabels.color" aria-hidden="true"></i> {{addLabels.name}}
+                                        </span>
+                                    </a>
+                                    <div class="dropdown-menu w-100">
+                                        <div class="float-left pl-2 pr-2 h-40p mt-2 border-bottom w-100"
+                                            style="cursor: pointer" *ngFor="let item of labels"
+                                            (click)="setLabels(item)">
+                                            <div>
+                                                <span><i class="fa fa-circle" [ngClass]="item.color"
+                                                        aria-hidden="true"></i> {{item.name}}</span>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </li>
+                            </ul>
+
+                        </nav>
+                        <hr>
+                    </div>
                 </div>
 
                 <button type="submit" class="btn btn-primary margin-top float-right" [disabled]="!_disableButton()"

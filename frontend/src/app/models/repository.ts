@@ -64,6 +64,7 @@ export class Issue {
     status: Boolean;
     dateCreate: any;
     assigned: any;
+    labels: any;
     constructor(item: any) {
         this.id = item.id;
         this.name = item.name;
@@ -77,6 +78,7 @@ export class Issue {
             }
         }
         this.assigned = item.assigned;
+        this.labels = item.labels;
     }
 }
 

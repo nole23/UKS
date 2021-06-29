@@ -1,4 +1,4 @@
-<app-add-repository></app-add-repository>
+<app-add-repository (emit)="onEmit($event)"></app-add-repository>
 
 <div *ngIf="settings !== null">
     <app-generig-table [settings]="settings"></app-generig-table>

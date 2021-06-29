@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Subject } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 import { UserRegistration } from 'src/app/models/user';
@@ -27,11 +27,10 @@ export class AuthService {
       }))
   }
 
-  login(login: UserRegistration) {
+  login(login: UserRegistration): Observable<Object> {
     return this.http.post(this.API_URL + 'sing-up', login)
       .pipe(map(res => {
         if (res['message'] === 'SUCCESS') {
-          console.log(res['data']['jwt'])
 
           const user = res['data']['user'];
           const jwt = res['data']['jwt'];
@@ -58,6 +57,7 @@ export class AuthService {
     localStorage.removeItem('user');
     localStorage.removeItem('jwt');
     localStorage.removeItem('project');
+    localStorage.removeItem('labels');
     this.loginSource.next();
   }
 }

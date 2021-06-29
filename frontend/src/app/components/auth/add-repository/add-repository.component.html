@@ -5,4 +5,8 @@
     <div class="float-right mt-5 mb-1">
         <a class="btn btn-success" [routerLink]="['/new']">New repository</a>
     </div>
+    <div class="float-right mt-5 mb-1">
+        <input type="text" class="form-control" name="search" id="search" [(ngModel)]="search" (input)="filter()"
+            placeholder="Search...">
+    </div>
 </div>

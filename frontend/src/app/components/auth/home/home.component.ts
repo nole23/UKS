@@ -17,7 +17,8 @@ export class HomeComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    localStorage.removeItem('project')
+    localStorage.removeItem('project');
+    localStorage.removeItem('labels');
     this._getAllRepository();
     this.data = {
       class: 'table table-hover',
@@ -45,7 +46,6 @@ export class HomeComponent implements OnInit {
       })
   }
 
-  //TODO maybe create search repositories
   _setData(data: any) {
     let className = data.role.roleName === 'O' ? 'color-green' : 'color-orange';
     let owner = data.role.roleName === 'O' ? 'You are owner.' : 'You are developer.';
@@ -62,4 +62,29 @@ export class HomeComponent implements OnInit {
 
     this.settings = this.data;
   }
+
+  onEmit(event: any) {
+    if (event.length > 0) {
+      let resData = []
+      event.forEach(element => {
+        resData.push({
+          class: 'cursor',
+          td: [this._setData(element)]
+        })
+      });
+
+      let data = {
+        class: 'table table-hover',
+        thead: null,
+        tbody: {
+          tr: resData
+        }
+      }
+
+      this.settings = data
+    } else {
+      this.settings = this.data;
+    }
+  }
+
 }

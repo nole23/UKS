@@ -115,6 +115,18 @@ def rootTreeSeriallize(data, types=None):
         }
 
 
+def assignedSerialize(data):
+    rd = []
+    for each in data:
+        rd.append({
+            'id': str(each.id),
+            'firstName': each.first_name,
+            'lastName': each.last_name,
+            'username': each.username
+        })
+    return rd
+
+
 def issuesSerialize(data):
     rd = []
     for each in data:
@@ -123,7 +135,9 @@ def issuesSerialize(data):
             'name': each.name,
             'description': each.description,
             'status': each.status,
-            'user': userSerialize(each.user)
+            'user': userSerialize(each.user),
+            'assigned': assignedSerialize(each.assigned.all()),
+            'labels': each.labels
         })
     return rd
 
@@ -136,7 +150,9 @@ def issueSerialize(data):
         'status': data.status,
         'user': userSerialize(data.user),
         'dateCreate': str(data.date_create),
-        'assigned': userFirstSerialize(data.assigned.all())
+        'assigned': userFirstSerialize(data.assigned.all()),
+        'labels': data.labels
+
     }
 
 
@@ -201,17 +217,25 @@ def projectSerialize(data, issuesData, listProjectData):
     }
 
 
-def listProjectUserSerialize(data):
+def listProjectUserSerialize(data, isIssue=False):
     rd = []
     for each in data:
         rd.append({
             'id': str(each.id),
-            'project': projectSerialize(each.project, None, None),
+            'project': projectSerialize(each.project, each.project.issue if isIssue != False else None, None),
             'user': userSerialize(each.user),
             'role': roleSerialize(each.role)
         })
     return rd
 
+# endregion
+
+# region decode body
+
+
+def decode_body(body):
+    data_unicode = body.decode('utf-8')
+    return json.loads(data_unicode)
 # endregion
 
 # region authorization
