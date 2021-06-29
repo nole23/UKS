@@ -82,6 +82,12 @@
 .color-background-white { color: #FFFFFF; }
 .color-background-red { background-color: rgba(240, 148, 148, 0.5);}
 .error-color { color: red; border: 1px solid red;}
+.color-blue-dark {color: blue}
+.color-green-dark {color:rgb(11, 192, 11)}
+.color-red-b { background-color: red; }
+.color-green-b { background-color: #218838; }
+.color-blue-dark-b { background-color: blue; }
+.color-text-b { background-color: #333; }
 
 .border-color {
     border: 1px solid #dee2e6!important;
@@ -102,4 +108,14 @@
 .sidebar-active {
     background-color: #555;
     color: white!important;
+}
+
+.assigned-issue {
+    float: right;
+}
+
+.bug-tags {
+    border-radius: 20px;
+    padding: 2px;
+    font-size: 10px;
 }
