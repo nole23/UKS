@@ -70,10 +70,10 @@ export class BlobComponent implements OnInit {
       this.tree.forEach(element => {
         if (element !== 'master') {
           helpTreeRoot = helpTreeRoot.childrenFolder.find(x => x.nameNode === element);
-          this.file = helpTreeRoot.files.find(x => x.name.toString() === this.fileName.toString());
-          this.blobEdit = this.file.cover;
         }
       });
+      this.file = helpTreeRoot.files.find(x => x.name.toString() === this.fileName.toString());
+      this.blobEdit = this.file.cover;
     } else {
       this.file = treeRoot.files.find(x => x.name.toString() === this.fileName.toString())
       this.blobEdit = this.file.cover;
