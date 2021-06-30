@@ -13,3 +13,6 @@ Projekat ce se implementirati pomocu:
 3. Pokrenuti skriptu start_docker.bat
 4. U pretrazivacu ukucati link http://localhost:8000/index
 5. Zatim posetiti stranicu http://localhost:8000
+
+## Heroku deploy
+https://uks2020.herokuapp.com/
